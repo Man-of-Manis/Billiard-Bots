@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    public string playerNumber;
+
+    public bool turnEnabled;
+
     public Canvas playerCanvas;
 
     public RectTransform arrowRotator;
@@ -45,7 +49,7 @@ public class PlayerController : MonoBehaviour
 
     private bool noMovement;
 
-    private bool reset;
+    public bool launchReset { get; private set; }
 
     private Rigidbody rb;
 
@@ -77,62 +81,72 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (arrowActive)
+        if(turnEnabled)
         {
-            currentX += Input.GetAxisRaw("P1_L_Horizontal") * xRotationSpeed;
-        }        
-
-        PlayerInput();
-
-        GetVelocity();
-
-        Activation();
-
-        Oscillator();
-
-        PowerMeter();
-
-        if (arrowActive)
-        {
-            if (!playerCanvas.enabled)
+            if (arrowActive)
             {
-                playerCanvas.enabled = true;
-            }            
-        }        
-
-        else
-        {
-            if(playerCanvas.enabled)
-            {
-                playerCanvas.enabled = false;
+                currentX += Input.GetAxisRaw("P" + playerNumber + "_L_Horizontal") * xRotationSpeed;
             }
-        }
+
+            PlayerInput();
+
+            GetVelocity();
+
+            Activation();
+
+            Oscillator();
+
+            PowerMeter();
+
+            if (arrowActive)
+            {
+                if (!playerCanvas.enabled)
+                {
+                    playerCanvas.enabled = true;
+                }
+            }
+
+            else
+            {
+                if (playerCanvas.enabled)
+                {
+                    playerCanvas.enabled = false;
+                }
+            }
+        }       
     }
 
     void LateUpdate()
     {
-        if (arrowActive)
+        if(turnEnabled)
         {
-            if(startAiming.activeSelf)
+            if (arrowActive)
             {
-                transform.rotation = Quaternion.Euler(new Vector3(0f, cam.transform.eulerAngles.y, 0f));
+                if (launchReset)
+                {
+                    currentX = cam.transform.eulerAngles.y;
+                    transform.rotation = Quaternion.Euler(new Vector3(0f, cam.transform.eulerAngles.y, 0f));
+                    freecamActive = false;
+                    launchReset = false;
+                }
+                else
+                {
+                    transform.rotation = Quaternion.Euler(new Vector3(0f, currentX, 0f));
+                }
             }
-            else
-            {
-                transform.rotation = Quaternion.Euler(new Vector3(0f, currentX, 0f));
-            }            
-        }        
+        }               
     }
+
 
     void PlayerInput()
     {
-        leftInput = new Vector2(Input.GetAxisRaw("P1_L_Horizontal"), Input.GetAxisRaw("P1_L_Vertical"));
+        leftInput = new Vector2(Input.GetAxisRaw("P" + playerNumber + "_L_Horizontal"), Input.GetAxisRaw("P" + playerNumber + "_L_Vertical"));
 
-        aButton = Input.GetButtonDown("P1_A_Button");
+        aButton = Input.GetButtonDown("P" + playerNumber + "_A_Button") || Input.GetKeyDown(KeyCode.Space);
 
-        bButton = Input.GetButtonDown("P1_B_Button");
+        bButton = Input.GetButtonDown("P" + playerNumber + "_B_Button");
 
-        xButton = Input.GetButtonDown("P1_X_Button");
+        xButton = Input.GetButtonDown("P" + playerNumber + "_X_Button");
     }
 
     void Activation()
@@ -162,21 +176,36 @@ public class PlayerController : MonoBehaviour
             freecamObj.SetActive(false);
         }
 
-        else if(aButton && !arrowActive && noMovement)
+        else if (aButton && !arrowActive && noMovement && freecamActive)
         {
             arrowActive = true;
-            freecamActive = false;            
 
             startAiming.SetActive(false);
             setPower.SetActive(true);
             freecamObj.SetActive(true);
-            cancel.SetActive(true);           
+            cancel.SetActive(true);
+
+
+        }
+
+        else if(aButton && !arrowActive && noMovement)
+        {
+            arrowActive = true;
+            launchReset = false;
+            freecamActive = false;    
+            
+
+            startAiming.SetActive(false);
+            setPower.SetActive(true);
+            freecamObj.SetActive(true);
+            cancel.SetActive(true);
+
+            
         }
 
         else if(!arrowActive && noMovement)
         {
-            startAiming.SetActive(true);
-            reset = true;
+            startAiming.SetActive(true);            
         }
 
 
@@ -264,6 +293,8 @@ public class PlayerController : MonoBehaviour
 
     void Launch()
     {
+        launchReset = true;
+
         freecamActive = true;
 
         rb.AddForce( transform.forward  * power * powerMultiplier, ForceMode.Impulse);

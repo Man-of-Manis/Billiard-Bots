@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class ProtoCameraController : MonoBehaviour
 {
+    public string playerNumber;
+
     private const float minY = 0f;
     private const float maxY = 85f;
     private const float distance = -8f;
 
     private float currentX;
     private float currentY;
+
+    private float velocity = 0f;
 
     private bool freecamActive;
     private bool prevFreecamActive;
@@ -38,20 +42,14 @@ public class ProtoCameraController : MonoBehaviour
             currentController = currentPlayerTarget.GetComponent<PlayerController>();
         }
 
-        prevFreecamActive = freecamActive;
 
         freecamActive = currentController.freecamActive;
 
         if (freecamActive)
         {
-            if(prevFreecamActive != freecamActive)
-            {
-                currentX = transform.eulerAngles.y;
-            }
+            currentX += Input.GetAxisRaw("P" + playerNumber + "_R_Horizontal") * xRotationSpeed;
 
-            currentX += Input.GetAxisRaw("P1_R_Horizontal") * xRotationSpeed;
-
-            currentY += Input.GetAxisRaw("P1_R_Vertical") * yRotationSpeed;
+            currentY += Input.GetAxisRaw("P" + playerNumber + "_R_Vertical") * yRotationSpeed;
 
             currentY = Mathf.Clamp(currentY, minY, maxY);
         }
@@ -59,7 +57,7 @@ public class ProtoCameraController : MonoBehaviour
 
     void LateUpdate()
     {
-        if(freecamActive)
+        if(freecamActive || currentController.launchReset)
         {
             Vector3 dir = new Vector3(0f, 0f, distance);
 
@@ -72,9 +70,13 @@ public class ProtoCameraController : MonoBehaviour
 
         else
         {
+            currentX = transform.eulerAngles.y;
+
+            currentY = transform.eulerAngles.x;
+
             Vector3 dir = new Vector3(0f, 0f, distance);
 
-            Quaternion rotation = Quaternion.Euler(20f, currentPlayerTarget.eulerAngles.y, 0f);
+            Quaternion rotation = Quaternion.Euler(Mathf.SmoothDamp(transform.eulerAngles.x, 20f, ref velocity, 0.05f), currentPlayerTarget.eulerAngles.y, 0f);
 
             transform.position = currentPlayerTarget.position + rotation * dir;
 
