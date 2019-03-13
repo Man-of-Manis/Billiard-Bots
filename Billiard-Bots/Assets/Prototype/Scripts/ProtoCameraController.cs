@@ -11,7 +11,14 @@ public class ProtoCameraController : MonoBehaviour
     private float currentX;
     private float currentY;
 
+    private bool freecamActive;
+    private bool prevFreecamActive;
+
     public Transform currentPlayerTarget;
+
+    private Transform prevPlayerTartget;
+
+    private PlayerController currentController;
 
     public float xRotationSpeed;
     public float yRotationSpeed;
@@ -19,26 +26,59 @@ public class ProtoCameraController : MonoBehaviour
     void Start()
     {
         currentY = 20f;
+        currentController = currentPlayerTarget.GetComponent<PlayerController>();
     }
         
     void Update()
     {
-        currentX += Input.GetAxisRaw("P1_R_Horizontal") * xRotationSpeed;
+        prevPlayerTartget = currentPlayerTarget;
 
-        currentY += Input.GetAxisRaw("P1_R_Vertical") * yRotationSpeed;
+        if(currentPlayerTarget != prevPlayerTartget)
+        {
+            currentController = currentPlayerTarget.GetComponent<PlayerController>();
+        }
 
-        currentY = Mathf.Clamp(currentY, minY, maxY);
+        prevFreecamActive = freecamActive;
 
+        freecamActive = currentController.freecamActive;
+
+        if (freecamActive)
+        {
+            if(prevFreecamActive != freecamActive)
+            {
+                currentX = transform.eulerAngles.y;
+            }
+
+            currentX += Input.GetAxisRaw("P1_R_Horizontal") * xRotationSpeed;
+
+            currentY += Input.GetAxisRaw("P1_R_Vertical") * yRotationSpeed;
+
+            currentY = Mathf.Clamp(currentY, minY, maxY);
+        }
     }
 
     void LateUpdate()
     {
-        Vector3 dir = new Vector3(0f, 0f, distance);
+        if(freecamActive)
+        {
+            Vector3 dir = new Vector3(0f, 0f, distance);
 
-        Quaternion rotation = Quaternion.Euler(currentY, currentX, 0f);
+            Quaternion rotation = Quaternion.Euler(currentY, currentX, 0f);
 
-        transform.position = currentPlayerTarget.position + rotation * dir;
+            transform.position = currentPlayerTarget.position + rotation * dir;
 
-        transform.LookAt(currentPlayerTarget);
+            transform.LookAt(currentPlayerTarget);
+        }
+
+        else
+        {
+            Vector3 dir = new Vector3(0f, 0f, distance);
+
+            Quaternion rotation = Quaternion.Euler(20f, currentPlayerTarget.eulerAngles.y, 0f);
+
+            transform.position = currentPlayerTarget.position + rotation * dir;
+
+            transform.LookAt(currentPlayerTarget);
+        }
     }
 }

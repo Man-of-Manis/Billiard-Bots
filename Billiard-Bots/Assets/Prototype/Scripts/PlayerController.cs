@@ -11,17 +11,27 @@ public class PlayerController : MonoBehaviour
 
     public Image powerMeter;
 
+    public GameObject powerMeterObj;
+
     public Transform cameraTransform;
 
-    public float powerMultiplier;
+    [SerializeField] private float xRotationSpeed;
 
-    public float maxPower;
+    [SerializeField] private float powerMultiplier;
+
+    [SerializeField] private float maxPower;
+
+    [SerializeField] private float power;
 
     private Vector2 leftInput;
+
+    private float currentX;
 
     private bool aButton;
 
     private bool bButton;
+
+    private bool xButton;
 
     private bool arrowActive;
 
@@ -29,23 +39,52 @@ public class PlayerController : MonoBehaviour
 
     private bool prevOscillatorActive;
 
-    private bool launchActive;
-
-    public float power;
+    public bool freecamActive { get; private set; }
 
     private bool direction;
 
+    private bool noMovement;
+
+    private bool reset;
+
     private Rigidbody rb;
+
+    private Transform cam;
+
+    [Header("UI")]
+    public GameObject startAiming;
+
+    public GameObject setPower;
+
+    public GameObject lockPower;
+
+    public GameObject freecamObj;
+
+    public GameObject cancel;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        cam = FindObjectOfType<Camera>().transform;
+
+        startAiming.SetActive(false);
+        setPower.SetActive(false);
+        lockPower.SetActive(false);
+        freecamObj.SetActive(false);
+        cancel.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (arrowActive)
+        {
+            currentX += Input.GetAxisRaw("P1_L_Horizontal") * xRotationSpeed;
+        }        
+
         PlayerInput();
+
+        GetVelocity();
 
         Activation();
 
@@ -74,19 +113,15 @@ public class PlayerController : MonoBehaviour
     {
         if (arrowActive)
         {
-            if (!leftInput.Equals(Vector2.zero))
+            if(startAiming.activeSelf)
             {
-                //arrowRotator.localEulerAngles = new Vector3(0f, 0f, Mathf.Atan2(leftInput.x, leftInput.y) * -180 / Mathf.PI);
-
-                //arrowRotator.rotation = Quaternion.Euler(new Vector3(0f, 0f, -cameraTransform.eulerAngles.y)) * Quaternion.Euler(new Vector3(0f, 0f, Mathf.Atan2(leftInput.x, leftInput.y) * -180 / Mathf.PI));
-
-                //transform.rotation = Quaternion.Euler(new Vector3(0f, cameraTransform.eulerAngles.y, 0f));
-
+                transform.rotation = Quaternion.Euler(new Vector3(0f, cam.transform.eulerAngles.y, 0f));
             }
-
-            transform.rotation = Quaternion.Euler(new Vector3(0f, cameraTransform.eulerAngles.y, 0f));
-        }
-        
+            else
+            {
+                transform.rotation = Quaternion.Euler(new Vector3(0f, currentX, 0f));
+            }            
+        }        
     }
 
     void PlayerInput()
@@ -96,6 +131,8 @@ public class PlayerController : MonoBehaviour
         aButton = Input.GetButtonDown("P1_A_Button");
 
         bButton = Input.GetButtonDown("P1_B_Button");
+
+        xButton = Input.GetButtonDown("P1_X_Button");
     }
 
     void Activation()
@@ -105,29 +142,76 @@ public class PlayerController : MonoBehaviour
         if(aButton && oscillatorActive)
         {
             Launch();
+
+            setPower.SetActive(false);
+            lockPower.SetActive(false);
+            freecamObj.SetActive(false);
+            cancel.SetActive(false);
+
             arrowActive = false;
             oscillatorActive = false;
         }
 
         else if(aButton && arrowActive)
         {
+            freecamActive = false;
             oscillatorActive = true;
+
+            setPower.SetActive(false);
+            lockPower.SetActive(true);
+            freecamObj.SetActive(false);
         }
 
-        else if(aButton && !arrowActive)
+        else if(aButton && !arrowActive && noMovement)
         {
             arrowActive = true;
+            freecamActive = false;            
+
+            startAiming.SetActive(false);
+            setPower.SetActive(true);
+            freecamObj.SetActive(true);
+            cancel.SetActive(true);           
         }
+
+        else if(!arrowActive && noMovement)
+        {
+            startAiming.SetActive(true);
+            reset = true;
+        }
+
 
         if(bButton && oscillatorActive)
         {
+            lockPower.SetActive(false);
+            setPower.SetActive(true);
+            freecamObj.SetActive(true);
+            cancel.SetActive(true);
+
             oscillatorActive = false;
         }
 
         else if(bButton && arrowActive)
         {
+            freecamActive = false;
+
+            setPower.SetActive(false);
+            lockPower.SetActive(false);
+            freecamObj.SetActive(false);
+            cancel.SetActive(false);
+            startAiming.SetActive(true);
+
             arrowActive = false;
         }
+
+        if(xButton && arrowActive && !oscillatorActive)
+        {
+            freecamActive = !freecamActive;
+        }
+    }
+
+    void GetVelocity()
+    {
+        noMovement = rb.velocity.Equals(Vector3.zero);
     }
 
     void Oscillator()
@@ -136,6 +220,7 @@ public class PlayerController : MonoBehaviour
         {
             if(prevOscillatorActive != oscillatorActive)
             {
+                powerMeterObj.SetActive(true);
                 power = 0f;
                 direction = true;
                 powerMeter.color = Color.red;
@@ -160,13 +245,15 @@ public class PlayerController : MonoBehaviour
                     direction = true;
                 }
             }
-
-
         }
 
         else
         {
-            powerMeter.color = Color.clear;
+            if (prevOscillatorActive != oscillatorActive)
+            {
+                powerMeterObj.SetActive(false);
+                powerMeter.color = Color.clear;
+            }            
         }
     }
 
@@ -177,7 +264,11 @@ public class PlayerController : MonoBehaviour
 
     void Launch()
     {
+        freecamActive = true;
+
         rb.AddForce( transform.forward  * power * powerMultiplier, ForceMode.Impulse);
+
+        rb.AddTorque(transform.right * power * powerMultiplier, ForceMode.VelocityChange);
     }
 
 
