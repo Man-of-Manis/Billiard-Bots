@@ -37,6 +37,10 @@ public class PlayerController : MonoBehaviour
 
     private bool xButton;
 
+    private bool lBumper;
+
+    private bool rBumper;
+
     private bool arrowActive;
 
     private bool oscillatorActive;
@@ -50,6 +54,10 @@ public class PlayerController : MonoBehaviour
     private bool noMovement;
 
     public bool launchReset { get; private set; }
+
+    public bool UsedTurn { get; private set; }
+
+    public bool ResetCam { get; private set; } = true;
 
     private Rigidbody rb;
 
@@ -66,6 +74,10 @@ public class PlayerController : MonoBehaviour
 
     public GameObject cancel;
 
+    public GameObject lBumperObj;
+
+    public GameObject rBumperObj;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -76,6 +88,8 @@ public class PlayerController : MonoBehaviour
         lockPower.SetActive(false);
         freecamObj.SetActive(false);
         cancel.SetActive(false);
+        lBumperObj.SetActive(false);
+        rBumperObj.SetActive(false);
     }
 
     // Update is called once per frame
@@ -97,6 +111,8 @@ public class PlayerController : MonoBehaviour
             Oscillator();
 
             PowerMeter();
+
+            TurnComplete();
 
             if (arrowActive)
             {
@@ -120,8 +136,18 @@ public class PlayerController : MonoBehaviour
     {
         if(turnEnabled)
         {
+            if (ResetCam && !UsedTurn)
+            {
+                currentX = cam.transform.eulerAngles.y;
+                transform.rotation = Quaternion.Euler(new Vector3(0f, cam.transform.eulerAngles.y, 0f));
+                freecamActive = false;
+                launchReset = false;
+                ResetCam = false;
+            }
+
             if (arrowActive)
             {
+                /*
                 if (launchReset)
                 {
                     currentX = cam.transform.eulerAngles.y;
@@ -133,6 +159,10 @@ public class PlayerController : MonoBehaviour
                 {
                     transform.rotation = Quaternion.Euler(new Vector3(0f, currentX, 0f));
                 }
+                */
+                
+                transform.rotation = Quaternion.Euler(new Vector3(0f, currentX, 0f));
+
             }
         }               
     }
@@ -142,18 +172,23 @@ public class PlayerController : MonoBehaviour
     {
         leftInput = new Vector2(Input.GetAxisRaw("P" + playerNumber + "_L_Horizontal"), Input.GetAxisRaw("P" + playerNumber + "_L_Vertical"));
 
-        aButton = Input.GetButtonDown("P" + playerNumber + "_A_Button") || Input.GetKeyDown(KeyCode.Space);
+        aButton = Input.GetButtonDown("P" + playerNumber + "_A_Button");
 
         bButton = Input.GetButtonDown("P" + playerNumber + "_B_Button");
 
         xButton = Input.GetButtonDown("P" + playerNumber + "_X_Button");
+
+        lBumper = Input.GetButtonDown("P" + playerNumber + "_L_Bumper");
+
+        rBumper = Input.GetButtonDown("P" + playerNumber + "_R_Bumper");
     }
 
     void Activation()
     {
         prevOscillatorActive = oscillatorActive;
 
-        if(aButton && oscillatorActive)
+        #region A Button Conditions
+        if (aButton && oscillatorActive) //A Buttons
         {
             Launch();
 
@@ -166,7 +201,7 @@ public class PlayerController : MonoBehaviour
             oscillatorActive = false;
         }
 
-        else if(aButton && arrowActive)
+        else if(aButton && arrowActive && !freecamActive)
         {
             freecamActive = false;
             oscillatorActive = true;
@@ -207,9 +242,10 @@ public class PlayerController : MonoBehaviour
         {
             startAiming.SetActive(true);            
         }
+        #endregion
 
 
-        if(bButton && oscillatorActive)
+        if (bButton && oscillatorActive) //B Buttons
         {
             lockPower.SetActive(false);
             setPower.SetActive(true);
@@ -217,6 +253,19 @@ public class PlayerController : MonoBehaviour
             cancel.SetActive(true);
 
             oscillatorActive = false;
+        }
+
+        else if (bButton && arrowActive && freecamActive)
+        {
+            freecamActive = false;
+
+            setPower.SetActive(true);
+            lockPower.SetActive(false);
+            freecamObj.SetActive(true);
+            cancel.SetActive(true);
+            lBumperObj.SetActive(false);
+            rBumperObj.SetActive(false);
+            startAiming.SetActive(false);
         }
 
         else if(bButton && arrowActive)
@@ -232,9 +281,26 @@ public class PlayerController : MonoBehaviour
             arrowActive = false;
         }
 
-        if(xButton && arrowActive && !oscillatorActive)
+        if(xButton && arrowActive && !oscillatorActive && !freecamActive) //X Buttons
         {
-            freecamActive = !freecamActive;
+            setPower.SetActive(false);
+            lockPower.SetActive(false);
+            freecamObj.SetActive(false);
+            cancel.SetActive(true);
+            lBumperObj.SetActive(true);
+            rBumperObj.SetActive(true);
+
+            freecamActive = true;
+        }
+
+        if(lBumper && freecamActive && !UsedTurn)
+        {
+            cam.GetComponent<ProtoCameraController>().GetLeftOpponent();
+        }
+
+        if (rBumper && freecamActive && !UsedTurn)
+        {
+            cam.GetComponent<ProtoCameraController>().GetRightOpponent();
         }
     }
 
@@ -293,6 +359,8 @@ public class PlayerController : MonoBehaviour
 
     void Launch()
     {
+        ResetCam = true;
+
         launchReset = true;
 
         freecamActive = true;
@@ -300,7 +368,17 @@ public class PlayerController : MonoBehaviour
         rb.AddForce( transform.forward  * power * powerMultiplier, ForceMode.Impulse);
 
         rb.AddTorque(transform.right * power * powerMultiplier, ForceMode.VelocityChange);
+
+        UsedTurn = true;
     }
 
-
+    void TurnComplete()
+    {
+        if(UsedTurn && noMovement)
+        {
+            PlayerTurn.Instance.EndTurn(gameObject.name);
+            freecamActive = false;
+            UsedTurn = false;
+        }
+    }
 }

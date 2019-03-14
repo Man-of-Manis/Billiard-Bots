@@ -24,8 +24,6 @@ public class WallTransparency : MonoBehaviour
 
         if (!hit.collider.CompareTag("Player"))
         {
-            Debug.Log(hit.collider.name);
-
             if (hitObj == null)
             {
                 hitObj = hit.collider.gameObject;

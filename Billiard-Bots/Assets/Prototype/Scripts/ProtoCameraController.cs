@@ -15,29 +15,41 @@ public class ProtoCameraController : MonoBehaviour
 
     private float velocity = 0f;
 
-    private bool freecamActive;
-    private bool prevFreecamActive;
+    public bool freecamActive;
+    public bool prevFreecamActive;
 
     public Transform currentPlayerTarget;
 
-    private Transform prevPlayerTartget;
+    [SerializeField] private Transform prevPlayerTarget;
 
-    private PlayerController currentController;
+    [SerializeField] private Transform opponentTarget;
+
+    [SerializeField] private int opponentTargetNum;
+
+    [SerializeField] private PlayerController currentController;
 
     public float xRotationSpeed;
     public float yRotationSpeed;
 
     void Start()
     {
+        currentPlayerTarget = PlayerTurn.Instance.playerObjTurn.transform;
+
+        playerNumber = PlayerTurn.Instance.playerObjTurn.name[PlayerTurn.Instance.playerObjTurn.name.Length - 1].ToString();
+
         currentY = 20f;
         currentController = currentPlayerTarget.GetComponent<PlayerController>();
     }
         
     void Update()
     {
-        prevPlayerTartget = currentPlayerTarget;
+        prevPlayerTarget = currentPlayerTarget;
 
-        if(currentPlayerTarget != prevPlayerTartget)
+        currentPlayerTarget = PlayerTurn.Instance.playerObjTurn.transform;
+
+        playerNumber = PlayerTurn.Instance.playerObjTurn.name[PlayerTurn.Instance.playerObjTurn.name.Length - 1].ToString();        
+
+        if(currentPlayerTarget != prevPlayerTarget)
         {
             currentController = currentPlayerTarget.GetComponent<PlayerController>();
         }
@@ -63,13 +75,20 @@ public class ProtoCameraController : MonoBehaviour
 
             Quaternion rotation = Quaternion.Euler(currentY, currentX, 0f);
 
-            transform.position = currentPlayerTarget.position + rotation * dir;
+            transform.position = opponentTarget.position + rotation * dir;
 
-            transform.LookAt(currentPlayerTarget);
+            transform.LookAt(opponentTarget);
         }
 
         else
         {
+            if(opponentTarget != currentPlayerTarget)
+            {
+                opponentTarget = currentPlayerTarget;
+
+                opponentTargetNum = PlayerTurn.Instance.playerNumTurn;
+            }            
+
             currentX = transform.eulerAngles.y;
 
             currentY = transform.eulerAngles.x;
@@ -82,5 +101,17 @@ public class ProtoCameraController : MonoBehaviour
 
             transform.LookAt(currentPlayerTarget);
         }
+    }
+
+    public void GetLeftOpponent()
+    {
+        opponentTarget = PlayerTurn.Instance.players[opponentTargetNum - 1 < 0 ? PlayerTurn.Instance.playerAmount - 1 : opponentTargetNum - 1].transform;
+        opponentTargetNum = opponentTargetNum - 1 < 0 ? PlayerTurn.Instance.playerAmount - 1 : opponentTargetNum - 1;
+    }
+
+    public void GetRightOpponent()
+    {
+        opponentTarget = PlayerTurn.Instance.players[opponentTargetNum + 1 > PlayerTurn.Instance.playerAmount - 1 ? 0 : opponentTargetNum + 1].transform;
+        opponentTargetNum = opponentTargetNum + 1 > PlayerTurn.Instance.playerAmount - 1 ? 0 : opponentTargetNum + 1;
     }
 }
