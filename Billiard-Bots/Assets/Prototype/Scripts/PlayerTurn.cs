@@ -99,4 +99,18 @@ public class PlayerTurn : MonoBehaviour
         players.Remove(player);
         playerAmount = players.Count;
     }
+
+    public bool PlayerMovement()
+    {
+        int objectsNotMoving = 0;
+        for(int i = 0; i < players.Count; i++)
+        {
+            if(players[i].GetComponent<PlayerController>().noMovement)
+            {
+                objectsNotMoving++;
+            }
+        }
+
+        return objectsNotMoving == playerAmount;
+    }
 }

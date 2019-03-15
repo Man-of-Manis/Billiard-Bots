@@ -19,11 +19,11 @@ public class PlayerController : MonoBehaviour
 
     public Transform cameraTransform;
 
-    [SerializeField] private float xRotationSpeed;
+    [SerializeField] private readonly float xRotationSpeed = 3f;
 
-    [SerializeField] private float powerMultiplier;
+    [SerializeField] private readonly float powerMultiplier = 1000f;
 
-    [SerializeField] private float maxPower;
+    [SerializeField] private readonly float maxPower = 1f;
 
     [SerializeField] private float power;
 
@@ -51,11 +51,11 @@ public class PlayerController : MonoBehaviour
 
     private bool direction;
 
-    private bool noMovement;
+    public bool noMovement;
 
     public bool launchReset { get; private set; }
 
-    public bool UsedTurn { get; private set; }
+    public bool UsedTurn;
 
     public bool ResetCam { get; private set; } = true;
 
@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
 
             PlayerInput();
 
-            GetVelocity();
+            
 
             Activation();
 
@@ -112,7 +112,9 @@ public class PlayerController : MonoBehaviour
 
             PowerMeter();
 
-            TurnComplete();
+            
+
+            GetVelocity();
 
             if (arrowActive)
             {
@@ -132,6 +134,13 @@ public class PlayerController : MonoBehaviour
         }       
     }
 
+    void FixedUpdate()
+    {
+        GetVelocity();
+
+        TurnComplete();
+    }
+
     void LateUpdate()
     {
         if(turnEnabled)
@@ -147,22 +156,7 @@ public class PlayerController : MonoBehaviour
 
             if (arrowActive)
             {
-                /*
-                if (launchReset)
-                {
-                    currentX = cam.transform.eulerAngles.y;
-                    transform.rotation = Quaternion.Euler(new Vector3(0f, cam.transform.eulerAngles.y, 0f));
-                    freecamActive = false;
-                    launchReset = false;
-                }
-                else
-                {
-                    transform.rotation = Quaternion.Euler(new Vector3(0f, currentX, 0f));
-                }
-                */
-                
                 transform.rotation = Quaternion.Euler(new Vector3(0f, currentX, 0f));
-
             }
         }               
     }
@@ -374,8 +368,9 @@ public class PlayerController : MonoBehaviour
 
     void TurnComplete()
     {
-        if(UsedTurn && noMovement)
+        if(UsedTurn && PlayerTurn.Instance.PlayerMovement())
         {
+            Debug.Log("No players moving");
             PlayerTurn.Instance.EndTurn(gameObject.name);
             freecamActive = false;
             UsedTurn = false;
