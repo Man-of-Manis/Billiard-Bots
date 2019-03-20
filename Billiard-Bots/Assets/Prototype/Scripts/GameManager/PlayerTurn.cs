@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,17 +16,23 @@ public class PlayerTurn : MonoBehaviour
 
     public List<GameObject> players;
 
+    public List<bool> playerMovement;
+
     public GameObject playerObjTurn;
 
     public int playerNumTurn = 0;
 
     public int playerAmount = 0;
 
-    public int PlayersMoving= 0;
-
     public int ObjectsActivated= 0;
 
-    public bool SceneInactive;
+    public float inactivityTimer = 0;
+
+    public bool startTimer;
+
+    public bool SceneInactive = true;
+
+    public bool prevSceneInactive = true;
 
     void Awake()
     {
@@ -39,7 +46,7 @@ public class PlayerTurn : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
 
         //Cursor.lockState = CursorLockMode.Locked;
         //Cursor.visible = false;
@@ -63,6 +70,11 @@ public class PlayerTurn : MonoBehaviour
 
         playerAmount = players.Count;
 
+        for (int i = 0; i < playerAmount; i++)
+        {
+            playerMovement.Insert(i, players[i].GetComponent<Rigidbody>().velocity.magnitude > 0.1f);
+        }
+
         playerObjTurn = players[playerNumTurn];
 
         playerObjTurn.GetComponent<PlayerController>().turnEnabled = true;
@@ -71,7 +83,9 @@ public class PlayerTurn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        PlayerMovement();
         SceneActivity();
+        SceneActivityTimer();
         Restart();
     }
 
@@ -83,7 +97,7 @@ public class PlayerTurn : MonoBehaviour
         }
     }
 
-    public void EndTurn(string name)
+    public void EndTurn()
     {
         if(playerAmount <= 1)
         {
@@ -93,13 +107,11 @@ public class PlayerTurn : MonoBehaviour
         }
         else
         {
-            if (name.Equals(playerObjTurn.name))
-            {
-                playerObjTurn.GetComponent<PlayerController>().turnEnabled = false;
-                playerObjTurn = players[playerNumTurn + 1 <= playerAmount - 1 ? playerNumTurn + 1 : 0];
-                playerNumTurn = playerNumTurn + 1 <= playerAmount - 1 ? playerNumTurn + 1 : 0;
-                NextTurn();
-            }
+
+            playerObjTurn.GetComponent<PlayerController>().turnEnabled = false;
+            playerObjTurn = players[playerNumTurn + 1 <= playerAmount - 1 ? playerNumTurn + 1 : 0];
+            playerNumTurn = playerNumTurn + 1 <= playerAmount - 1 ? playerNumTurn + 1 : 0;
+            NextTurn();
         }
         
     }
@@ -118,12 +130,37 @@ public class PlayerTurn : MonoBehaviour
 
     void SceneActivity()
     {
-        SceneInactive = PlayersMoving == 0 && ObjectsActivated == 0;
+        prevSceneInactive = SceneInactive;
+        SceneInactive = !playerMovement.Any(x => x) && ObjectsActivated == 0;
+
+        if(prevSceneInactive != SceneInactive && SceneInactive && playerObjTurn.GetComponent<PlayerController>().UsedTurn)
+        {
+            inactivityTimer = 0;
+            startTimer = true;
+        }
+
+        if(SceneInactive && playerObjTurn.GetComponent<PlayerController>().UsedTurn && inactivityTimer >= 1f)
+        {
+            Debug.Log("Next player's turn");
+            startTimer = false;
+            EndTurn();
+        }
     }
 
-    public void PlayerMovement(bool value)
+    void SceneActivityTimer()
     {
-        PlayersMoving += value ? 1 : -1;
+        if (startTimer)
+        {
+            inactivityTimer += Time.deltaTime;
+        }
+    }
+
+    public void PlayerMovement()
+    {
+        for(int i = 0; i < playerAmount; i++)
+        {
+            playerMovement[i] = players[i].GetComponent<Rigidbody>().velocity.magnitude > 0.001f;
+        }        
     }
 
     public void ObjectActivated(bool value)

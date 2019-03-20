@@ -43,7 +43,7 @@ public class BombExplosion : MonoBehaviour
             Debug.Log(dist);
 
             player.GetComponent<Rigidbody>().velocity *= 0.00001f;
-            player.GetComponent<Rigidbody>().AddForce((player.transform.position - transform.position) * (1 / dist) * explosionForce, ForceMode.Impulse);
+            player.GetComponent<Rigidbody>().AddForce((player.transform.position - transform.position) * (1 / (dist * dist)) * explosionForce, ForceMode.Impulse);
 
         }
     }

@@ -43,13 +43,32 @@ public class ProtoCameraController : MonoBehaviour
         
     void Update()
     {
+        CameraSettings();
+    }    
+
+    void LateUpdate()
+    {
+        if(freecamActive || currentController.launchReset)
+        {
+            FreeCam();
+        }
+
+        else
+        {
+            ForwardCam();
+        }
+    }
+
+
+    private void CameraSettings()
+    {
         prevPlayerTarget = currentPlayerTarget;
 
         currentPlayerTarget = PlayerTurn.Instance.playerObjTurn.transform;
 
-        playerNumber = PlayerTurn.Instance.playerObjTurn.name[PlayerTurn.Instance.playerObjTurn.name.Length - 1].ToString();        
+        playerNumber = PlayerTurn.Instance.playerObjTurn.name[PlayerTurn.Instance.playerObjTurn.name.Length - 1].ToString();
 
-        if(currentPlayerTarget != prevPlayerTarget)
+        if (currentPlayerTarget != prevPlayerTarget)
         {
             currentController = currentPlayerTarget.GetComponent<PlayerController>();
         }
@@ -59,48 +78,50 @@ public class ProtoCameraController : MonoBehaviour
 
         if (freecamActive)
         {
-            currentX += Input.GetAxisRaw("P" + playerNumber + "_R_Horizontal") * xRotationSpeed;
-
-            currentY += Input.GetAxisRaw("P" + playerNumber + "_R_Vertical") * yRotationSpeed;
-
-            currentY = Mathf.Clamp(currentY, minY, maxY);
+            PlayerInput();
         }
     }
 
-    void LateUpdate()
+    private void PlayerInput()
     {
-        if(freecamActive || currentController.launchReset)
+        currentX += Input.GetAxisRaw("P" + playerNumber + "_R_Horizontal") * xRotationSpeed;
+
+        currentY += Input.GetAxisRaw("P" + playerNumber + "_R_Vertical") * yRotationSpeed;
+
+        currentY = Mathf.Clamp(currentY, minY, maxY);
+    }
+
+    private void FreeCam()
+    {
+        Vector3 dir = new Vector3(0f, 0f, distance);
+
+        Quaternion rotation = Quaternion.Euler(currentY, currentX, 0f);
+
+        transform.position = opponentTarget.position + rotation * dir;
+
+        transform.LookAt(opponentTarget);
+    }
+
+    private void ForwardCam()
+    {
+        if (opponentTarget != currentPlayerTarget)
         {
-            Vector3 dir = new Vector3(0f, 0f, distance);
+            opponentTarget = currentPlayerTarget;
 
-            Quaternion rotation = Quaternion.Euler(currentY, currentX, 0f);
-
-            transform.position = opponentTarget.position + rotation * dir;
-
-            transform.LookAt(opponentTarget);
+            opponentTargetNum = PlayerTurn.Instance.playerNumTurn;
         }
 
-        else
-        {
-            if(opponentTarget != currentPlayerTarget)
-            {
-                opponentTarget = currentPlayerTarget;
+        currentX = transform.eulerAngles.y;
 
-                opponentTargetNum = PlayerTurn.Instance.playerNumTurn;
-            }            
+        currentY = transform.eulerAngles.x;
 
-            currentX = transform.eulerAngles.y;
+        Vector3 dir = new Vector3(0f, 0f, distance);
 
-            currentY = transform.eulerAngles.x;
+        Quaternion rotation = Quaternion.Euler(Mathf.SmoothDamp(transform.eulerAngles.x, 20f, ref velocity, 0.05f), currentPlayerTarget.eulerAngles.y, 0f);
 
-            Vector3 dir = new Vector3(0f, 0f, distance);
+        transform.position = currentPlayerTarget.position + rotation * dir;
 
-            Quaternion rotation = Quaternion.Euler(Mathf.SmoothDamp(transform.eulerAngles.x, 20f, ref velocity, 0.05f), currentPlayerTarget.eulerAngles.y, 0f);
-
-            transform.position = currentPlayerTarget.position + rotation * dir;
-
-            transform.LookAt(currentPlayerTarget);
-        }
+        transform.LookAt(currentPlayerTarget);
     }
 
     public void GetLeftOpponent()

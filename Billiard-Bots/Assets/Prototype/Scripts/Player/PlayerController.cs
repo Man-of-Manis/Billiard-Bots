@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
 
     private bool prevOscillatorActive;
 
-    public bool freecamActive { get; private set; }
+    public bool freecamActive;
 
     private bool direction;
 
@@ -120,10 +120,6 @@ public class PlayerController : MonoBehaviour
 
             PowerMeter();
 
-            
-
-            //GetVelocity();
-
             if (arrowActive)
             {
                 if (!playerCanvas.enabled)
@@ -142,12 +138,6 @@ public class PlayerController : MonoBehaviour
         }       
     }
 
-    void FixedUpdate()
-    {
-        GetVelocity();
-
-        TurnComplete();
-    }
 
     void LateUpdate()
     {
@@ -156,7 +146,7 @@ public class PlayerController : MonoBehaviour
             if (ResetCam && !UsedTurn)
             {
                 currentX = cam.transform.eulerAngles.y;
-                transform.rotation = Quaternion.Euler(new Vector3(0f, cam.transform.eulerAngles.y, 0f));
+                //transform.rotation = Quaternion.Euler(new Vector3(0f, cam.transform.eulerAngles.y, 0f));
                 freecamActive = false;
                 launchReset = false;
                 ResetCam = false;
@@ -306,36 +296,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void GetVelocity()
-    {
-        prevMovement = noMovement;
-        noMovement = rb.velocity.Equals(Vector3.zero);
-
-        if(prevMovement != noMovement)
-        {     
-            movementBool = true;
-            movementTimer = 0f;            
-        }
-
-        if(movementBool)
-        {
-            if (noMovement)
-            {
-                movementTimer += Time.deltaTime;
-                if(movementTimer >= 0.5f)
-                {
-                    PlayerTurn.Instance.PlayerMovement(!noMovement);
-                    movementBool = false;
-                }
-            }
-
-            else
-            {
-                PlayerTurn.Instance.PlayerMovement(!noMovement);
-                movementBool = false;
-            }
-        }
-    }
 
     void Oscillator()
     {
@@ -387,27 +347,19 @@ public class PlayerController : MonoBehaviour
 
     void Launch()
     {
+        turnEnabled = false;
+
         ResetCam = true;
 
         launchReset = true;
 
         freecamActive = true;
 
+        UsedTurn = true;
+
         rb.AddForce( transform.forward  * power * powerMultiplier, ForceMode.Impulse);
 
         rb.AddTorque(transform.right * power * powerMultiplier, ForceMode.VelocityChange);
-
-        UsedTurn = true;
     }
 
-    void TurnComplete()
-    {
-        if(UsedTurn && PlayerTurn.Instance.SceneInactive)
-        {
-            Debug.Log("No players moving");
-            PlayerTurn.Instance.EndTurn(gameObject.name);
-            freecamActive = false;
-            UsedTurn = false;
-        }
-    }
 }
