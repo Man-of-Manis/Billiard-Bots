@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private readonly float powerMultiplier = 1000f;
 
+    [SerializeField] private readonly float minPower = 0.1f;
+
     [SerializeField] private readonly float maxPower = 1f;
 
     [SerializeField] private float power;
@@ -71,20 +73,20 @@ public class PlayerController : MonoBehaviour
 
     private Transform cam;
 
-    [Header("UI")]
-    public GameObject startAiming;
+    [Header("Controls")]
+    [SerializeField] private GameObject startAiming;
 
-    public GameObject setPower;
+    [SerializeField] private GameObject setPower;
 
-    public GameObject lockPower;
+    [SerializeField] private GameObject lockPower;
 
-    public GameObject freecamObj;
+    [SerializeField] private GameObject freecamObj;
 
-    public GameObject cancel;
+    [SerializeField] private GameObject cancel;
 
-    public GameObject lBumperObj;
+    [SerializeField] private GameObject lBumperObj;
 
-    public GameObject rBumperObj;
+    [SerializeField] private GameObject rBumperObj;
 
     void Start()
     {
@@ -103,7 +105,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(turnEnabled)
+        if(turnEnabled && !UsedTurn)
         {
             if (arrowActive)
             {
@@ -135,17 +137,24 @@ public class PlayerController : MonoBehaviour
                     playerCanvas.enabled = false;
                 }
             }
-        }       
+        }
+
+        if(!turnEnabled && UsedTurn)
+        {
+            freecamActive = false;
+
+            UsedTurn = false;
+        }
     }
 
 
     void LateUpdate()
     {
-        if(turnEnabled)
+        if(turnEnabled && !UsedTurn)
         {
             if (ResetCam && !UsedTurn)
             {
-                currentX = cam.transform.eulerAngles.y;
+                //currentX = cam.transform.eulerAngles.y;
                 //transform.rotation = Quaternion.Euler(new Vector3(0f, cam.transform.eulerAngles.y, 0f));
                 freecamActive = false;
                 launchReset = false;
@@ -155,6 +164,11 @@ public class PlayerController : MonoBehaviour
             if (arrowActive)
             {
                 transform.rotation = Quaternion.Euler(new Vector3(0f, currentX, 0f));
+            }
+
+            else
+            {
+                currentX = cam.transform.eulerAngles.y;
             }
         }               
     }
@@ -304,7 +318,7 @@ public class PlayerController : MonoBehaviour
             if(prevOscillatorActive != oscillatorActive)
             {
                 powerMeterObj.SetActive(true);
-                power = 0f;
+                power = minPower;
                 direction = true;
                 powerMeter.color = Color.red;
             }
@@ -323,7 +337,7 @@ public class PlayerController : MonoBehaviour
             {
                 power -= Time.deltaTime;
 
-                if (power <= 0f)
+                if (power <= minPower)
                 {
                     direction = true;
                 }
@@ -342,12 +356,12 @@ public class PlayerController : MonoBehaviour
 
     void PowerMeter()
     {
-        powerMeter.fillAmount = power;
+        powerMeter.fillAmount = (power - minPower) / (maxPower - minPower);
     }
 
     void Launch()
     {
-        turnEnabled = false;
+        //turnEnabled = false;
 
         ResetCam = true;
 

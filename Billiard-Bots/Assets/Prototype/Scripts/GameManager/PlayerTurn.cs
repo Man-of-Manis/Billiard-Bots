@@ -144,6 +144,7 @@ public class PlayerTurn : MonoBehaviour
             Debug.Log("Next player's turn");
             startTimer = false;
             EndTurn();
+            inactivityTimer = 0f;
         }
     }
 

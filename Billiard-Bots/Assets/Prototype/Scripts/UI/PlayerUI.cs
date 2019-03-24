@@ -6,13 +6,16 @@ using TMPro;
 
 public class PlayerUI : MonoBehaviour
 {
-    public TMP_Text p1Hp;
+    [Header("Health")]
+    [SerializeField] private TMP_Text p1Hp;
 
-    public TMP_Text p2Hp;
+    [SerializeField] private TMP_Text p2Hp;
 
-    public TMP_Text p3Hp;
+    [SerializeField] private TMP_Text p3Hp;
 
-    public TMP_Text p4Hp;
+    [SerializeField] private TMP_Text p4Hp;
+
+
 
 
     public void UpdatePlayerHealth(string playerNum, int newHealth, int maxHealth)

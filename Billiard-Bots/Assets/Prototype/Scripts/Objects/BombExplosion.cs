@@ -40,8 +40,6 @@ public class BombExplosion : MonoBehaviour
         {
             float dist = Vector3.Distance(player.transform.position, transform.position);
             player.GetComponent<PlayerHealth>().SubHealth((int)(explosionRadius - dist));
-            Debug.Log(dist);
-
             player.GetComponent<Rigidbody>().velocity *= 0.00001f;
             player.GetComponent<Rigidbody>().AddForce((player.transform.position - transform.position) * (1 / (dist * dist)) * explosionForce, ForceMode.Impulse);
 
