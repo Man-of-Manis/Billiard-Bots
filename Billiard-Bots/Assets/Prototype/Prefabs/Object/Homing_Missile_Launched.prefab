@@ -456,7 +456,7 @@ MonoBehaviour:
   rb: {fileID: 8392725515719665692}
   missileSpeed: 25
   rotationSpeed: 10
-  explosionRadius: 3
+  explosionRadius: 4
   explosionForce: 350
   explosionMask:
     serializedVersion: 2
@@ -706,6 +706,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: RocketTrail
       objectReference: {fileID: 0}
+    - target: {fileID: 7308891927812534075, guid: 3447022b44750a341bcd58382f115a61,
+        type: 3}
+      propertyPath: stopAction
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7308891927812534075, guid: 3447022b44750a341bcd58382f115a61,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7484767561208527693, guid: 3447022b44750a341bcd58382f115a61,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -759,16 +769,6 @@ PrefabInstance:
     - target: {fileID: 7484767561208527693, guid: 3447022b44750a341bcd58382f115a61,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7308891927812534075, guid: 3447022b44750a341bcd58382f115a61,
-        type: 3}
-      propertyPath: stopAction
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7308891927812534075, guid: 3447022b44750a341bcd58382f115a61,
-        type: 3}
-      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

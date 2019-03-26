@@ -12,10 +12,11 @@ public class MissilePickup : MonoBehaviour
         {
             GameObject missile = Instantiate(playerMissile, other.transform.Find("PickupHolder").transform);
             //missile.transform.localPosition = new Vector3(0f, 1.5f, 0f);
-            other.gameObject.AddComponent<PlayerMissileTrigger>().SetOwner(other.gameObject, missile);
+            
             SphereCollider sphere = other.gameObject.AddComponent<SphereCollider>();
             sphere.isTrigger = true;
             sphere.radius = 5f;
+            other.gameObject.AddComponent<PlayerMissileTrigger>().SetOwner(other.gameObject, missile, sphere);
             Destroy(gameObject);
         }
     }

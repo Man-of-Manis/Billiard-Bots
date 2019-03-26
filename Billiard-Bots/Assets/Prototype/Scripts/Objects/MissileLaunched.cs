@@ -24,6 +24,8 @@ public class MissileLaunched : MonoBehaviour
 
     private bool launched = false;
 
+    bool once = false;
+
 
     // Update is called once per frame
     void FixedUpdate()
@@ -59,14 +61,20 @@ public class MissileLaunched : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if(launched)
+        if (!once && launched)
         {
-            GetColliders();
-            Instantiate(explosion, transform.position, Quaternion.identity);
-            smokeTrail.transform.SetParent(null);
-            smokeTrail.GetComponent<ParticleSystem>().Stop();
-            Destroy(gameObject);
+            Explode();
+            once = true;
         }
+    }
+
+    void Explode()
+    {
+        GetColliders();
+        Instantiate(explosion, transform.position, Quaternion.identity);
+        smokeTrail.transform.SetParent(null);
+        smokeTrail.GetComponent<ParticleSystem>().Stop();
+        Destroy(gameObject);
     }
 
     void GetColliders()
@@ -76,10 +84,12 @@ public class MissileLaunched : MonoBehaviour
         foreach (Collider player in players)
         {
             float dist = Vector3.Distance(player.transform.position, transform.position);
-            player.GetComponent<PlayerHealth>().SubHealth((int)(explosionRadius - dist));
+            int damage = Mathf.FloorToInt(((explosionRadius + 1f) - dist)) != 0 ? Mathf.FloorToInt(((explosionRadius + 1f) - dist )) : 1;
+            Debug.Log(gameObject.name + " has hit " + player.name + " dealing " + damage + " points of damage.");
+            player.GetComponent<PlayerHealth>().SubHealth(damage);
             player.GetComponent<Rigidbody>().velocity *= 0.00001f;
             player.GetComponent<Rigidbody>().AddForce((player.transform.position - transform.position) * (1 / (dist * dist)) * explosionForce, ForceMode.Impulse);
-
+            
         }
     }
 }

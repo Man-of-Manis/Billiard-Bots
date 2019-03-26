@@ -10,6 +10,8 @@ public class PlayerCollisionDamage : MonoBehaviour
         {
             Rigidbody rb = gameObject.GetComponent<Rigidbody>();
 
+            gameObject.GetComponent<Animator>().SetTrigger("spike");
+
             float magnitude = rb.velocity.magnitude;
 
             int damage = (int)(magnitude / 100f * 10f);
@@ -19,8 +21,6 @@ public class PlayerCollisionDamage : MonoBehaviour
             other.gameObject.GetComponent<PlayerHealth>().SubHealth(damage);            
 
             Vector3 point = other.GetContact(0).normal; //point at which the other player was hit
-
-            //Debug.Log(point + ", " + -point);
 
             other.gameObject.GetComponent<Rigidbody>().AddForce(-point * magnitude * 10f, ForceMode.Impulse);
 
