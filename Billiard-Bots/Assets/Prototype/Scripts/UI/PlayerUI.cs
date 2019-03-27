@@ -16,8 +16,6 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private TMP_Text p4Hp;
 
 
-
-
     public void UpdatePlayerHealth(string playerNum, int newHealth, int maxHealth)
     {
         switch(playerNum)

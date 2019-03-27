@@ -9,6 +9,8 @@ public class PlayerSelect : MonoBehaviour
 
     [SerializeField] private ProtoCameraController camControl;
 
+    [SerializeField] private PlayerButtonsUI buttonUI;
+
     [Header("UI")]
     [SerializeField] private GameObject select;
 
@@ -43,41 +45,34 @@ public class PlayerSelect : MonoBehaviour
 
     public void OnePlayer()
     {
-        p1.SetActive(true);
-        p1Health.SetActive(true);
-        StartGame();
+        SetPlayers(false, false, false);
     }
 
     public void TwoPlayer()
     {
-        p1.SetActive(true);
-        p2.SetActive(true);
-        p1Health.SetActive(true);
-        p2Health.SetActive(true);
-        StartGame();
+        SetPlayers(true, false, false);
     }
 
     public void ThreePlayer()
     {
-        p1.SetActive(true);
-        p2.SetActive(true);
-        p3.SetActive(true);
-        p1Health.SetActive(true);
-        p2Health.SetActive(true);
-        p3Health.SetActive(true);
-        StartGame();
+        SetPlayers(true, true, false);
     }
 
     public void FourPlayer()
     {
+        SetPlayers(true, true, true);
+    }
+
+    void SetPlayers(bool player2, bool player3, bool player4)
+    {
         p1.SetActive(true);
-        p2.SetActive(true);
-        p3.SetActive(true);
-        p4.SetActive(true);
+        p2.SetActive(player2);
+        p3.SetActive(player3);
+        p4.SetActive(player4);
         p1Health.SetActive(true);
-        p2Health.SetActive(true);
-        p3Health.SetActive(true);
-        p4Health.SetActive(true);
+        p2Health.SetActive(player2);
+        p3Health.SetActive(player3);
+        p4Health.SetActive(player4);
         StartGame();
     }
 
@@ -85,6 +80,7 @@ public class PlayerSelect : MonoBehaviour
     {
         turn.enabled = true;
         camControl.enabled = true;
+        buttonUI.enabled = true;
         select.SetActive(false);
     }
 }

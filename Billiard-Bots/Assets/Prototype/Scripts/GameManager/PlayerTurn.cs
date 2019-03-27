@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PlayerTurn : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PlayerTurn : MonoBehaviour
 
     protected static PlayerTurn s_Instance;
 
+    public PlayerInput pInput;
 
     public List<GameObject> players;
 
@@ -33,6 +35,10 @@ public class PlayerTurn : MonoBehaviour
     public bool SceneInactive = true;
 
     public bool prevSceneInactive = true;
+
+    public GameObject gameOver;
+
+    public TMP_Text gameOverText;
 
     void Awake()
     {
@@ -91,7 +97,8 @@ public class PlayerTurn : MonoBehaviour
 
     void Restart()
     {
-        if(Input.GetButtonDown("P1_Start_Button"))
+        //if(PlayerInput.Instance.players["player1"].startButton)
+        if(pInput.players["player1"].startButton)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
@@ -101,7 +108,9 @@ public class PlayerTurn : MonoBehaviour
     {
         if(playerAmount <= 1)
         {
-            Debug.Log("Game Over!");
+            //Debug.Log("Game Over!");
+            gameOverText.text = "Game Over\n\n" + players[0].name + " Wins!";
+            gameOver.SetActive(true);
             playerObjTurn.GetComponent<PlayerController>().turnEnabled = false;
             return;
         }
