@@ -7,31 +7,13 @@ public class PlayerController : MonoBehaviour
 {
     public bool turnEnabled;
 
-    private PlayerInput pInput;
-
-    private PlayerButtonsUI buttonUI;
-
     public GameObject arrow;
-
-    public float power { get; private set; }
-
-    public float minPower { get; [SerializeField] private set; } = 0.1f;
-
-    public float maxPower { get; [SerializeField] private set; } = 1f;
 
     public float xRotationSpeed { get; [SerializeField] private set; } = 3f;
 
-    public float powerMultiplier { get; [SerializeField] private set; } = 1000f;
-
-    private bool direction = true;
-
     private float currentX;
 
-    public bool arrowActive { get; private set; }
-
-    public bool oscillatorActive { get; private set; }
-
-    public bool prevOscillatorActive { get; private set; }
+    public bool arrowActive;
 
     public bool freecamActive { get; private set; }
 
@@ -41,27 +23,18 @@ public class PlayerController : MonoBehaviour
 
     public bool ResetCam { get; private set; } = true;
 
-    private bool aButton;
-
-    private bool bButton;
-
-    private bool xButton;
-
-    private bool lBumper;
-
-    private bool rBumper;
-
     private Rigidbody rb;
 
     private Transform cam;
+
+    private PlayerStats stats;
 
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         cam = FindObjectOfType<Camera>().transform;
-        pInput = FindObjectOfType<PlayerInput>();
-        buttonUI = FindObjectOfType<PlayerButtonsUI>();
+        stats = GetComponent<PlayerStats>();
     }
 
     void Update()
@@ -78,26 +51,9 @@ public class PlayerController : MonoBehaviour
     {
         if (turnEnabled && !UsedTurn)
         {
-            PlayerInput();
-            Activation();
-            Oscillator();
-
             if (arrowActive)
             {
-                currentX += pInput.players[gameObject.name.ToLower()].leftStick.x * xRotationSpeed;
-
-                if (!arrow.activeSelf)
-                {
-                    arrow.SetActive(true);
-                }
-            }
-
-            else
-            {
-                if (arrow.activeSelf)
-                {
-                    arrow.SetActive(false);
-                }
+                currentX += PlayerInput.Instance.players[gameObject.name.ToLower()].leftStick.x * xRotationSpeed;
             }
         }
 
@@ -107,6 +63,8 @@ public class PlayerController : MonoBehaviour
 
             UsedTurn = false;
         }
+
+        arrow.SetActive(arrowActive ? true : false);
     }
 
     void TurnEnabledLateUpdate()
@@ -131,140 +89,9 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+   
 
-    void PlayerInput()
-    {
-        aButton = pInput.players[gameObject.name.ToLower()].aButton;
-
-        bButton = pInput.players[gameObject.name.ToLower()].bButton;
-
-        xButton = pInput.players[gameObject.name.ToLower()].xButton;
-
-        lBumper = pInput.players[gameObject.name.ToLower()].lBumper;
-
-        rBumper = pInput.players[gameObject.name.ToLower()].rBumper;
-    }
-
-    void Activation()
-    {
-        prevOscillatorActive = oscillatorActive;
-
-        #region A Button Conditions
-        if (aButton && oscillatorActive) //A Buttons
-        {
-            arrowActive = false;
-            Launch();
-
-            buttonUI.UIActivation(false, false, false, false, false, false, false, false);
-            oscillatorActive = false;
-        }
-
-        else if (aButton && arrowActive && !freecamActive)
-        {
-            oscillatorActive = true;
-
-            buttonUI.UIActivation(false, false, true, false, true, false, false, true);
-        }
-
-        else if (aButton && !arrowActive && freecamActive)
-        {
-            oscillatorActive = false;
-            arrowActive = true;
-
-            buttonUI.UIActivation(false, false, true, true, true, false, false, false);
-        }
-
-        else if (aButton && !arrowActive)
-        {
-            arrowActive = true;
-            launchReset = false;
-            freecamActive = false;
-
-            buttonUI.UIActivation(false, true, false, true, true, false, false, false);
-        }
-
-        else if (!arrowActive)
-        {
-            arrowActive = false;
-
-            buttonUI.UIActivation(true, false, false, false, false, false, false, false);
-        }
-        #endregion
-
-        #region B Button Conditions
-        if (bButton && oscillatorActive) //B Buttons
-        {
-            oscillatorActive = false;
-            buttonUI.UIActivation(false, true, false, true, true, false, false, false);
-        }
-
-        else if (bButton && arrowActive && freecamActive)
-        {
-            freecamActive = false;
-            buttonUI.UIActivation(false, true, false, true, true, false, false, false);
-        }
-
-        else if (bButton && arrowActive)
-        {
-            arrowActive = false;
-            buttonUI.UIActivation(true, false, false, false, false, false, false, false);
-        }
-        #endregion
-
-        #region X Button Conditions
-        if (xButton && arrowActive && !oscillatorActive && !freecamActive) //X Buttons
-        {
-            freecamActive = true;
-            buttonUI.UIActivation(false, false, false, false, true, true, true, false);
-        }
-        #endregion
-
-        #region Bumper Conditions
-        if (lBumper && freecamActive && !UsedTurn)
-        {
-            cam.GetComponent<ProtoCameraController>().GetLeftOpponent();
-        }
-
-        if (rBumper && freecamActive && !UsedTurn)
-        {
-            cam.GetComponent<ProtoCameraController>().GetRightOpponent();
-        }
-        #endregion
-    }
-
-    void Oscillator()
-    {
-        if (oscillatorActive)
-        {
-            if (prevOscillatorActive != oscillatorActive)
-            {
-                power = minPower;
-                direction = true;
-            }
-
-            if (direction)
-            {
-                power += Time.deltaTime;
-
-                if (power >= maxPower)
-                {
-                    direction = false;
-                }
-            }
-
-            else
-            {
-                power -= Time.deltaTime;
-
-                if (power <= minPower)
-                {
-                    direction = true;
-                }
-            }
-        }        
-    }
-
-    void Launch()
+    public void Launch(float power, float powerMultiplier)
     {
         ResetCam = true;
 
@@ -273,6 +100,8 @@ public class PlayerController : MonoBehaviour
         freecamActive = true;
 
         UsedTurn = true;
+
+        stats.completedTurns++;
 
         rb.AddForce( transform.forward  * power * powerMultiplier, ForceMode.Impulse);
 

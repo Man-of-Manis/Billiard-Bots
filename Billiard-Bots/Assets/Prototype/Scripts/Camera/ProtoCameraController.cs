@@ -31,6 +31,26 @@ public class ProtoCameraController : MonoBehaviour
     public float xRotationSpeed;
     public float yRotationSpeed;
 
+    public static ProtoCameraController Instance
+    {
+        get { return s_Instance; }
+    }
+
+    protected static ProtoCameraController s_Instance;
+
+    void Awake()
+    {
+        if (s_Instance == null)
+        {
+            s_Instance = this;
+        }
+
+        else if (s_Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
     void Start()
     {
         currentPlayerTarget = PlayerTurn.Instance.playerObjTurn.transform;

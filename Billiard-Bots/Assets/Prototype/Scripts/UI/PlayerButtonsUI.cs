@@ -45,12 +45,14 @@ public class PlayerButtonsUI : MonoBehaviour
 
     [SerializeField] private GameObject powerMeterObj;
 
+    [SerializeField] private Image powerMeterBG;
+
     [SerializeField] private Image powerMeter;
 
     [Header("Current Player")]
     public GameObject currentPlayer;
 
-    public bool arrowActive;
+    private GameObject previousPlayer;
 
     private bool oscillatorActive;
 
@@ -75,6 +77,7 @@ public class PlayerButtonsUI : MonoBehaviour
     {
         Input();
         Player();
+        PowerMeterHeight();
         PowerMeter();
     }
 
@@ -93,16 +96,17 @@ public class PlayerButtonsUI : MonoBehaviour
 
     void Player()
     {
+        previousPlayer = currentPlayer;
         currentPlayer = turn.playerObjTurn;
-        arrowActive = currentPlayer.GetComponent<PlayerController>().arrowActive;
-        oscillatorActive = currentPlayer.GetComponent<PlayerController>().oscillatorActive;
-        prevOscillatorActive = currentPlayer.GetComponent<PlayerController>().prevOscillatorActive;
-        freecamActive = currentPlayer.GetComponent<PlayerController>().freecamActive;
-        launchReset = currentPlayer.GetComponent<PlayerController>().launchReset;
-        UsedTurn = currentPlayer.GetComponent<PlayerController>().UsedTurn;
-        power = currentPlayer.GetComponent<PlayerController>().power;
-        minPower = currentPlayer.GetComponent<PlayerController>().minPower;
-        maxPower = currentPlayer.GetComponent<PlayerController>().maxPower;
+        //arrowActive = currentPlayer.GetComponent<PlayerController>().arrowActive;
+        oscillatorActive = PlayerPower.Instance.oscillatorActive;
+        //prevOscillatorActive = PlayerPower.Instance.prevOscillatorActive;
+        //freecamActive = currentPlayer.GetComponent<PlayerController>().freecamActive;
+        //launchReset = currentPlayer.GetComponent<PlayerController>().launchReset;
+        //UsedTurn = currentPlayer.GetComponent<PlayerController>().UsedTurn;
+        power = PlayerPower.Instance.power;
+        minPower = PlayerPower.Instance.minPower;
+        maxPower = PlayerPower.Instance.maxPower;
     }
 
     public void UIActivation(bool aiming, bool setpower, bool lockpower, bool freecam, bool cancel, bool lbumper, bool rbumper, bool powermeter)
@@ -122,6 +126,12 @@ public class PlayerButtonsUI : MonoBehaviour
         rBumperObj.SetActive(rbumper);
 
         powerMeterObj.SetActive(powermeter);
+    }
+
+    void PowerMeterHeight()
+    {
+        powerMeterBG.rectTransform.sizeDelta = new Vector2(powerMeterBG.rectTransform.sizeDelta.x, maxPower * 200f);
+        powerMeter.rectTransform.sizeDelta = new Vector2(powerMeter.rectTransform.sizeDelta.x, maxPower * 200f - maxPower * 10f);      
     }
 
     void PowerMeter()

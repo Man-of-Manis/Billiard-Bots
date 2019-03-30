@@ -7,6 +7,8 @@ public class PlayerSelect : MonoBehaviour
     [Header("Scripts")]
     [SerializeField] private PlayerTurn turn;
 
+    [SerializeField] private PlayerTurnInput input;
+
     [SerializeField] private ProtoCameraController camControl;
 
     [SerializeField] private PlayerButtonsUI buttonUI;
@@ -81,6 +83,7 @@ public class PlayerSelect : MonoBehaviour
         turn.enabled = true;
         camControl.enabled = true;
         buttonUI.enabled = true;
+        input.enabled = true;
         select.SetActive(false);
     }
 }

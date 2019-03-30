@@ -6,12 +6,31 @@ public class PlayerInput : MonoBehaviour
 {
     public Dictionary<string, InputManager> players = new Dictionary<string, InputManager>();
 
+    public InputManager CurrentPlayer
+    {
+        get;
+        protected set;
+    }
+
     public static PlayerInput Instance
     {
         get { return s_Instance; }
     }
 
     protected static PlayerInput s_Instance;
+
+    void Awake()
+    {
+        if (s_Instance == null)
+        {
+            s_Instance = this;
+        }
+
+        else if (s_Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+    }
 
     void Start()
     {
@@ -24,7 +43,13 @@ public class PlayerInput : MonoBehaviour
 
     void Update()
     {
-        for(int i = 1; i <= 4; i++)
+        SetPlayerInputs();
+        CurrentPlayerInputs();
+    }
+
+    void SetPlayerInputs()
+    {
+        for (int i = 1; i <= 4; i++)
         {
             players["player" + System.Convert.ToString(i)].leftStick.x = Input.GetAxisRaw("P" + i + "_L_Horizontal");
             players["player" + System.Convert.ToString(i)].leftStick.y = Input.GetAxisRaw("P" + i + "_L_Vertical");
@@ -38,7 +63,20 @@ public class PlayerInput : MonoBehaviour
             players["player" + System.Convert.ToString(i)].startButton = Input.GetButtonDown("P" + i + "_Start_Button");
         }
     }
+
+    void CurrentPlayerInputs()
+    {
+        if(PlayerTurn.Instance != null)
+        {
+            if(PlayerTurn.Instance.playerObjTurn != null)
+            {
+                CurrentPlayer = players[PlayerTurn.Instance.playerObjTurn.name.ToLower()];
+            }            
+        }        
+    }
 }
+
+
 
 public class InputManager
 {

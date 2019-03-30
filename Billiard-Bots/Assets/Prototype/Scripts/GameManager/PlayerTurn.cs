@@ -20,6 +20,8 @@ public class PlayerTurn : MonoBehaviour
 
     public List<bool> playerMovement;
 
+    public Dictionary<GameObject, int> turns = new Dictionary<GameObject, int>();
+
     public GameObject playerObjTurn;
 
     public int playerNumTurn = 0;
@@ -48,7 +50,6 @@ public class PlayerTurn : MonoBehaviour
         }
         else if (s_Instance != this)
         {
-            //throw new UnityException("There cannot be more than one PlayerInput script.  The instances are " + s_Instance.name + " and " + name + ".");
             Destroy(this.gameObject);
         }
 
@@ -70,6 +71,7 @@ public class PlayerTurn : MonoBehaviour
                 if(p[j].name.Equals("Player" + (i + 1).ToString()))
                 {
                     players.Insert(i, p[j]);
+                    turns.Add(p[i], 0);
                 }
             }
         }
@@ -97,8 +99,8 @@ public class PlayerTurn : MonoBehaviour
 
     void Restart()
     {
-        //if(PlayerInput.Instance.players["player1"].startButton)
-        if(pInput.players["player1"].startButton)
+        if(PlayerInput.Instance.players["player1"].startButton)
+        //if(pInput.players["player1"].startButton)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
@@ -118,6 +120,7 @@ public class PlayerTurn : MonoBehaviour
         {
 
             playerObjTurn.GetComponent<PlayerController>().turnEnabled = false;
+            turns[playerObjTurn] += 1;
             playerObjTurn = players[playerNumTurn + 1 <= playerAmount - 1 ? playerNumTurn + 1 : 0];
             playerNumTurn = playerNumTurn + 1 <= playerAmount - 1 ? playerNumTurn + 1 : 0;
             NextTurn();
@@ -134,6 +137,7 @@ public class PlayerTurn : MonoBehaviour
     public void PlayerDestroyed(GameObject player)
     {
         players.Remove(player);
+        turns.Remove(player);
         playerAmount = players.Count;
     }
 
