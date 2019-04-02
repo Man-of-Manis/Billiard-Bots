@@ -16,23 +16,23 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private TMP_Text p4Hp;
 
 
-    public void UpdatePlayerHealth(string playerNum, int newHealth, int maxHealth)
+    public void UpdatePlayerHealth(int playerNum, int newHealth, int maxHealth)
     {
         switch(playerNum)
         {
-            case "1":
+            case 1:
                 p1Hp.text = newHealth.ToString() + " / " + maxHealth.ToString();
                 break;
 
-            case "2":
+            case 2:
                 p2Hp.text = newHealth.ToString() + " / " + maxHealth.ToString();
                 break;
 
-            case "3":
+            case 3:
                 p3Hp.text = newHealth.ToString() + " / " + maxHealth.ToString();
                 break;
 
-            case "4":
+            case 4:
                 p4Hp.text = newHealth.ToString() + " / " + maxHealth.ToString();
                 break;
         }

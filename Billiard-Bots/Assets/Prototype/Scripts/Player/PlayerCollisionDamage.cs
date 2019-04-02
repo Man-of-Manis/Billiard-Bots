@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerCollisionDamage : MonoBehaviour
 {
+    public float playerDamageMultiplier = 1;
+
+    public float playerPushMultiplier = 1;
+
     void OnCollisionEnter(Collision other)
     {
         if(other.collider.CompareTag("Player") && !other.gameObject.Equals(gameObject) && !other.collider.gameObject.Equals(PlayerTurn.Instance.playerObjTurn))
@@ -14,7 +18,7 @@ public class PlayerCollisionDamage : MonoBehaviour
 
             float magnitude = rb.velocity.magnitude;
 
-            int damage = (int)(magnitude / 100f * 10f);
+            int damage = Mathf.Clamp((int)((magnitude * playerDamageMultiplier) / 100f * 10f), magnitude > 8f ? 1 : 0, 3);
 
             Debug.Log(gameObject.name + " has hit " + other.gameObject.name + " with a magnitude of " + magnitude + " dealing " + damage + " points of damage.");            
 
@@ -22,7 +26,7 @@ public class PlayerCollisionDamage : MonoBehaviour
 
             Vector3 point = other.GetContact(0).normal; //point at which the other player was hit
 
-            other.gameObject.GetComponent<Rigidbody>().AddForce(-point * magnitude * 10f, ForceMode.Impulse);
+            other.gameObject.GetComponent<Rigidbody>().AddForce(-point * magnitude * playerPushMultiplier * 10f, ForceMode.Impulse);
 
             rb.velocity *= 0.0001f; //Sets velocity to almost zero so that character doesn't change
 

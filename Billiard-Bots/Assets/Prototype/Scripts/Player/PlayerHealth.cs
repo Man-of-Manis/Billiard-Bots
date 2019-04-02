@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int CurrentHealth = 10;
+    public int CurrentHealth = 20;
 
-    public int MaxHealth = 10;
+    public int MaxHealth = 20;
 
     private PlayerUI UI;
 
     void Start()
     {
         UI = FindObjectOfType<PlayerUI>();
-        UI.UpdatePlayerHealth(gameObject.name[gameObject.name.Length - 1].ToString(), CurrentHealth, MaxHealth);
+        UI.UpdatePlayerHealth((int)gameObject.GetComponent<PlayerIdentifier>().player + 1, CurrentHealth, MaxHealth);
     }
 
 
@@ -43,6 +43,6 @@ public class PlayerHealth : MonoBehaviour
 
     void UpdateHealth()
     {
-        UI.UpdatePlayerHealth(gameObject.name[gameObject.name.Length - 1].ToString(), CurrentHealth, MaxHealth);
+        UI.UpdatePlayerHealth((int)gameObject.GetComponent<PlayerIdentifier>().player + 1, CurrentHealth, MaxHealth);
     }
 }

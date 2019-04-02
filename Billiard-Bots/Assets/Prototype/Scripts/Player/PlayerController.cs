@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
         {
             if (arrowActive)
             {
-                currentX += PlayerInput.Instance.players[gameObject.name.ToLower()].leftStick.x * xRotationSpeed;
+                currentX += PlayerInput.Instance.players[(int)gameObject.GetComponent<PlayerIdentifier>().player + 1].leftStick.x * xRotationSpeed;
             }
         }
 
@@ -101,6 +101,8 @@ public class PlayerController : MonoBehaviour
 
         UsedTurn = true;
 
+        PlayerTurnTimer.Instance.StopTimer();
+
         stats.completedTurns++;
 
         rb.AddForce( transform.forward  * power * powerMultiplier, ForceMode.Impulse);
@@ -108,4 +110,8 @@ public class PlayerController : MonoBehaviour
         rb.AddTorque(transform.right * power * powerMultiplier, ForceMode.VelocityChange);
     }
 
+    public void TimeUp()
+    {
+        UsedTurn = true;
+    }
 }

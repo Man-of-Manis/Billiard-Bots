@@ -12,6 +12,8 @@ public class PlayerTurnInput : MonoBehaviour
 
     private PlayerController currentController;
 
+    private PlayerIdentifier playerNum;
+
     private bool usedTurn;
 
     private bool aButton;
@@ -46,21 +48,22 @@ public class PlayerTurnInput : MonoBehaviour
         if (previousPlayer != currentPlayer)
         {
             currentController = currentPlayer.GetComponent<PlayerController>();
+            playerNum = currentPlayer.GetComponent<PlayerIdentifier>();
             usedTurn = false;
         }
     }
 
     void CurrentPlayerInput()
     {
-        aButton = PlayerInput.Instance.players[currentPlayer.name.ToLower()].aButton;
+        aButton = PlayerInput.Instance.players[(int)playerNum.player + 1].aButton;
 
-        bButton = PlayerInput.Instance.players[currentPlayer.name.ToLower()].bButton;
+        bButton = PlayerInput.Instance.players[(int)playerNum.player + 1].bButton;
 
-        xButton = PlayerInput.Instance.players[currentPlayer.name.ToLower()].xButton;
+        xButton = PlayerInput.Instance.players[(int)playerNum.player + 1].xButton;
 
-        lBumper = PlayerInput.Instance.players[currentPlayer.name.ToLower()].lBumper;
+        lBumper = PlayerInput.Instance.players[(int)playerNum.player + 1].lBumper;
 
-        rBumper = PlayerInput.Instance.players[currentPlayer.name.ToLower()].rBumper;
+        rBumper = PlayerInput.Instance.players[(int)playerNum.player + 1].rBumper;
     }
 
     void PlayerActions()
@@ -95,6 +98,7 @@ public class PlayerTurnInput : MonoBehaviour
             PlayerPower.Instance.SendPower();
             buttonUI.UIActivation(false, false, false, false, false, false, false, false);
             PlayerPower.Instance.oscillatorActive = false;
+            ProtoCameraController.Instance.freecamActive = true;
         }
 
         //Start oscillator power
@@ -112,7 +116,9 @@ public class PlayerTurnInput : MonoBehaviour
             //launchReset = false;
             ProtoCameraController.Instance.freecamActive = false;
 
-            buttonUI.UIActivation(false, true, false, true, true, false, false, false);
+            buttonUI.UIActivation(false, true, false, true, false, false, false, false);
+
+            PlayerTurnTimer.Instance.RestartTimer();
         }
     }
 
@@ -129,7 +135,8 @@ public class PlayerTurnInput : MonoBehaviour
         else if (currentController.arrowActive && ProtoCameraController.Instance.freecamActive)
         {
             ProtoCameraController.Instance.freecamActive = false;
-            buttonUI.UIActivation(false, true, false, true, true, false, false, false);
+            buttonUI.UIActivation(false, true, false, true, false, false, false, false);
+            HideTags();
         }
     }
 
@@ -140,6 +147,7 @@ public class PlayerTurnInput : MonoBehaviour
         {
             ProtoCameraController.Instance.freecamActive = true;
             buttonUI.UIActivation(false, false, false, false, true, true, true, false);
+            ShowTags();
         }
     }
 
@@ -160,4 +168,26 @@ public class PlayerTurnInput : MonoBehaviour
             ProtoCameraController.Instance.GetRightOpponent();
         }
     }
+
+    
+    void HideTags()
+    {
+        PlayerUITag[] tags = FindObjectsOfType<PlayerUITag>();
+
+        for(int i = 0; i < tags.Length; i++)
+        {
+            tags[i].gameObject.SendMessage("Hide");
+        }
+    }
+
+    void ShowTags()
+    {
+        PlayerUITag[] tags = FindObjectsOfType<PlayerUITag>();
+
+        for (int i = 0; i < tags.Length; i++)
+        {
+            tags[i].gameObject.SendMessage("Show");
+        }
+    }
+    
 }

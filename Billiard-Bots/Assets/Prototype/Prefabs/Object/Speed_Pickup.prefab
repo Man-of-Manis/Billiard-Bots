@@ -152,6 +152,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2526349895843101881}
   - component: {fileID: 2526349895843101876}
+  - component: {fileID: 8528449716438734813}
   - component: {fileID: 2526349895843101883}
   m_Layer: 0
   m_Name: Speed_Pickup
@@ -188,6 +189,25 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &8528449716438734813
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2526349895843101877}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bc253be44362bb649a9926236280e340, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &2526349895843101883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,21 +289,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4668627190540834480, guid: 5c2defc57811bf94bb686de82526133f,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4668627190540834480, guid: 5c2defc57811bf94bb686de82526133f,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4668627190540834480, guid: 5c2defc57811bf94bb686de82526133f,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4668627190540834484, guid: 5c2defc57811bf94bb686de82526133f,
         type: 3}
       propertyPath: m_Mesh
@@ -299,8 +304,7 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4668627190540834483, guid: 5c2defc57811bf94bb686de82526133f, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c2defc57811bf94bb686de82526133f, type: 3}
 --- !u!4 &7189203411976357790 stripped
 Transform:
@@ -375,21 +379,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4668627190540834480, guid: 5c2defc57811bf94bb686de82526133f,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4668627190540834480, guid: 5c2defc57811bf94bb686de82526133f,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4668627190540834480, guid: 5c2defc57811bf94bb686de82526133f,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4668627190540834484, guid: 5c2defc57811bf94bb686de82526133f,
         type: 3}
       propertyPath: m_Mesh
@@ -405,8 +394,7 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4668627190540834483, guid: 5c2defc57811bf94bb686de82526133f, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c2defc57811bf94bb686de82526133f, type: 3}
 --- !u!4 &7189203411736548644 stripped
 Transform:
@@ -481,21 +469,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4668627190540834480, guid: 5c2defc57811bf94bb686de82526133f,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4668627190540834480, guid: 5c2defc57811bf94bb686de82526133f,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4668627190540834480, guid: 5c2defc57811bf94bb686de82526133f,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4668627190540834484, guid: 5c2defc57811bf94bb686de82526133f,
         type: 3}
       propertyPath: m_Mesh
@@ -511,8 +484,7 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4668627190540834483, guid: 5c2defc57811bf94bb686de82526133f, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c2defc57811bf94bb686de82526133f, type: 3}
 --- !u!4 &2526349894675066002 stripped
 Transform:

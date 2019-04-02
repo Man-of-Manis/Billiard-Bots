@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    public Dictionary<string, InputManager> players = new Dictionary<string, InputManager>();
+    public Dictionary<int, InputManager> players = new Dictionary<int, InputManager>();
 
     public InputManager CurrentPlayer
     {
@@ -36,8 +36,7 @@ public class PlayerInput : MonoBehaviour
     {
         for (int i = 1; i <= 4; i++)
         {
-            string playernumber = "player" + i.ToString();
-            players[playernumber] = new InputManager();
+            players[i] = new InputManager();
     }
     }
 
@@ -51,16 +50,17 @@ public class PlayerInput : MonoBehaviour
     {
         for (int i = 1; i <= 4; i++)
         {
-            players["player" + System.Convert.ToString(i)].leftStick.x = Input.GetAxisRaw("P" + i + "_L_Horizontal");
-            players["player" + System.Convert.ToString(i)].leftStick.y = Input.GetAxisRaw("P" + i + "_L_Vertical");
-            players["player" + System.Convert.ToString(i)].rightStick.x = Input.GetAxisRaw("P" + i + "_R_Horizontal");
-            players["player" + System.Convert.ToString(i)].rightStick.y = Input.GetAxisRaw("P" + i + "_R_Vertical");
-            players["player" + System.Convert.ToString(i)].aButton = Input.GetButtonDown("P" + i + "_A_Button");
-            players["player" + System.Convert.ToString(i)].bButton = Input.GetButtonDown("P" + i + "_B_Button");
-            players["player" + System.Convert.ToString(i)].xButton = Input.GetButtonDown("P" + i + "_X_Button");
-            players["player" + System.Convert.ToString(i)].lBumper = Input.GetButtonDown("P" + i + "_L_Bumper");
-            players["player" + System.Convert.ToString(i)].rBumper = Input.GetButtonDown("P" + i + "_R_Bumper");
-            players["player" + System.Convert.ToString(i)].startButton = Input.GetButtonDown("P" + i + "_Start_Button");
+            players[i].leftStick.x = Input.GetAxisRaw("P" + i + "_L_Horizontal");
+            players[i].leftStick.y = Input.GetAxisRaw("P" + i + "_L_Vertical");
+            players[i].rightStick.x = Input.GetAxisRaw("P" + i + "_R_Horizontal");
+            players[i].rightStick.y = Input.GetAxisRaw("P" + i + "_R_Vertical");
+            players[i].aButton = Input.GetButtonDown("P" + i + "_A_Button");
+            players[i].bButton = Input.GetButtonDown("P" + i + "_B_Button");
+            players[i].xButton = Input.GetButtonDown("P" + i + "_X_Button");
+            players[i].lBumper = Input.GetButtonDown("P" + i + "_L_Bumper");
+            players[i].rBumper = Input.GetButtonDown("P" + i + "_R_Bumper");
+            players[i].backButton = Input.GetButtonDown("P" + i + "_Back_Button");
+            players[i].startButton = Input.GetButtonDown("P" + i + "_Start_Button");
         }
     }
 
@@ -70,7 +70,7 @@ public class PlayerInput : MonoBehaviour
         {
             if(PlayerTurn.Instance.playerObjTurn != null)
             {
-                CurrentPlayer = players[PlayerTurn.Instance.playerObjTurn.name.ToLower()];
+                CurrentPlayer = players[(int)PlayerTurn.Instance.playerObjTurn.GetComponent<PlayerIdentifier>().player + 1];
             }            
         }        
     }
@@ -95,4 +95,6 @@ public class InputManager
     public bool rBumper;
 
     public bool startButton;
+
+    public bool backButton;
 }

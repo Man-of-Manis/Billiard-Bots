@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,6 +12,7 @@ public class MainMenuNavigator : MonoBehaviour
     public GameObject mapSelection;
     public GameObject numberOfPlayers;
     public GameObject characterSelect;
+    public GameObject characterSelectReady;
     public GameObject exitGame;
     
     [Header("Selected Map String")]
@@ -35,6 +37,11 @@ public class MainMenuNavigator : MonoBehaviour
     public Transform p4Renderer;
 
     private bool cancel;
+    private bool start;
+
+    private int playerAmount;
+
+    public List<bool> playerReady;
 
 
     // Start is called before the first frame update
@@ -51,13 +58,34 @@ public class MainMenuNavigator : MonoBehaviour
     void Update()
     {
         cancel = Input.GetButtonDown("Menu_Cancel");
+        start = Input.GetButtonDown("Menu_Start");
 
         Navigator();
     }
 
+    void ReadyCount(int amount)
+    {
+        playerReady.Clear();
+
+        for(int i = 0; i < amount; i++)
+        {
+            playerReady.Insert(i,false);
+        }        
+    }
+
+    bool AnyReady()
+    {
+        return !playerReady.Any(x => x);
+    }
+
+    bool AllReady()
+    {
+        return playerReady.All(x => x);
+    }
+
     private void Navigator()
     {
-        if(cancel)
+        if (cancel)
         {
             if (exitGame.activeSelf)
             {
@@ -65,7 +93,7 @@ public class MainMenuNavigator : MonoBehaviour
                 exitGame.SetActive(false);
             }
 
-            else if (characterSelect.activeSelf)
+            else if (characterSelect.activeSelf && AnyReady())
             {
                 numberOfPlayers.SetActive(true);
                 characterSelect.SetActive(false);
@@ -81,17 +109,25 @@ public class MainMenuNavigator : MonoBehaviour
             {
                 mainMenu.SetActive(true);
                 mapSelection.SetActive(false);
-            }      
+            }
 
             else if (mainMenu.activeSelf)
             {
                 exitGame.SetActive(true);
                 mainMenu.SetActive(false);
-            }    
+            }
+        }
 
-            else
+        if(characterSelect.activeSelf)
+        {
+            characterSelectReady.SetActive(AllReady() ? true : false);
+        }        
+
+        if(start)
+        {
+            if(AllReady())
             {
-                Debug.Log("Something's not right...");
+                LoadLevel();
             }
         }
     }
@@ -103,6 +139,9 @@ public class MainMenuNavigator : MonoBehaviour
 
     public void PlayerCount(int number)
     {
+        ReadyCount(number);
+        CharacterLockIn.Instance.PlayerCount(number);
+
         switch(number)
         {
             case 1:
@@ -112,7 +151,7 @@ public class MainMenuNavigator : MonoBehaviour
                     player3.SetActive(false);
                     player4.SetActive(false);
 
-                    player1.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                    player1.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -125f);
                 }
                 break;
             case 2:
@@ -122,8 +161,8 @@ public class MainMenuNavigator : MonoBehaviour
                     player3.SetActive(false);
                     player4.SetActive(false);
 
-                    player1.GetComponent<RectTransform>().anchoredPosition = new Vector2(-200f, 0f);
-                    player2.GetComponent<RectTransform>().anchoredPosition = new Vector2(200f, 0f);
+                    player1.GetComponent<RectTransform>().anchoredPosition = new Vector2(-200f, -125f);
+                    player2.GetComponent<RectTransform>().anchoredPosition = new Vector2(200f, -125f);
                 }
                 break;
             case 3:
@@ -133,9 +172,9 @@ public class MainMenuNavigator : MonoBehaviour
                     player3.SetActive(true);
                     player4.SetActive(false);
 
-                    player1.GetComponent<RectTransform>().anchoredPosition = new Vector2(-400f, 0f);
-                    player2.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-                    player3.GetComponent<RectTransform>().anchoredPosition = new Vector2(400f, 0f);
+                    player1.GetComponent<RectTransform>().anchoredPosition = new Vector2(-400f, -125f);
+                    player2.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -125f);
+                    player3.GetComponent<RectTransform>().anchoredPosition = new Vector2(400f, -125f);
                 }
                 break;
             case 4:
@@ -145,10 +184,10 @@ public class MainMenuNavigator : MonoBehaviour
                     player3.SetActive(true);
                     player4.SetActive(true);
 
-                    player1.GetComponent<RectTransform>().anchoredPosition = new Vector2(-600f, 0f);
-                    player2.GetComponent<RectTransform>().anchoredPosition = new Vector2(-200f, 0f);
-                    player3.GetComponent<RectTransform>().anchoredPosition = new Vector2(200f, 0f);
-                    player4.GetComponent<RectTransform>().anchoredPosition = new Vector2(600f, 0f);
+                    player1.GetComponent<RectTransform>().anchoredPosition = new Vector2(-600f, -125f);
+                    player2.GetComponent<RectTransform>().anchoredPosition = new Vector2(-200f, -125f);
+                    player3.GetComponent<RectTransform>().anchoredPosition = new Vector2(200f, -125f);
+                    player4.GetComponent<RectTransform>().anchoredPosition = new Vector2(600f, -125f);
                 }
                 break;
         }

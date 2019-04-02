@@ -62,16 +62,16 @@ public class PlayerTurn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject[] p = GameObject.FindGameObjectsWithTag("Player");
+        PlayerIdentifier[] p = FindObjectsOfType<PlayerIdentifier>();
 
         for (int i = 0; i < p.Length; i++)
         {    
             for(int j = 0; j < p.Length; j++)
             {
-                if(p[j].name.Equals("Player" + (i + 1).ToString()))
+                if((int)(p[j].player) == i)
                 {
-                    players.Insert(i, p[j]);
-                    turns.Add(p[i], 0);
+                    players.Insert(i, p[j].gameObject);
+                    turns.Add(p[i].gameObject, 0);
                 }
             }
         }
@@ -99,10 +99,15 @@ public class PlayerTurn : MonoBehaviour
 
     void Restart()
     {
-        if(PlayerInput.Instance.players["player1"].startButton)
+        if(PlayerInput.Instance.players[1].backButton)
         //if(pInput.players["player1"].startButton)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
         }
     }
 
@@ -111,7 +116,7 @@ public class PlayerTurn : MonoBehaviour
         if(playerAmount <= 1)
         {
             //Debug.Log("Game Over!");
-            gameOverText.text = "Game Over\n\n" + players[0].name + " Wins!";
+            gameOverText.text = "Game Over\n\n" + players[0].GetComponent<PlayerIdentifier>().player.ToString() + " Wins!";
             gameOver.SetActive(true);
             playerObjTurn.GetComponent<PlayerController>().turnEnabled = false;
             return;
@@ -132,6 +137,7 @@ public class PlayerTurn : MonoBehaviour
     {
         //Enable next player
         playerObjTurn.GetComponent<PlayerController>().turnEnabled = true;
+        PlayerTurnTimer.Instance.UpdateText();
     }
 
     public void PlayerDestroyed(GameObject player)
@@ -144,12 +150,13 @@ public class PlayerTurn : MonoBehaviour
     void SceneActivity()
     {
         prevSceneInactive = SceneInactive;
-        SceneInactive = !playerMovement.Any(x => x) && ObjectsActivated == 0;
+        SceneInactive = (!playerMovement.Any(x => x) && ObjectsActivated == 0);
 
-        if(prevSceneInactive != SceneInactive && SceneInactive && playerObjTurn.GetComponent<PlayerController>().UsedTurn)
+        if ((prevSceneInactive != SceneInactive && SceneInactive && playerObjTurn.GetComponent<PlayerController>().UsedTurn) || PlayerTurnTimer.Instance.startNext)
         {
             inactivityTimer = 0;
             startTimer = true;
+            PlayerTurnTimer.Instance.startNext = false;
         }
 
         if(SceneInactive && playerObjTurn.GetComponent<PlayerController>().UsedTurn && inactivityTimer >= 1f)

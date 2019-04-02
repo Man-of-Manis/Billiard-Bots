@@ -83,15 +83,15 @@ public class PlayerButtonsUI : MonoBehaviour
 
     void Input()
     {
-        aButton = pInput.players[turn.playerObjTurn.name.ToLower()].aButton;
+        aButton = pInput.players[(int)turn.playerObjTurn.GetComponent<PlayerIdentifier>().player + 1].aButton;
 
-        bButton = pInput.players[turn.playerObjTurn.name.ToLower()].bButton;
+        bButton = pInput.players[(int)turn.playerObjTurn.GetComponent<PlayerIdentifier>().player + 1].bButton;
 
-        xButton = pInput.players[turn.playerObjTurn.name.ToLower()].xButton;
+        xButton = pInput.players[(int)turn.playerObjTurn.GetComponent<PlayerIdentifier>().player + 1].xButton;
 
-        lBumper = pInput.players[turn.playerObjTurn.name.ToLower()].lBumper;
+        lBumper = pInput.players[(int)turn.playerObjTurn.GetComponent<PlayerIdentifier>().player + 1].lBumper;
 
-        rBumper = pInput.players[turn.playerObjTurn.name.ToLower()].rBumper;
+        rBumper = pInput.players[(int)turn.playerObjTurn.GetComponent<PlayerIdentifier>().player + 1].rBumper;
     }
 
     void Player()

@@ -58,6 +58,7 @@ public class ProtoCameraController : MonoBehaviour
         playerNumber = PlayerTurn.Instance.playerObjTurn.name[PlayerTurn.Instance.playerObjTurn.name.Length - 1].ToString();
 
         currentY = 20f;
+
         currentController = currentPlayerTarget.GetComponent<PlayerController>();
     }
         
@@ -86,15 +87,17 @@ public class ProtoCameraController : MonoBehaviour
 
         currentPlayerTarget = PlayerTurn.Instance.playerObjTurn.transform;
 
-        playerNumber = PlayerTurn.Instance.playerObjTurn.name[PlayerTurn.Instance.playerObjTurn.name.Length - 1].ToString();
+        playerNumber = ((int)PlayerTurn.Instance.playerObjTurn.GetComponent<PlayerIdentifier>().player + 1).ToString();
 
         if (currentPlayerTarget != prevPlayerTarget)
         {
             currentController = currentPlayerTarget.GetComponent<PlayerController>();
+
+            freecamActive = currentController.freecamActive;
         }
 
 
-        freecamActive = currentController.freecamActive;
+        //freecamActive = currentController.freecamActive;
 
         if (freecamActive)
         {
@@ -148,11 +151,13 @@ public class ProtoCameraController : MonoBehaviour
     {
         opponentTarget = PlayerTurn.Instance.players[opponentTargetNum - 1 < 0 ? PlayerTurn.Instance.playerAmount - 1 : opponentTargetNum - 1].transform;
         opponentTargetNum = opponentTargetNum - 1 < 0 ? PlayerTurn.Instance.playerAmount - 1 : opponentTargetNum - 1;
+        currentX = opponentTarget.transform.eulerAngles.y;
     }
 
     public void GetRightOpponent()
     {
         opponentTarget = PlayerTurn.Instance.players[opponentTargetNum + 1 > PlayerTurn.Instance.playerAmount - 1 ? 0 : opponentTargetNum + 1].transform;
         opponentTargetNum = opponentTargetNum + 1 > PlayerTurn.Instance.playerAmount - 1 ? 0 : opponentTargetNum + 1;
+        currentX = opponentTarget.transform.eulerAngles.y;
     }
 }
