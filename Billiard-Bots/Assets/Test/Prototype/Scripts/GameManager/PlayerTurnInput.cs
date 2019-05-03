@@ -96,6 +96,7 @@ public class PlayerTurnInput : MonoBehaviour
         {
             currentController.arrowActive = false;
             PlayerPower.Instance.SendPower();
+            usedTurn = true;
             buttonUI.UIActivation(false, false, false, false, false, false, false, false);
             PlayerPower.Instance.oscillatorActive = false;
             ProtoCameraController.Instance.freecamActive = true;
@@ -110,7 +111,7 @@ public class PlayerTurnInput : MonoBehaviour
         }
 
         //Start turn
-        else if (!currentController.arrowActive)
+        else if (!currentController.arrowActive && currentController.turnEnabled)
         {
             currentController.arrowActive = true;
             //launchReset = false;

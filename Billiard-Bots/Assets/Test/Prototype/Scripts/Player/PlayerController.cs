@@ -101,6 +101,8 @@ public class PlayerController : MonoBehaviour
 
         UsedTurn = true;
 
+        //turnEnabled = false;
+
         PlayerTurnTimer.Instance.StopTimer();
 
         stats.completedTurns++;

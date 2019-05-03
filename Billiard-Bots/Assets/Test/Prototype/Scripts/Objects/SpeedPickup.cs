@@ -11,7 +11,9 @@ public class SpeedPickup : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            other.gameObject.AddComponent<SpeedIncrease>();
+            SpeedIncrease increase = other.gameObject.AddComponent<SpeedIncrease>();
+            increase.turnAmount = turns;
+            increase.maxPowerIncrease = maxPower;
             Destroy(gameObject);
         }
     }
