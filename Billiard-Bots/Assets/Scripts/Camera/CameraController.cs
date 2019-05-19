@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour {
 
     // -------------------------------------------------- // Variables // -------------------------------------------------- //
 
-    public enum CameraMode { ThirdPerson, Overhead, Static};
+    public enum CameraMode { ThirdPerson, Overhead, Static, Observer};
     private CameraMode mode;
     public CameraMode startingMode;
 
@@ -189,6 +189,10 @@ public class CameraController : MonoBehaviour {
                     transform.eulerAngles = locations[location].transform.eulerAngles;
                     updateLocation = false;
                 }
+
+                break;
+            case CameraMode.Observer:
+
 
                 break;
         }
