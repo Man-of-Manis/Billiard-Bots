@@ -7,34 +7,22 @@ using TMPro;
 public class PlayerUI : MonoBehaviour
 {
     [Header("Health")]
-    [SerializeField] private TMP_Text p1Hp;
+    [SerializeField] private TMP_Text[] playerHp = new TMP_Text[4];
 
-    [SerializeField] private TMP_Text p2Hp;
+    [SerializeField] private Image[] playerHpBar = new Image[4];
 
-    [SerializeField] private TMP_Text p3Hp;
-
-    [SerializeField] private TMP_Text p4Hp;
+    [Header("ItemUI")]
+    [SerializeField] private PlayerItemBar[] playerBar = new PlayerItemBar[4];
 
 
     public void UpdatePlayerHealth(int playerNum, int newHealth, int maxHealth)
     {
-        switch(playerNum)
-        {
-            case 1:
-                p1Hp.text = newHealth.ToString() + " / " + maxHealth.ToString();
-                break;
+        playerHp[playerNum].text = newHealth.ToString() + " / " + maxHealth.ToString();
+        playerHpBar[playerNum].fillAmount = (float)newHealth / maxHealth;
+    }
 
-            case 2:
-                p2Hp.text = newHealth.ToString() + " / " + maxHealth.ToString();
-                break;
-
-            case 3:
-                p3Hp.text = newHealth.ToString() + " / " + maxHealth.ToString();
-                break;
-
-            case 4:
-                p4Hp.text = newHealth.ToString() + " / " + maxHealth.ToString();
-                break;
-        }
+    public PlayerItemBar PlayerBar(int playerNum)
+    {
+        return playerBar[playerNum];
     }
 }

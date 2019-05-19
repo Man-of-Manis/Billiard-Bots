@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
 
     public float xRotationSpeed { get; [SerializeField] private set; } = 3f;
 
+    [SerializeField] private float torqueSpeed = 10000f;
+
     private float currentX;
 
     public bool arrowActive;
@@ -23,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
     public bool ResetCam { get; private set; } = true;
 
-    private Rigidbody rb;
+    public Rigidbody rb { get; private set; }
 
     private Transform cam;
 
@@ -35,6 +37,8 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         cam = FindObjectOfType<Camera>().transform;
         stats = GetComponent<PlayerStats>();
+
+        torqueSpeed = 100f;
     }
 
     void Update()
@@ -45,6 +49,7 @@ public class PlayerController : MonoBehaviour
     void LateUpdate()
     {
         TurnEnabledLateUpdate();
+        Turn();
     }
 
     void TurnEnabledUpdate()
@@ -110,6 +115,21 @@ public class PlayerController : MonoBehaviour
         rb.AddForce( transform.forward  * power * powerMultiplier, ForceMode.Impulse);
 
         rb.AddTorque(transform.right * power * powerMultiplier, ForceMode.VelocityChange);
+    }
+
+    private void Turn()
+    {
+        if(turnEnabled && UsedTurn)
+        {
+            rb.velocity = rb.velocity.magnitude * Vector3.Lerp(rb.velocity.normalized, cam.right *
+                ((PlayerInput.Instance.players[(int)gameObject.GetComponent<PlayerIdentifier>().player + 1].leftStick.x) > 0f ? 1f : -1f),
+                Mathf.Abs((PlayerInput.Instance.players[(int)gameObject.GetComponent<PlayerIdentifier>().player + 1].leftStick.x)) * 0.01f);
+        }   
+        /*
+        if(rb.velocity.magnitude < 0.01f)
+        {
+            rb.velocity *= 0.01f;
+        }*/
     }
 
     public void TimeUp()

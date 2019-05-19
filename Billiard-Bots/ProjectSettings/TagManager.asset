@@ -5,6 +5,16 @@ TagManager:
   serializedVersion: 2
   tags:
   - SpawnPoint
+  - HealthPickup
+  - SpeedPickup
+  - DietOilPickup
+  - MissilePickup
+  - Bomb
+  - RepolarizerPickup
+  - Static Camera
+  - WarpGate
+  - Wall
+  - GBMachine
   layers:
   - Default
   - TransparentFX
@@ -18,7 +28,7 @@ TagManager:
   - Wall
   - Player
   - SpawnPoint
-  - 
+  - IgnoreHomingBomb
   - 
   - 
   - 

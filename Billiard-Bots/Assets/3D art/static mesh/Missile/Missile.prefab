@@ -275,8 +275,8 @@ GameObject:
   m_Component:
   - component: {fileID: 758024362793978135}
   m_Layer: 0
-  m_Name: Mesh
-  m_TagString: Untagged
+  m_Name: Missile
+  m_TagString: MissilePickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

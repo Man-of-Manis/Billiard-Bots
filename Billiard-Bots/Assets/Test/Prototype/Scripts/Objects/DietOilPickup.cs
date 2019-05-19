@@ -9,11 +9,30 @@ public class DietOilPickup : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            MassChange change = other.gameObject.AddComponent<MassChange>();
-            change.turnAmount = turns;
-            change.newMass = mass;
+            Pickup(other);
+        }
+    }
+
+    private void Pickup(Collider other)
+    {
+        /*
+        MassChange change = other.gameObject.AddComponent<MassChange>();
+        change.turnAmount = turns;
+        change.newMass = mass;
+        */
+
+        other.GetComponent<PlayerStats>().PickupItem(PlayerCollectedItem.CollecedItem.DietOil, turns, mass);
+
+        if (GetComponentInParent<ItemSelector>() != null)
+        {
+            gameObject.SetActive(false);
+            GetComponentInParent<ItemSelector>().Taken();
+        }
+
+        else
+        {
             Destroy(gameObject);
         }
     }

@@ -7,14 +7,51 @@ public class SpeedPickup : MonoBehaviour
     public int turns = 1;
     public float maxPower = 1.5f;
 
+    private string identity;
+
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if(identity != null)
         {
-            SpeedIncrease increase = other.gameObject.AddComponent<SpeedIncrease>();
-            increase.turnAmount = turns;
-            increase.maxPowerIncrease = maxPower;
+            if (other.CompareTag("Player") && other.GetComponent<PlayerIdentifier>().player.ToString().Equals(identity))
+            {
+                Pickup(other);
+            }
+        }
+
+        else
+        {
+            if (other.CompareTag("Player"))
+            {
+                Pickup(other);
+            }
+        }
+    }
+
+    private void Pickup(Collider other)
+    {
+        /*
+        SpeedIncrease increase = other.gameObject.AddComponent<SpeedIncrease>();
+        increase.turnAmount = turns;
+        increase.maxPowerIncrease = maxPower;
+        */
+
+        other.GetComponent<PlayerStats>().PickupItem(PlayerCollectedItem.CollecedItem.SpeedBoost, turns, maxPower);
+
+        if (GetComponentInParent<ItemSelector>() != null)
+        {
+            gameObject.SetActive(false);
+            GetComponentInParent<ItemSelector>().Taken();
+        }
+
+        else
+        {
             Destroy(gameObject);
         }
+    }
+
+    public void SetPlayer(string identifier)
+    {
+        identity = identifier;
     }
 }

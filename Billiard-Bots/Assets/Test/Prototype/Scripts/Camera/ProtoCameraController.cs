@@ -69,14 +69,22 @@ public class ProtoCameraController : MonoBehaviour
 
     void LateUpdate()
     {
-        if(freecamActive || currentController.launchReset)
+        if (currentController.launchReset)
+        {
+            LaunchCam(currentController.rb.velocity);
+            //Debug.Log("LaunchCam");
+        }
+
+        else if (freecamActive)
         {
             FreeCam();
+            //Debug.Log("FreeCam");
         }
 
         else
         {
             ForwardCam();
+            //Debug.Log("ForwardCam");
         }
     }
 
@@ -96,9 +104,6 @@ public class ProtoCameraController : MonoBehaviour
             freecamActive = currentController.freecamActive;
         }
 
-
-        //freecamActive = currentController.freecamActive;
-
         if (freecamActive)
         {
             PlayerInput();
@@ -112,6 +117,26 @@ public class ProtoCameraController : MonoBehaviour
         currentY += Input.GetAxisRaw("P" + playerNumber + "_R_Vertical") * yRotationSpeed;
 
         currentY = Mathf.Clamp(currentY, minY, maxY);
+    }
+
+    private void LaunchCam(Vector3 velo)
+    {
+        Vector3 vel = velo.normalized;
+
+        //Debug.Log(velo.magnitude);
+
+        if (velo.magnitude > 0.01f)
+        {
+            Vector3 dir = new Vector3(0f, 0f, distance);
+
+            float velocityDir = (Quaternion.LookRotation(vel, Vector3.up).eulerAngles.y);
+
+            Quaternion rotation = Quaternion.Euler(20f, (Mathf.SmoothDamp(transform.eulerAngles.y, velocityDir, ref velocity, 0.5f)), 0f);
+
+            transform.position = opponentTarget.position + rotation * dir;
+
+            transform.LookAt(opponentTarget);
+        }       
     }
 
     private void FreeCam()

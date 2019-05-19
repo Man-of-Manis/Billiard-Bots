@@ -5,15 +5,28 @@ using UnityEngine;
 public class SpikeStab : MonoBehaviour
 {
     public int spikeDamage = 2;
-    [SerializeField] private Animator anim;
+
+    private Transform spikeGroup;
+
+    private void Start()
+    {
+        spikeGroup = transform.Find("SpikeConeGroup");
+    }
 
     void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
         {
             other.GetComponent<PlayerHealth>().SubHealth(spikeDamage);
-            anim.SetTrigger("stab");
+            StartCoroutine(Stab());
             Debug.Log(other.name + " hit spikes receiving " + spikeDamage + " damage");
         }
+    }
+
+    IEnumerator Stab()
+    {
+        spikeGroup.localPosition = Vector3.zero;
+        yield return new WaitForSeconds(0.5f);
+        spikeGroup.localPosition = new Vector3(0f, -1.5f, 0f);
     }
 }

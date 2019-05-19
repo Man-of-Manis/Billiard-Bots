@@ -12,14 +12,14 @@ public class PlayerSpawn : MonoBehaviour
 
     public GameObject tags;
 
-    [Header("Scripts")]
-    [SerializeField] private PlayerTurn turn;
+    //[Header("Scripts")]
+    //[SerializeField] private PlayerTurn turn;
 
-    [SerializeField] private PlayerTurnInput input;
+    //[SerializeField] private PlayerTurnInput input;
 
-    [SerializeField] private ProtoCameraController camControl;
+    //[SerializeField] private ProtoCameraController camControl;
 
-    [SerializeField] private PlayerButtonsUI buttonUI;
+    //[SerializeField] private PlayerButtonsUI buttonUI;
 
     [Header("Health")]
     [SerializeField] private GameObject p1Health;
@@ -40,7 +40,7 @@ public class PlayerSpawn : MonoBehaviour
 
         else
         {
-            Debug.Log("Player character data wasn't loaded properly. Enter the scene from the Main Menu to load selected characters.");
+            Debug.Log("Player character data wasn't loaded properly. Enter this scene through the Main Menu to load selected characters.");
             GetSpawnPoints();
             RandomCharacters();
         }
@@ -150,10 +150,10 @@ public class PlayerSpawn : MonoBehaviour
 
     public void StartGame()
     {
-        turn.enabled = true;
-        camControl.enabled = true;
-        buttonUI.enabled = true;
-        input.enabled = true;
+        //turn.enabled = true;
+        //camControl.enabled = true;
+        //buttonUI.enabled = true;
+        //input.enabled = true;
         SetPlayers(FindObjectsOfType<PlayerIdentifier>().Length);
 
         Destroy();

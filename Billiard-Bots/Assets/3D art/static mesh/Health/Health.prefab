@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2037275588442299323}
   m_Layer: 0
-  m_Name: Mesh
-  m_TagString: Untagged
+  m_Name: Health
+  m_TagString: HealthPickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

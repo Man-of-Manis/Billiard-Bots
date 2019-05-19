@@ -6,18 +6,58 @@ public class MissilePickup : MonoBehaviour
 {
     public GameObject playerMissile;
 
+    private string identity;
+
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if(identity != null)
         {
-            GameObject missile = Instantiate(playerMissile, other.transform.Find("PickupHolder").transform);
-            //missile.transform.localPosition = new Vector3(0f, 1.5f, 0f);
-            
-            SphereCollider sphere = other.gameObject.AddComponent<SphereCollider>();
-            sphere.isTrigger = true;
-            sphere.radius = 5f;
-            other.gameObject.AddComponent<PlayerMissileTrigger>().SetOwner(other.gameObject, missile, sphere);
+            if (other.CompareTag("Player") && other.GetComponent<PlayerIdentifier>().player.ToString().Equals(identity))
+            {
+                Pickup(other);
+            }
+        }
+
+        else
+        {
+            if (other.CompareTag("Player"))
+            {
+                Pickup(other);
+            }
+        }
+    }
+
+    private void Pickup(Collider other)
+    {
+        GameObject empty = new GameObject("Missile Trigger");
+        empty.transform.parent = other.transform.Find("PickupHolder").transform;
+        empty.transform.localPosition = Vector3.zero;
+        empty.transform.localEulerAngles = Vector3.zero;
+        empty.layer = LayerMask.NameToLayer("IgnoreHomingBomb");
+
+        GameObject missile = Instantiate(playerMissile, other.transform.Find("PickupHolder").transform);
+
+        SphereCollider sphere = empty.AddComponent<SphereCollider>();
+        sphere.isTrigger = true;
+        sphere.radius = 5f;
+        empty.AddComponent<PlayerMissileTrigger>().SetOwner(other.gameObject, missile, sphere);
+        other.GetComponent<PlayerStats>().PickupItem(PlayerCollectedItem.CollecedItem.HomingBomb);
+
+
+        if (GetComponentInParent<ItemSelector>() != null)
+        {
+            gameObject.SetActive(false);
+            GetComponentInParent<ItemSelector>().Taken();
+        }
+
+        else
+        {
             Destroy(gameObject);
         }
+    }
+
+    public void SetPlayer(string identifier)
+    {
+        identity = identifier;
     }
 }

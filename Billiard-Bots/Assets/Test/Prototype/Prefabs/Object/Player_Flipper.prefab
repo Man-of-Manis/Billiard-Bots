@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2884778422350467250}
   m_Layer: 0
   m_Name: Player_Flipper
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -63,7 +63,7 @@ GameObject:
   - component: {fileID: 2884778422445230986}
   m_Layer: 0
   m_Name: Cylinder
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -77,7 +77,7 @@ Transform:
   m_GameObject: {fileID: 2884778422445230997}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0.87906075}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1, z: 1.5}
   m_Children: []
   m_Father: {fileID: 2884778422350467253}
   m_RootOrder: 0
@@ -2214,7 +2214,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2884778422445230997}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 1d5087f4931ee294f96ec34e5870690b, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -2236,7 +2236,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 2
+  m_CollisionDetection: 1
 --- !u!59 &2884778422445230986
 HingeJoint:
   m_ObjectHideFlags: 0
@@ -2248,7 +2248,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: -0.879}
   m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.02, y: 0.5, z: -9.500061}
+  m_ConnectedAnchor: {x: -0.02, y: 0.5, z: -9.06056}
   m_UseSpring: 0
   m_Spring:
     spring: 0

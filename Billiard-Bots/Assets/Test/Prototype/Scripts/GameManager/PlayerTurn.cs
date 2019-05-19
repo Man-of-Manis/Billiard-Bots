@@ -113,7 +113,15 @@ public class PlayerTurn : MonoBehaviour
 
     public void EndTurn()
     {
-        if(playerAmount <= 1)
+        if(playerAmount == 0)
+        {
+            gameOverText.text = "Game Over\n\n" + "All players have been destroyed!";
+            gameOver.SetActive(true);
+            playerObjTurn.GetComponent<PlayerController>().turnEnabled = false;
+            return;
+        }
+
+        else if(playerAmount == 1)
         {
             //Debug.Log("Game Over!");
             gameOverText.text = "Game Over\n\n" + players[0].GetComponent<PlayerIdentifier>().player.ToString() + " Wins!";
@@ -121,6 +129,7 @@ public class PlayerTurn : MonoBehaviour
             playerObjTurn.GetComponent<PlayerController>().turnEnabled = false;
             return;
         }
+
         else
         {
 
@@ -142,6 +151,7 @@ public class PlayerTurn : MonoBehaviour
 
     public void PlayerDestroyed(GameObject player)
     {
+        playerMovement.RemoveAt(players.IndexOf(player));
         players.Remove(player);
         turns.Remove(player);
         playerAmount = players.Count;
@@ -178,10 +188,18 @@ public class PlayerTurn : MonoBehaviour
 
     public void PlayerMovement()
     {
-        for(int i = 0; i < playerAmount; i++)
+        if(playerAmount > 0)
         {
-            playerMovement[i] = players[i].GetComponent<Rigidbody>().velocity.magnitude > 0.001f;
-        }        
+            for (int i = 0; i < playerAmount; i++)
+            {
+                playerMovement[i] = players[i].GetComponent<Rigidbody>().velocity.magnitude > 0.001f;
+            }
+        }
+
+        else
+        {
+            playerMovement.Clear();
+        }
     }
 
     public void ObjectActivated(bool value)

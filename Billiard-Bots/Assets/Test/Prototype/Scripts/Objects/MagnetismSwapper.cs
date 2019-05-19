@@ -4,12 +4,28 @@ using UnityEngine;
 
 public class MagnetismSwapper : MonoBehaviour
 {
-    void OnCollisionEnter(Collision other)
+    void OnTriggerEnter(Collider other)
     {
-        if (other.collider.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            other.collider.GetComponent<PlayerMagnetism>().ChangeMagnetism();
-            other.collider.GetComponent<Rigidbody>().velocity *= 0.001f;
+            Pickup(other);
+        }
+    }
+
+    private void Pickup(Collider other)
+    {
+        other.GetComponent<PlayerMagnetism>().ChangeMagnetism();
+        //other.GetComponent<Rigidbody>().velocity *= 0.001f;
+        other.GetComponent<PlayerStats>().PickupItem(PlayerCollectedItem.CollecedItem.PolarityReverser, 5f);
+
+        if (GetComponentInParent<ItemSelector>() != null)
+        {
+            gameObject.SetActive(false);
+            GetComponentInParent<ItemSelector>().Taken();
+        }
+
+        else
+        {
             Destroy(gameObject);
         }
     }

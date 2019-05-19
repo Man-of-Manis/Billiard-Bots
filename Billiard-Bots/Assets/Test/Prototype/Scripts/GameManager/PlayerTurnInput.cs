@@ -171,7 +171,7 @@ public class PlayerTurnInput : MonoBehaviour
     }
 
     
-    void HideTags()
+    public void HideTags()
     {
         PlayerUITag[] tags = FindObjectsOfType<PlayerUITag>();
 

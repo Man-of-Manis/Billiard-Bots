@@ -11,6 +11,8 @@ public class PlayerTurnTimer : MonoBehaviour
 
     public bool startTimer;
 
+    private bool prevStartTimer;
+
     public bool startNext;
 
     public TMP_Text timerText;
@@ -21,6 +23,10 @@ public class PlayerTurnTimer : MonoBehaviour
     }
 
     protected static PlayerTurnTimer s_Instance;
+
+    private float turnTimerDuration = 30f;
+
+    private float turnTimer = 0f;
 
     void Awake()
     {
@@ -43,16 +49,18 @@ public class PlayerTurnTimer : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        if(startTimer)
+    {     
+        if (startTimer)
         {
             CurrentTimer();
             UpdateText();
+            prevStartTimer = startTimer;
         }
 
-        else
+        else if(prevStartTimer != startTimer)
         {
-            timer = turnDuration;            
+            timer = turnDuration;
+            prevStartTimer = startTimer;
         }
     }
 
@@ -66,11 +74,22 @@ public class PlayerTurnTimer : MonoBehaviour
         }
     }
 
+    void TurnTimer()
+    {
+        turnTimer += Time.deltaTime;
+
+        if (turnTimer >= turnTimerDuration)
+        {
+            //OutOfTime();
+        }
+    }
+
     void OutOfTime()
     {
         startNext = true;
         startTimer = false;
         timer = turnDuration;
+        FindObjectOfType<PlayerTurnInput>().HideTags();
         PlayerTurn.Instance.playerObjTurn.GetComponent<PlayerController>().TimeUp();
     }
 

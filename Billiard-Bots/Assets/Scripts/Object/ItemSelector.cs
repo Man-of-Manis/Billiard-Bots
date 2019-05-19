@@ -4,89 +4,111 @@ using UnityEngine;
 
 public class ItemSelector : MonoBehaviour
 {
-    public enum Item { Health, Speed, DietOil, MagSwapper, Missile, Bomb, Random };
+    public enum Item { ReparKit, SpeedBoost, DietOil, PolarityReverser, HomingBomb, Random, Bomb };
 
-    public Item spawnItem;
+    public Item activeItem;
 
-    public GameObject[] mesh = new GameObject[6];
+    public GameObject[] meshObj = new GameObject[6];
 
-    private SphereCollider col;
+    public GameObject pickupSphere;
 
-    private Transform rotator;
+    public float respawnTimer = 120f;
 
-    // Start is called before the first frame update
+    private float pickupTime;
+
+    private bool itemTaken = false;
+
+    private bool prevRandom = false;
+
+
+    void OnValidate()
+    {
+        SetMesh();
+        Name();
+    }
+
     void Start()
     {
-        col = GetComponent<SphereCollider>();
-
-        rotator = transform.GetChild(0).transform;
-
-        if(spawnItem.Equals(Item.Random))
-        {
-            RandomItem();
-        }
-
-        SetItem();
+        RandomBool();
     }
 
-    private void SetItem()
+    void Update()
     {
-        switch (spawnItem)
+        Timer();
+    }
+
+    public void Taken() //I have a particular set of skills
+    {
+        pickupSphere.SetActive(false);
+        pickupTime = Time.realtimeSinceStartup;
+        itemTaken = true;
+    }
+
+    private void Timer()
+    {
+        if (itemTaken && Time.realtimeSinceStartup - pickupTime >= respawnTimer)
         {
-            case Item.Health: Health();
-                break;
-            case Item.Speed: Speed();
-                break;
-            case Item.DietOil: DietOil();
-                break;
-            case Item.MagSwapper: MagSwapper();
-                break;
-            case Item.Missile: Missile();
-                break;
-            case Item.Bomb: Bomb();
-                break;
+            SetRandomItem();
+            SetMesh();
+            itemTaken = false;
         }
     }
 
-    void RandomItem()
+    void Name()
     {
-        spawnItem = (Item)Random.Range(0, 6);
+        gameObject.name = "Interactable_" + activeItem.ToString();
     }
 
-    void Health()
+    public void RandomItem()
     {
-        Instantiate(mesh[0], rotator);
-        gameObject.AddComponent<HealthPickup>();
+        activeItem = (Item)Random.Range(0, 5);
+        SetMesh();
     }
 
-    void Speed()
+    void RandomBool()
     {
-        Instantiate(mesh[1], rotator);
-        gameObject.AddComponent<SpeedPickup>();
+        if (activeItem.Equals(Item.Random))
+        {
+            prevRandom = true;
+        }
+
     }
 
-    void DietOil()
+    void SetRandomItem()
     {
-        Instantiate(mesh[2], rotator);
-        gameObject.AddComponent<DietOilPickup>();
+        if (prevRandom)
+        {
+            activeItem = Item.Random;
+        }
     }
 
-    void MagSwapper()
+    private void SetMesh()
     {
-        Instantiate(mesh[3], rotator);
-        gameObject.AddComponent<MagnetismSwitch>();
+        Transform rotator = transform.GetChild(0).transform;
+
+        for (int i = 0; i < meshObj.Length; i++)
+        {
+            if (i == (int)activeItem)
+            {
+                meshObj[i].gameObject.SetActive(true);
+            }
+
+            else
+            {
+                meshObj[i].gameObject.SetActive(false);
+            }
+        }
+
+        if ((int)activeItem < 6)
+        {
+            pickupSphere.SetActive(true);
+        }
+
+        else
+        {
+            pickupSphere.SetActive(false);
+        }
     }
 
-    void Missile()
-    {
-        Instantiate(mesh[4], rotator);
-        gameObject.AddComponent<MissilePickup>();
-    }
 
-    void Bomb()
-    {
-        col.isTrigger = false;
-        Instantiate(mesh[5], rotator);
-        gameObject.AddComponent<BombExplosion>();
-    }
 }

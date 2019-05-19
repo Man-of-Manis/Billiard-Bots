@@ -6,11 +6,26 @@ public class SpireMagnetism : MonoBehaviour
 {
     public bool spireMagnetism;
     public float magnetismForce;
+    public float rad;
 
     // Start is called before the first frame update
     void Start()
     {
+        rad = GetComponent<SphereCollider>().radius;
+
         spireMagnetism = Random.value > 0.5f;
+
+        if(spireMagnetism)
+        {
+            var ps = GetComponentInChildren<ParticleSystem>().main;
+            ps.startColor = new Color(1f, 0.1f, 0.1f, 0.25f);
+        }
+
+        else
+        {
+            var ps = GetComponentInChildren<ParticleSystem>().main;
+            ps.startColor = new Color(0.1f, 0.3f, 9f, 0.25f);
+        }
     }
 
     void OnTriggerStay(Collider other)
@@ -19,31 +34,26 @@ public class SpireMagnetism : MonoBehaviour
         {
             if(other.GetComponent<PlayerMagnetism>().positiveMagnetism == spireMagnetism)
             {
-                RepelPlayer(other);
+                Magnetism(other, 1f);
             }
 
             else
             {
-                AttractPlayer(other);
+                Magnetism(other, -1f);
             }
         }
     }
 
-    private void AttractPlayer(Collider other)
+    private void Magnetism(Collider other, float polarity)
     {
-        Vector3 spirePos = new Vector3(transform.position.x, 0f, transform.position.z);
+        Vector3 toCenter = new Vector3(other.gameObject.transform.position.x - transform.position.x, 0, other.gameObject.transform.position.z - transform.position.z);
 
-        float dist = Vector3.Distance(other.transform.position, spirePos);
+        float forceMod = ((rad - toCenter.magnitude) / rad) * ((rad - toCenter.magnitude) / rad);
 
-        other.GetComponent<Rigidbody>().AddForce(-(other.transform.position - spirePos) * (1 / (dist * dist)) * magnetismForce);
-    }
+        toCenter = toCenter.normalized * polarity * magnetismForce * forceMod;
 
-    private void RepelPlayer(Collider other)
-    {
-        Vector3 spirePos = new Vector3(transform.position.x, other.transform.position.y, transform.position.z);
+        Rigidbody rb = other.GetComponent<Rigidbody>();
 
-        float dist = Vector3.Distance(other.transform.position, spirePos);
-
-        other.GetComponent<Rigidbody>().AddForce((other.transform.position - spirePos) * (1 / (dist * dist)) * magnetismForce);
+        rb.velocity = new Vector3(rb.velocity.x + toCenter.x, rb.velocity.y, rb.velocity.z + toCenter.z).normalized * rb.velocity.magnitude;
     }
 }

@@ -147,12 +147,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5909441490750106647, guid: 5ffcca6857daa3042878f85251255b22,
+    - target: {fileID: 5909441490750106640, guid: 5ffcca6857daa3042878f85251255b22,
         type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 5909441490750106640, guid: 5ffcca6857daa3042878f85251255b22,
+    - target: {fileID: 5909441490750106647, guid: 5ffcca6857daa3042878f85251255b22,
         type: 3}
       propertyPath: m_Mesh
       value: 
@@ -177,7 +177,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5909441490750106640, guid: 5ffcca6857daa3042878f85251255b22, type: 3}
+    - {fileID: 1353549426928113062, guid: 5ffcca6857daa3042878f85251255b22, type: 3}
+    - {fileID: 1353549426686035740, guid: 5ffcca6857daa3042878f85251255b22, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5ffcca6857daa3042878f85251255b22, type: 3}
 --- !u!4 &2526349894975611790 stripped
 Transform:

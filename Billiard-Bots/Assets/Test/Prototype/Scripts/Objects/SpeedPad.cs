@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpeedPad : MonoBehaviour
 {
-    public float multiplier;
+    public float multiplier = 200f;
 
 
     private void OnTriggerStay(Collider other)

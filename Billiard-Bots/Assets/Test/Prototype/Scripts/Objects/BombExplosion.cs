@@ -5,9 +5,9 @@ using UnityEngine;
 public class BombExplosion : MonoBehaviour
 {
     public float explosionRadius = 5f;    
-    public float explosionForce;
-    public float explosionDelay;
-    public LayerMask explosionMask;
+    public float explosionForce = 400f;
+    public float explosionDelay = 1f;
+    //public LayerMask explosionMask;
     public GameObject explosion;
 
 
@@ -24,7 +24,7 @@ public class BombExplosion : MonoBehaviour
     IEnumerator Delay()
     {
         
-        GetComponent<Animator>().SetTrigger("Explode");
+        //GetComponent<Animator>().SetTrigger("Explode");
         yield return new WaitForSeconds(explosionDelay);
         GetColliders();
         Instantiate(explosion, transform.position, Quaternion.identity);
@@ -34,7 +34,7 @@ public class BombExplosion : MonoBehaviour
 
     void GetColliders()
     {
-        Collider[] players = Physics.OverlapSphere(transform.position, explosionRadius, explosionMask);
+        Collider[] players = Physics.OverlapSphere(transform.position, explosionRadius, LayerMask.GetMask("Player"));
 
         foreach (Collider player in players)
         {

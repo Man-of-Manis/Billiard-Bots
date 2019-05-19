@@ -8,7 +8,7 @@ public class BilliardFlipper : MonoBehaviour
 
     public PlayerInputNum num;
 
-    public float rotMax = 80f;
+    public float rotMax = 170f;
 
     private string playerNum;
 

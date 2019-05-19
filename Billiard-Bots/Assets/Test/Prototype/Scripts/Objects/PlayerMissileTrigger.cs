@@ -10,11 +10,15 @@ public class PlayerMissileTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && other.name != gameObject.name)
+        if (other.CompareTag("Player"))
         {
-            missile.GetComponent<MissileLaunched>().Launching(other.transform);
-            Destroy(sphere);
-            Destroy(this);
+            if(other.GetComponent<PlayerIdentifier>().player != GetComponentInParent<PlayerIdentifier>().player)
+            {
+                Debug.Log(other.gameObject.name);
+                missile.GetComponent<MissileLaunched>().Launching(other.transform);
+                player.GetComponent<PlayerStats>().UsedItem();
+                Destroy(gameObject);
+            }            
         }
     }
 

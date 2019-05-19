@@ -20,7 +20,7 @@ public class PlayerCollisionDamage : MonoBehaviour
 
             int damage = Mathf.Clamp((int)((magnitude * playerDamageMultiplier) / 100f * 10f), magnitude > 8f ? 1 : 0, 3);
 
-            Debug.Log(gameObject.name + " has hit " + other.gameObject.name + " with a magnitude of " + magnitude + " dealing " + damage + " points of damage.");            
+            //Debug.Log(gameObject.name + " has hit " + other.gameObject.name + " with a magnitude of " + magnitude + " dealing " + damage + " points of damage.");            
 
             other.gameObject.GetComponent<PlayerHealth>().SubHealth(damage);            
 

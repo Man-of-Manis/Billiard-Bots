@@ -10,6 +10,8 @@ public class PlayerHealth : MonoBehaviour
 
     private PlayerUI UI;
 
+    public GameObject deathExplosion;
+
     void Start()
     {
         UI = FindObjectOfType<PlayerUI>();
@@ -30,19 +32,46 @@ public class PlayerHealth : MonoBehaviour
 
         if (CurrentHealth == 0)
         {
-            Debug.Log(gameObject.name + "'s health has been reduced to 0!");
             
-            gameObject.GetComponent<Rigidbody>().isKinematic = true;
-            gameObject.GetComponent<SphereCollider>().isTrigger = true;
-            PlayerTurn.Instance.PlayerDestroyed(gameObject);
-            
+
+            Death();            
         }
 
         UpdateHealth();
     }
 
+    public void SetHealth()
+    {
+        UpdateHealth();
+    }
+
     void UpdateHealth()
     {
-        UI.UpdatePlayerHealth((int)gameObject.GetComponent<PlayerIdentifier>().player + 1, CurrentHealth, MaxHealth);
+        UI.UpdatePlayerHealth((int)gameObject.GetComponent<PlayerIdentifier>().player, CurrentHealth, MaxHealth);
+    }
+
+    void Death()
+    {
+        Debug.Log(gameObject.name + "'s health has been reduced to 0!");
+
+        
+        //gameObject.GetComponent<SphereCollider>().isTrigger = true;
+        PlayerTurn.Instance.PlayerDestroyed(gameObject);
+
+        Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+        rb.velocity = Vector3.zero;
+
+        gameObject.GetComponent<SphereCollider>().enabled = false;
+
+        Component[] meshes = gameObject.GetComponentsInChildren<MeshRenderer>();
+
+        foreach(MeshRenderer mesh in meshes)
+        {
+            mesh.enabled = false;
+        }
+        //gameObject.GetComponent<MeshRenderer>().enabled = false;
+
+        Instantiate(deathExplosion);
     }
 }

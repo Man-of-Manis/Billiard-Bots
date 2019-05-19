@@ -422,9 +422,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.35
-  m_Height: 2
+  m_Height: 1
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0, z: 0.51}
 --- !u!54 &8392725515719665692
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -440,7 +440,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!114 &8392725515719665691
 MonoBehaviour:
   m_ObjectHideFlags: 0

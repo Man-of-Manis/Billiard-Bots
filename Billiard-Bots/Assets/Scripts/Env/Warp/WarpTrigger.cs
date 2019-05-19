@@ -10,25 +10,72 @@ public class WarpTrigger : MonoBehaviour
 
     public float exitWarpForce;
 
-    private Vector3 exitDirection;
+    private List<GameObject> teleportingPlayers = new List<GameObject>();
 
-    private Transform exitPoint;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerStay(Collider other)
     {
-        exitDirection = siblingWarpGate.transform.forward;
-        exitPoint = siblingWarpGate.Find("Exit_Point");
+        if(other.CompareTag("Player") && !teleportingPlayers.Contains(other.gameObject))
+        {
+            if(!randomWarp)
+            {
+                Teleport(other, siblingWarpGate);
+            }
+
+            else
+            {
+                GameObject[] warps = GameObject.FindGameObjectsWithTag("WarpGate");
+
+                bool same = true;
+
+                while(same)
+                {
+                    int num = Random.Range(0, warps.Length);
+
+                    if(!warps[num].Equals(gameObject))
+                    {
+                        Teleport(other, warps[num].transform);
+                        same = false;
+                    }
+                }                
+            }
+        }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerExit(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if(other.CompareTag("Player") && teleportingPlayers.Contains(other.gameObject))
         {
-            Rigidbody rb = other.GetComponent<Rigidbody>();
-            rb.velocity = Vector3.zero;
-            other.transform.position = exitPoint.position;
-            rb.AddForce(exitDirection * exitWarpForce, ForceMode.Impulse);
+            teleportingPlayers.Remove(other.gameObject);
+            Debug.Log(other.gameObject.name + " has exited the warp gate.");
         }
+    }
+
+    public void Teleport(Collider other, Transform exit)
+    {
+        Rigidbody rb = other.GetComponent<Rigidbody>();
+        Debug.Log(rb.velocity.magnitude);
+
+        if(rb.velocity.magnitude > 5f)
+        {
+            float mag = rb.velocity.magnitude;
+            rb.velocity = Vector3.zero;
+            exit.GetComponent<WarpTrigger>().PlayerList(other.gameObject);
+            other.transform.position = exit.Find("Exit_Point").transform.position;
+            rb.AddForce(exit.forward * mag * 10f, ForceMode.Impulse);
+        }
+
+        else
+        {
+            rb.velocity = Vector3.zero;
+            exit.GetComponent<WarpTrigger>().PlayerList(other.gameObject);
+            other.transform.position = exit.Find("Exit_Point").transform.position;
+            rb.AddForce(exit.forward * exitWarpForce, ForceMode.Impulse);
+        }        
+    }
+
+    public void PlayerList(GameObject player)
+    {
+        teleportingPlayers.Add(player);
     }
 }

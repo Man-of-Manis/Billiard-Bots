@@ -12,12 +12,16 @@ public class PlayerUITag : MonoBehaviour
 
     public Image bg;
 
-    private Vector3 playerPos;
+    private RectTransform playerTag;
 
-    private Vector3 offset = new Vector3(0f, 1.5f, 0f);
+    private RectTransform canvas;
 
     private void Start()
     {
+        playerTag = GetComponent<RectTransform>();
+
+        canvas = FindObjectOfType<Canvas>().GetComponent<RectTransform>();
+
         Hide();
     }
 
@@ -27,18 +31,22 @@ public class PlayerUITag : MonoBehaviour
         Position();
     }
 
-    // Update is called once per frame
-    void LateUpdate()
-    {
-        playerPos = player.position;
-        
-    }
-
     void Position()
     {
-        Vector3 newPosition = ProtoCameraController.Instance.GetComponent<Camera>().WorldToScreenPoint(playerPos + offset);
+        Vector3 ViewportPosition = ProtoCameraController.Instance.GetComponent<Camera>().WorldToViewportPoint(player.transform.position);
 
-        transform.position = newPosition;
+        if (ViewportPosition.z < 0)
+        {
+            ViewportPosition *= -1;
+        }
+
+        Vector2 WorldObject_ScreenPosition = new Vector2(
+        ((ViewportPosition.x * canvas.sizeDelta.x) - (canvas.sizeDelta.x * 0.5f)),
+        ((ViewportPosition.y * canvas.sizeDelta.y) - (canvas.sizeDelta.y * 0.5f)));
+
+        WorldObject_ScreenPosition += new Vector2(0f, 1.5f);
+
+        playerTag.anchoredPosition = WorldObject_ScreenPosition;
     }
 
     public void SetTag(int num, Transform playerTrans)
