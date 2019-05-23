@@ -39,7 +39,7 @@ public class MissilePickup : MonoBehaviour
 
         SphereCollider sphere = empty.AddComponent<SphereCollider>();
         sphere.isTrigger = true;
-        sphere.radius = 5f;
+        sphere.radius = 6f;
         empty.AddComponent<PlayerMissileTrigger>().SetOwner(other.gameObject, missile, sphere);
         other.GetComponent<PlayerStats>().PickupItem(PlayerCollectedItem.CollecedItem.HomingBomb);
 

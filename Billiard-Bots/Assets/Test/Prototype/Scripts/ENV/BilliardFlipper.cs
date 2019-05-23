@@ -8,17 +8,19 @@ public class BilliardFlipper : MonoBehaviour
 
     public PlayerInputNum num;
 
+    public bool clockwise = true;
+
     public float rotMax = 170f;
 
     private string playerNum;
 
-    private float flipperRotation;
+    [SerializeField]private float flipperRotation;
 
     private HingeJoint hinge;
 
-    private float hitStrength = 100000f;
+    [SerializeField] private float hitStrength = 100000f;
 
-    private float flipperDamper = 25f;
+    [SerializeField] private float flipperDamper = 25f;
 
     // Start is called before the first frame update
     void Start()
@@ -56,6 +58,11 @@ public class BilliardFlipper : MonoBehaviour
         FlipperInput();
 
         FlipperRotation();
+    }
+
+    private void LateUpdate()
+    {
+        //FlipperRotation();
     }
 
     void FlipperInput()

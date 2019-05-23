@@ -58,7 +58,8 @@ public class PlayerController : MonoBehaviour
         {
             if (arrowActive)
             {
-                currentX += PlayerInput.Instance.players[(int)gameObject.GetComponent<PlayerIdentifier>().player + 1].leftStick.x * xRotationSpeed;
+                float playerX = PlayerInput.Instance.players[(int)gameObject.GetComponent<PlayerIdentifier>().player + 1].leftStick.x;
+                currentX += playerX * Mathf.Abs(playerX) * xRotationSpeed;
             }
         }
 

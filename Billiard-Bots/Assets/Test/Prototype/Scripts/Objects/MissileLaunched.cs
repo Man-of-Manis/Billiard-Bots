@@ -61,7 +61,7 @@ public class MissileLaunched : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if (!once && launched)
+        if (!once && launched && other.collider.CompareTag("Player"))
         {
             Debug.Log(other.gameObject.name);
             Explode();
@@ -86,7 +86,7 @@ public class MissileLaunched : MonoBehaviour
         {
             float dist = Vector3.Distance(player.transform.position, transform.position);
             int damage = Mathf.FloorToInt(((explosionRadius + 1f) - dist)) != 0 ? Mathf.FloorToInt(((explosionRadius + 1f) - dist )) : 1;
-            //Debug.Log(gameObject.name + " has hit " + player.name + " dealing " + damage + " points of damage.");
+            Debug.Log(gameObject.name + " has hit " + player.name + " dealing " + damage + " points of damage at a dist of " + dist);
             player.GetComponent<PlayerHealth>().SubHealth(damage);
             player.GetComponent<Rigidbody>().velocity *= 0.00001f;
             player.GetComponent<Rigidbody>().AddForce((player.transform.position - transform.position) * (1 / (dist * dist)) * explosionForce, ForceMode.Impulse);

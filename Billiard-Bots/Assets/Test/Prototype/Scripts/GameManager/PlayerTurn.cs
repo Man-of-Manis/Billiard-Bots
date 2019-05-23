@@ -132,12 +132,20 @@ public class PlayerTurn : MonoBehaviour
 
         else
         {
+            if(playerObjTurn.GetComponent<PlayerHealth>().CurrentHealth > 0)
+            {
+                playerObjTurn.GetComponent<PlayerController>().turnEnabled = false;
+                turns[playerObjTurn] += 1;
+                playerObjTurn = players[playerNumTurn + 1 <= playerAmount - 1 ? playerNumTurn + 1 : 0];
+                playerNumTurn = playerNumTurn + 1 <= playerAmount - 1 ? playerNumTurn + 1 : 0;
+                NextTurn();
+            }
 
-            playerObjTurn.GetComponent<PlayerController>().turnEnabled = false;
-            turns[playerObjTurn] += 1;
-            playerObjTurn = players[playerNumTurn + 1 <= playerAmount - 1 ? playerNumTurn + 1 : 0];
-            playerNumTurn = playerNumTurn + 1 <= playerAmount - 1 ? playerNumTurn + 1 : 0;
-            NextTurn();
+            else
+            {
+                playerObjTurn = players[playerNumTurn];
+                NextTurn();
+            }
         }
         
     }
@@ -151,10 +159,21 @@ public class PlayerTurn : MonoBehaviour
 
     public void PlayerDestroyed(GameObject player)
     {
-        playerMovement.RemoveAt(players.IndexOf(player));
+        
+        int index = players.IndexOf(player);
+        playerMovement.RemoveAt(index);
         players.Remove(player);
         turns.Remove(player);
         playerAmount = players.Count;
+
+        for(int i = 0; i < playerAmount - 1; i++)
+        {
+            if(players[i] == null)
+            {
+                players.Insert(i, players[i + 1]);
+                players.RemoveAt(i + 1);
+            }
+        }
     }
 
     void SceneActivity()
