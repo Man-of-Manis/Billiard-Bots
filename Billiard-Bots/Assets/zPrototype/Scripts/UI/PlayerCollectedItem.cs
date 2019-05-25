@@ -9,6 +9,8 @@ public class PlayerCollectedItem : MonoBehaviour
 
     public CollecedItem item;
 
+    [SerializeField] private Sprite[] spriteUI = new Sprite[5];
+
     public Dictionary<CollecedItem, Color> itemColor = new Dictionary<CollecedItem, Color>()
     {
         { CollecedItem.ReparKit, Color.green},
@@ -32,5 +34,6 @@ public class PlayerCollectedItem : MonoBehaviour
     public void ColorChange()
     {
         GetComponent<Image>().color = itemColor[item];
+        GetComponent<Image>().sprite = spriteUI[(int)item];
     }
 }

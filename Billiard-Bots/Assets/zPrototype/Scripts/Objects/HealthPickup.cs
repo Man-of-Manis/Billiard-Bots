@@ -32,6 +32,7 @@ public class HealthPickup : MonoBehaviour
         other.GetComponent<PlayerHealth>().AddHealth(health);
         Debug.Log(other.name + " picked up " + health + " health!");
         other.GetComponent<PlayerStats>().PickupItem(PlayerCollectedItem.CollecedItem.ReparKit, 5f);
+        PlayerPickupUI.Instance.PickedUp(0);
 
         if (GetComponentInParent<ItemSelector>() != null)
         {

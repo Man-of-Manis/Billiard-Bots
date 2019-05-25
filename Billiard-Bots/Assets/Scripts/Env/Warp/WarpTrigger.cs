@@ -8,7 +8,7 @@ public class WarpTrigger : MonoBehaviour
 
     public Transform siblingWarpGate;
 
-    public float exitWarpForce;
+    public float exitWarpForce = 150f;
 
     private List<GameObject> teleportingPlayers = new List<GameObject>();
 
@@ -47,22 +47,23 @@ public class WarpTrigger : MonoBehaviour
         if(other.CompareTag("Player") && teleportingPlayers.Contains(other.gameObject))
         {
             teleportingPlayers.Remove(other.gameObject);
-            Debug.Log(other.gameObject.name + " has exited the warp gate.");
+            //Debug.Log(other.gameObject.name + " has exited the warp gate.");
         }
     }
 
     public void Teleport(Collider other, Transform exit)
     {
         Rigidbody rb = other.GetComponent<Rigidbody>();
-        Debug.Log(rb.velocity.magnitude);
+        //Debug.Log(rb.velocity.magnitude);
+        Vector3 randomX = exit.right * Random.Range(-0.25f, 0.25f);
 
-        if(rb.velocity.magnitude > 5f)
+        if (rb.velocity.magnitude > 5f)
         {
             float mag = rb.velocity.magnitude;
             rb.velocity = Vector3.zero;
             exit.GetComponent<WarpTrigger>().PlayerList(other.gameObject);
             other.transform.position = exit.Find("Exit_Point").transform.position;
-            rb.AddForce(exit.forward * mag * 10f, ForceMode.Impulse);
+            rb.AddForce((exit.forward + randomX) * mag * 10f, ForceMode.Impulse);
         }
 
         else
@@ -70,7 +71,7 @@ public class WarpTrigger : MonoBehaviour
             rb.velocity = Vector3.zero;
             exit.GetComponent<WarpTrigger>().PlayerList(other.gameObject);
             other.transform.position = exit.Find("Exit_Point").transform.position;
-            rb.AddForce(exit.forward * exitWarpForce, ForceMode.Impulse);
+            rb.AddForce((exit.forward + randomX) * exitWarpForce, ForceMode.Impulse);
         }        
     }
 

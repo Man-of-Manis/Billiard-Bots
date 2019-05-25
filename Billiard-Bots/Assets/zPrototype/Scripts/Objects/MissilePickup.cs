@@ -10,21 +10,48 @@ public class MissilePickup : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(identity != null)
+        if(other.CompareTag("Player"))
         {
-            if (other.CompareTag("Player") && other.GetComponent<PlayerIdentifier>().player.ToString().Equals(identity))
+            Transform holder = other.transform.Find("PickupHolder").transform;
+            int children = other.transform.Find("PickupHolder").transform.childCount;
+
+            if (NoRockets(holder, children))
             {
-                Pickup(other);
+                if (identity != null)
+                {
+                    if (other.GetComponent<PlayerIdentifier>().player.ToString().Equals(identity))
+                    {
+                        Pickup(other);
+                    }
+                }
+
+                else
+                {
+                    Pickup(other);
+                }
             }
+        }
+    }
+
+    private static bool NoRockets(Transform hold, int children)
+    {
+        if(children > 1)
+        {
+            for (int i = 0; i < children; i++)
+            {
+                if (hold.GetChild(i).CompareTag("MissileLaunched"))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         else
         {
-            if (other.CompareTag("Player"))
-            {
-                Pickup(other);
-            }
-        }
+            return true;
+        }        
     }
 
     private void Pickup(Collider other)
@@ -42,6 +69,7 @@ public class MissilePickup : MonoBehaviour
         sphere.radius = 6f;
         empty.AddComponent<PlayerMissileTrigger>().SetOwner(other.gameObject, missile, sphere);
         other.GetComponent<PlayerStats>().PickupItem(PlayerCollectedItem.CollecedItem.HomingBomb);
+        PlayerPickupUI.Instance.PickedUp(4);
 
 
         if (GetComponentInParent<ItemSelector>() != null)

@@ -15,9 +15,14 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         UI = FindObjectOfType<PlayerUI>();
-        UI.UpdatePlayerHealth((int)gameObject.GetComponent<PlayerIdentifier>().player + 1, CurrentHealth, MaxHealth);
+        UI.UpdatePlayerHealth((int)gameObject.GetComponent<PlayerIdentifier>().player, CurrentHealth, MaxHealth);
+        SetUIColor();
     }
 
+    private void SetUIColor()
+    {
+        UI.UIColor((int)gameObject.GetComponent<PlayerIdentifier>().player, GetComponent<MeshRenderer>().material.color);
+    }
 
     public void AddHealth(int amount)
     {

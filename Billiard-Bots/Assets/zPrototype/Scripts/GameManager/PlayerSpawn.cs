@@ -68,11 +68,25 @@ public class PlayerSpawn : MonoBehaviour
 
             else
             {
+                List<int> bots = new List<int>();
+
                 for (int i = 0; i < names.Length; i++)
                 {
-                    GameObject player = Instantiate(CharacterLockIn.Instance.playerOptions[Random.Range(0, CharacterLockIn.Instance.playerOptions.Length)], spawnPoints[i].position, spawnPoints[i].rotation);
-                    player.GetComponent<PlayerIdentifier>().player = (PlayerIdentifier.PlayerNumber)i;
-                    SpawnTags(i, player.transform);
+                    bool needBot = true;
+
+                    while(needBot)
+                    {
+                        int bot = Random.Range(0, CharacterLockIn.Instance.playerOptions.Length);
+
+                        if(!bots.Contains(bot))
+                        {
+                            GameObject player = Instantiate(CharacterLockIn.Instance.playerOptions[bot], spawnPoints[i].position, spawnPoints[i].rotation);
+                            player.GetComponent<PlayerIdentifier>().player = (PlayerIdentifier.PlayerNumber)i;
+                            SpawnTags(i, player.transform);
+                            bots.Add(bot);
+                            needBot = false;
+                        }
+                    }
                 }
                 StartGame();
             }

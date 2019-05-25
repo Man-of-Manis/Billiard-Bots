@@ -37,6 +37,7 @@ public class SpeedPickup : MonoBehaviour
         */
 
         other.GetComponent<PlayerStats>().PickupItem(PlayerCollectedItem.CollecedItem.SpeedBoost, turns, maxPower);
+        PlayerPickupUI.Instance.PickedUp(1);
 
         if (GetComponentInParent<ItemSelector>() != null)
         {

@@ -6,6 +6,9 @@ using TMPro;
 
 public class PlayerUI : MonoBehaviour
 {
+    [Header("BGColor")]
+    [SerializeField] private Image[] playerBGColor = new Image[4];
+
     [Header("Health")]
     [SerializeField] private TMP_Text[] playerHp = new TMP_Text[4];
 
@@ -24,5 +27,10 @@ public class PlayerUI : MonoBehaviour
     public PlayerItemBar PlayerBar(int playerNum)
     {
         return playerBar[playerNum];
+    }
+
+    public void UIColor(int player, Color color)
+    {
+        playerBGColor[player].color = new Color(color.r, color.g, color.b, 0.5f);
     }
 }

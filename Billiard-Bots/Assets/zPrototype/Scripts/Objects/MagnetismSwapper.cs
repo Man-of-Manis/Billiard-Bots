@@ -17,6 +17,7 @@ public class MagnetismSwapper : MonoBehaviour
         other.GetComponent<PlayerMagnetism>().ChangeMagnetism();
         //other.GetComponent<Rigidbody>().velocity *= 0.001f;
         other.GetComponent<PlayerStats>().PickupItem(PlayerCollectedItem.CollecedItem.PolarityReverser, 5f);
+        PlayerPickupUI.Instance.PickedUp(3);
 
         if (GetComponentInParent<ItemSelector>() != null)
         {

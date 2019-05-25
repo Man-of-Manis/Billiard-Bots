@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ItemSelector : MonoBehaviour
 {
-    public enum Item { ReparKit, SpeedBoost, DietOil, PolarityReverser, HomingBomb, Random, Bomb };
+    public enum Item { ReparKit, SpeedBoost, DietOil, PolarityReverser, HomingBomb, Random };
 
     public Item activeItem;
 
@@ -99,16 +99,6 @@ public class ItemSelector : MonoBehaviour
             }
         }
 
-        if ((int)activeItem < 6)
-        {
-            pickupSphere.SetActive(true);
-        }
-
-        else
-        {
-            pickupSphere.SetActive(false);
-        }
+        pickupSphere.SetActive(true);
     }
-
-
 }
