@@ -28,12 +28,16 @@ public class PlayerHealth : MonoBehaviour
     {
         CurrentHealth = CurrentHealth + amount <= MaxHealth ? CurrentHealth + amount : MaxHealth;
 
+        GetComponentInChildren<HealthChangeIndicator>().healthChange(amount);
+
         UpdateHealth();
     }
 
     public void SubHealth(int amount)
     {
         CurrentHealth = CurrentHealth - amount >= 0 ? CurrentHealth - amount : 0;
+
+        GetComponentInChildren<HealthChangeIndicator>().healthChange(-amount);
 
         if (CurrentHealth == 0)
         {

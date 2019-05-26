@@ -606,16 +606,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5333726668727914485}
     m_Modifications:
-    - target: {fileID: 3814435209857279241, guid: 72220e3149a799249a4772231d0f1ece,
-        type: 3}
-      propertyPath: m_Name
-      value: P_Launcher_Tuner
-      objectReference: {fileID: 0}
-    - target: {fileID: 3814435209857279241, guid: 72220e3149a799249a4772231d0f1ece,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3811618940633350097, guid: 72220e3149a799249a4772231d0f1ece,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -669,6 +659,16 @@ PrefabInstance:
     - target: {fileID: 3811618940633350097, guid: 72220e3149a799249a4772231d0f1ece,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3814435209857279241, guid: 72220e3149a799249a4772231d0f1ece,
+        type: 3}
+      propertyPath: m_Name
+      value: P_Launcher_Tuner
+      objectReference: {fileID: 0}
+    - target: {fileID: 3814435209857279241, guid: 72220e3149a799249a4772231d0f1ece,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
