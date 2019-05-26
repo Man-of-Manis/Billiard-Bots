@@ -726,7 +726,7 @@ MonoBehaviour:
   itemPickup:
   - {fileID: 1828345232525851146, guid: bd1b80a5365dec042916289c6b69a544, type: 3}
   - {fileID: 2526349895843101877, guid: 7956b0fd1c82cea4ebd40fbdba08434f, type: 3}
-  - {fileID: 1858912512297942, guid: 338c779ca6f3e0942b9db3804ba54f15, type: 3}
+  - {fileID: 3090668674810771076, guid: 270f9543f69477f489b2939c41d434b6, type: 3}
 --- !u!1 &1555015753618667535
 GameObject:
   m_ObjectHideFlags: 0
