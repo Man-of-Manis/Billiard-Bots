@@ -50,6 +50,8 @@ public class BilliardFlipper : MonoBehaviour
             default: playerNum = "P1";
                 break;
         }
+
+        FlipperColor();
     }
 
     // Update is called once per frame
@@ -58,11 +60,6 @@ public class BilliardFlipper : MonoBehaviour
         FlipperInput();
 
         FlipperRotation();
-    }
-
-    private void LateUpdate()
-    {
-        //FlipperRotation();
     }
 
     void FlipperInput()
@@ -85,5 +82,18 @@ public class BilliardFlipper : MonoBehaviour
         hinge.spring = spring;
 
         hinge.useLimits = true;
+    }
+
+    void FlipperColor()
+    {
+        PlayerIdentifier[] ids = FindObjectsOfType<PlayerIdentifier>();
+
+        foreach(PlayerIdentifier d in ids)
+        {
+            if(((int)num).Equals((int)d.player))
+            {
+                transform.GetChild(0).GetComponent<MeshRenderer>().material.color = d.GetComponent<MeshRenderer>().material.color;
+            }
+        }
     }
 }

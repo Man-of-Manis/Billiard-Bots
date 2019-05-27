@@ -42,6 +42,8 @@ public class PlayerTurn : MonoBehaviour
 
     public TMP_Text gameOverText;
 
+    public int totalTurns = 0;
+
     void Awake()
     {
         if (s_Instance == null)
@@ -152,6 +154,7 @@ public class PlayerTurn : MonoBehaviour
 
     private void NextTurn()
     {
+        totalTurns++;
         //Enable next player
         playerObjTurn.GetComponent<PlayerController>().turnEnabled = true;
         PlayerTurnTimer.Instance.UpdateText();

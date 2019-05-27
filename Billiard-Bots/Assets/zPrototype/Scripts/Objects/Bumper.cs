@@ -10,7 +10,10 @@ public class Bumper : MonoBehaviour
 
     void Start()
     {
-        anim = GetComponent<Animator>();
+        if(GetComponent<Animator>() != null)
+        {
+            anim = GetComponent<Animator>();
+        }        
     }
 
     void OnCollisionEnter(Collision other)
@@ -20,7 +23,12 @@ public class Bumper : MonoBehaviour
             PlayerTurn.Instance.ObjectActivated(true);
             other.collider.GetComponent<Rigidbody>().velocity *= 0.00001f;
             other.collider.GetComponent<Rigidbody>().AddForce((other.transform.position - new Vector3(transform.position.x, other.transform.position.y, transform.position.z)) * bumpForce, ForceMode.Impulse);
-            anim.SetTrigger("bump");
+
+            if (anim != null)
+            {
+                anim.SetTrigger("bump");
+            }
+            
             PlayerTurn.Instance.ObjectActivated(false);
         }
     }

@@ -15,6 +15,7 @@ TagManager:
   - WarpGate
   - Wall
   - GBMachine
+  - MissileLaunched
   layers:
   - Default
   - TransparentFX

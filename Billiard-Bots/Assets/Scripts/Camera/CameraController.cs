@@ -108,65 +108,111 @@ public class CameraController : MonoBehaviour {
         switch (mode) {
 
             case CameraMode.ThirdPerson: // Aiming Phase & Rolling Phase
-                
-                 
+
                 Vector3 rotationVector, positionVector;
 
-                //dampening controller sensitivity
-                float hAxis = Input.GetAxis(p1InputHori) * Mathf.Abs(Input.GetAxis(p1InputHori));
-                float vAxis = Input.GetAxis(p1InputVert) * Mathf.Abs(Input.GetAxis(p1InputVert)) * invertMod;
-                
-                
-                // Deadzone Check
-                if (Mathf.Abs(hAxis) < 0.1) {
-                    hAxis = 0;
-                }
-                if (Mathf.Abs(vAxis) < 0.1) {
-                    vAxis = 0;
-                }
+                if (!target.GetComponent<PlayerController>().UsedTurn) {
+                    // PLAYER INPUT //
 
-                //vertical dampening speed
-                if (vAxis > 0) {
-                    vAxis = Mathf.Min((pitchMax - pitch)/2, vAxis);
-                } else if (vAxis < 0) {
-                    vAxis = Mathf.Min((pitch - pitchMin)/2, vAxis);
-                }
+                    
 
-                pitch = Mathf.Clamp(pitch + vAxis * pitchSpeed, pitchMin, pitchMax);
-                yaw += hAxis * yawSpeed * -1;
+                    //dampening controller sensitivity
+                    float hAxis = Input.GetAxis(p1InputHori) * Mathf.Abs(Input.GetAxis(p1InputHori));
+                    float vAxis = Input.GetAxis(p1InputVert) * Mathf.Abs(Input.GetAxis(p1InputVert)) * invertMod;
 
-                rotationVector = new Vector3(pitch, yaw, roll);
 
-                //set pitch yaw etc and apply them to the camera values (Quaternion.eulerAngles)
-                transform.rotation = Quaternion.Euler(rotationVector);
+                    // Deadzone Check
+                    if (Mathf.Abs(hAxis) < 0.1) {
+                        hAxis = 0;
+                    }
+                    if (Mathf.Abs(vAxis) < 0.1) {
+                        vAxis = 0;
+                    }
 
-                /* as pitch increases increase distanceFromTarget, vertical offset, and FOV */
-                distanceMod = (pitch > 0) ? pitch / 30f : 0;
-                verticalOffset = (pitch / 30f);
-                fovMod = (pitch > 0) ? pitch / 5f : 0;
+                    //vertical dampening speed
+                    if (vAxis > 0) {
+                        vAxis = Mathf.Min((pitchMax - pitch) / 2, vAxis);
+                    } else if (vAxis < 0) {
+                        vAxis = Mathf.Min((pitch - pitchMin) / 2, vAxis);
+                    }
 
-                //get the vector from the target to the camera
-                positionVector = transform.forward.normalized * -1 * (distanceFromTarget + distanceMod);
 
-                //apply offsets
-                positionVector.x += horizontalOffset;
-                positionVector.y += verticalOffset;
+                    yaw += hAxis * yawSpeed * -1;
+                    pitch = Mathf.Clamp(pitch + vAxis * pitchSpeed, pitchMin, pitchMax);
 
-                positionVector = new Vector3(target.transform.position.x + positionVector.x, target.transform.position.y + positionVector.y, target.transform.position.z + positionVector.z);
 
-                GetComponent<Camera>().fieldOfView = fov + fovMod;
+                    rotationVector = new Vector3(pitch, yaw, roll);
 
-                RaycastHit raycastToCam;
+                    //set pitch yaw etc and apply them to the camera values (Quaternion.eulerAngles)
+                    transform.rotation = Quaternion.Euler(rotationVector);
 
-                //transform
-                if (Physics.Linecast(target.transform.position, positionVector, out raycastToCam, obstacles)) {
-                    Vector3 temp = raycastToCam.point * 0.87f;
-                    transform.position = temp;
+                    /* as pitch increases increase distanceFromTarget, vertical offset, and FOV */
+                    distanceMod = (pitch > 0) ? pitch / 30f : 0;
+                    verticalOffset = (pitch / 30f);
+                    fovMod = (pitch > 0) ? pitch / 5f : 0;
+
+                    //get the vector from the target to the camera
+                    positionVector = transform.forward.normalized * -1 * (distanceFromTarget + distanceMod);
+
+                    //apply offsets
+                    positionVector.x += horizontalOffset;
+                    positionVector.y += verticalOffset;
+
+                    positionVector = new Vector3(target.transform.position.x + positionVector.x, target.transform.position.y + positionVector.y, target.transform.position.z + positionVector.z);
+
+                    GetComponent<Camera>().fieldOfView = fov + fovMod;
+
+                    RaycastHit raycastToCam;
+
+                    //transform
+                    if (Physics.Linecast(target.transform.position, positionVector, out raycastToCam, obstacles)) {
+                        Vector3 temp = raycastToCam.point * 0.87f;
+                        transform.position = temp;
+                    } else {
+                        transform.position = positionVector;
+                    }
+
+                    //Debug.DrawLine(target.transform.position, positionVector, Color.green);
+
+
                 } else {
-                    transform.position = positionVector;
-                }
 
-                //Debug.DrawLine(target.transform.position, positionVector, Color.green);
+                    
+
+                    float maxDistance = 5;
+                    float elevation = 5;
+                    GetComponent<Camera>().fieldOfView = 70;
+
+                    positionVector = transform.position;
+                    positionVector.x = Mathf.Clamp(positionVector.x, target.transform.position.x - maxDistance, target.transform.position.x + maxDistance);
+                    positionVector.y = target.transform.position.y + elevation;
+                    positionVector.z = Mathf.Clamp(positionVector.z, target.transform.position.z - maxDistance, target.transform.position.z + maxDistance);
+                    
+
+                    transform.LookAt(target.transform);
+
+                    
+
+                    
+                    RaycastHit raycastToCam;
+
+                    //transform
+                    if (Physics.Linecast(target.transform.position, positionVector, out raycastToCam, obstacles)) {
+                        Vector3 temp = raycastToCam.point * 0.87f;
+                        transform.position = temp;
+                    } else {
+                        transform.position = positionVector;
+                    }
+
+                    transform.LookAt(target.transform);
+
+                    /*
+                    rotationVector = new Vector3(target.transform.position.x - transform.position.x, target.transform.position.y - transform.position.y, target.transform.position.z - transform.position.z);
+                    
+
+                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(rotationVector), 1f);
+                    */
+                }
 
                 break;
             case CameraMode.Overhead: // Aiming Phase (& Player Swap?)

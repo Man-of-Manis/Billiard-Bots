@@ -15,13 +15,20 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         UI = FindObjectOfType<PlayerUI>();
-        UI.UpdatePlayerHealth((int)gameObject.GetComponent<PlayerIdentifier>().player + 1, CurrentHealth, MaxHealth);
+        UI.UpdatePlayerHealth((int)gameObject.GetComponent<PlayerIdentifier>().player, CurrentHealth, MaxHealth);
+        SetUIColor();
     }
 
+    private void SetUIColor()
+    {
+        UI.UIColor((int)gameObject.GetComponent<PlayerIdentifier>().player, GetComponent<MeshRenderer>().material.color);
+    }
 
     public void AddHealth(int amount)
     {
         CurrentHealth = CurrentHealth + amount <= MaxHealth ? CurrentHealth + amount : MaxHealth;
+
+        GetComponentInChildren<HealthChangeIndicator>().healthChange(amount);
 
         UpdateHealth();
     }
@@ -29,6 +36,8 @@ public class PlayerHealth : MonoBehaviour
     public void SubHealth(int amount)
     {
         CurrentHealth = CurrentHealth - amount >= 0 ? CurrentHealth - amount : 0;
+
+        GetComponentInChildren<HealthChangeIndicator>().healthChange(-amount);
 
         if (CurrentHealth == 0)
         {

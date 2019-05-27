@@ -12,12 +12,16 @@ public class GBItem : MonoBehaviour
 
     private TextMeshProUGUI text;
 
+    [SerializeField]private Sprite[] spriteUI = new Sprite[3];
+
+    
     public Dictionary<GBItemType, Vector3> itemColor = new Dictionary<GBItemType, Vector3>()
     {
         { GBItemType.Health, Vector3.up},
         { GBItemType.SpeedBoost, Vector3.forward},
         { GBItemType.HomingBomb, Vector3.right}
     };
+    
 
     private void OnValidate()
     {
@@ -41,6 +45,7 @@ public class GBItem : MonoBehaviour
     public void ColorChange()
     {
         GetComponent<Image>().color = new Color(itemColor[item].x, itemColor[item].y, itemColor[item].z, 1f);
+        GetComponent<Image>().sprite = spriteUI[(int)item];
     }
 
     public void OpacityChange(float opac)

@@ -24,6 +24,7 @@ public class DietOilPickup : MonoBehaviour
         */
 
         other.GetComponent<PlayerStats>().PickupItem(PlayerCollectedItem.CollecedItem.DietOil, turns, mass);
+        PlayerPickupUI.Instance.PickedUp(2);
 
         if (GetComponentInParent<ItemSelector>() != null)
         {

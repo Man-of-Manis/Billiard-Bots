@@ -22,7 +22,7 @@ public class PlayerCollisionDamage : MonoBehaviour
 
             //Debug.Log(gameObject.name + " has hit " + other.gameObject.name + " with a magnitude of " + magnitude + " dealing " + damage + " points of damage.");            
 
-            other.gameObject.GetComponent<PlayerHealth>().SubHealth(damage);            
+            other.gameObject.GetComponent<PlayerHealth>().SubHealth(damage);
 
             Vector3 point = other.GetContact(0).normal; //point at which the other player was hit
 

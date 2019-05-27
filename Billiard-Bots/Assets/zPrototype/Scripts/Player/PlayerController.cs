@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
 
     public Rigidbody rb { get; private set; }
 
-    private Transform cam;
+    //private Transform cam;
 
     private PlayerStats stats;
 
@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        cam = FindObjectOfType<Camera>().transform;
+        //cam = FindObjectOfType<Camera>().transform;
         stats = GetComponent<PlayerStats>();
 
         torqueSpeed = 100f;
@@ -86,12 +86,12 @@ public class PlayerController : MonoBehaviour
 
             if (arrowActive)
             {
-                transform.rotation = Quaternion.Euler(new Vector3(0f, currentX, 0f));
+                transform.rotation = Quaternion.Euler(new Vector3(0f, Camera.main.transform.eulerAngles.y, 0f));
             }
 
             else
             {
-                currentX = cam.transform.eulerAngles.y;
+                //currentX = cam.transform.eulerAngles.y;
             }
         }
     }
@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
     {
         if(turnEnabled && UsedTurn)
         {
-            rb.velocity = rb.velocity.magnitude * Vector3.Lerp(rb.velocity.normalized, cam.right *
+            rb.velocity = rb.velocity.magnitude * Vector3.Lerp(rb.velocity.normalized, Camera.main.transform.right *
                 ((PlayerInput.Instance.players[(int)gameObject.GetComponent<PlayerIdentifier>().player + 1].leftStick.x) > 0f ? 1f : -1f),
                 Mathf.Abs((PlayerInput.Instance.players[(int)gameObject.GetComponent<PlayerIdentifier>().player + 1].leftStick.x)) * 0.01f);
         }   

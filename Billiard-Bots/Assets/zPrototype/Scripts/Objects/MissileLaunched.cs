@@ -36,6 +36,11 @@ public class MissileLaunched : MonoBehaviour
             rb.isKinematic = false;
             LaunchRocket();
             smokeTrail.GetComponent<ParticleSystem>().Play();
+
+            if(enemy.GetComponent<PlayerHealth>().CurrentHealth <= 0)
+            {
+                Explode();
+            }
         }
     }
 
