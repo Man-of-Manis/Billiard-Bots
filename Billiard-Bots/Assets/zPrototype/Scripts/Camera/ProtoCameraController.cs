@@ -60,6 +60,8 @@ public class ProtoCameraController : MonoBehaviour
         currentY = 20f;
 
         currentController = currentPlayerTarget.GetComponent<PlayerController>();
+
+        currentX = currentPlayerTarget.transform.eulerAngles.y;
     }
         
     void Update()
@@ -103,11 +105,13 @@ public class ProtoCameraController : MonoBehaviour
 
             freecamActive = currentController.freecamActive;
         }
-
+        /*
         if (freecamActive)
         {
             PlayerInput();
         }
+        */
+        PlayerInput();
     }
 
     private void PlayerInput()
@@ -159,13 +163,17 @@ public class ProtoCameraController : MonoBehaviour
             opponentTargetNum = PlayerTurn.Instance.playerNumTurn;
         }
 
-        currentX = transform.eulerAngles.y;
+        //currentX = transform.eulerAngles.y;
 
-        currentY = transform.eulerAngles.x;
+        //currentY = transform.eulerAngles.x;
+
+        currentY = 20f;
 
         Vector3 dir = new Vector3(0f, 0f, distance);
 
-        Quaternion rotation = Quaternion.Euler(Mathf.SmoothDamp(transform.eulerAngles.x, 20f, ref velocity, 0.05f), currentPlayerTarget.eulerAngles.y, 0f);
+        //Quaternion rotation = Quaternion.Euler(Mathf.SmoothDamp(transform.eulerAngles.x, 20f, ref velocity, 0.05f), currentPlayerTarget.eulerAngles.y, 0f);
+
+        Quaternion rotation = Quaternion.Euler(currentY, currentX, 0f);
 
         transform.position = currentPlayerTarget.position + rotation * dir;
 

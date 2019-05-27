@@ -50,6 +50,13 @@ public class PlayerTurnInput : MonoBehaviour
             currentController = currentPlayer.GetComponent<PlayerController>();
             playerNum = currentPlayer.GetComponent<PlayerIdentifier>();
             usedTurn = false;
+
+            if (!currentController.arrowActive && !usedTurn)
+            {
+                currentController.arrowActive = false;
+
+                buttonUI.UIActivation(true, false, false, true, false, false, false, false);
+            }
         }
     }
 
@@ -80,12 +87,7 @@ public class PlayerTurnInput : MonoBehaviour
 
             if (rBumper) { RBumperActions(); }
 
-            if (!currentController.arrowActive && !usedTurn)
-            {
-                currentController.arrowActive = false;
-
-                buttonUI.UIActivation(true, false, false, false, false, false, false, false);
-            }
+            
         }
     }
 
@@ -104,6 +106,13 @@ public class PlayerTurnInput : MonoBehaviour
 
         //Start oscillator power
         else if (currentController.arrowActive && !ProtoCameraController.Instance.freecamActive)
+        {
+            PlayerPower.Instance.oscillatorActive = true;
+
+            buttonUI.UIActivation(false, false, true, false, true, false, false, true);
+        }
+
+        else if (currentController.arrowActive && ProtoCameraController.Instance.freecamActive)
         {
             PlayerPower.Instance.oscillatorActive = true;
 
@@ -139,12 +148,26 @@ public class PlayerTurnInput : MonoBehaviour
             buttonUI.UIActivation(false, true, false, true, false, false, false, false);
             HideTags();
         }
+
+        else if (!currentController.arrowActive && ProtoCameraController.Instance.freecamActive)
+        {
+            ProtoCameraController.Instance.freecamActive = false;
+            buttonUI.UIActivation(true, false, false, true, false, false, false, false);
+            HideTags();
+        }
     }
 
     void XButtonActions()
     {
         //Activate freecam mode during turn
         if (currentController.arrowActive && !PlayerPower.Instance.oscillatorActive && !ProtoCameraController.Instance.freecamActive)
+        {
+            ProtoCameraController.Instance.freecamActive = true;
+            buttonUI.UIActivation(false, false, true, false, true, true, true, false);
+            ShowTags();
+        }
+
+        else if (!currentController.arrowActive && !PlayerPower.Instance.oscillatorActive && !ProtoCameraController.Instance.freecamActive)
         {
             ProtoCameraController.Instance.freecamActive = true;
             buttonUI.UIActivation(false, false, false, false, true, true, true, false);

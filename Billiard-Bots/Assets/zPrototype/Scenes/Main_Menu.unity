@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 3466918}
   - component: {fileID: 3466920}
   - component: {fileID: 3466919}
+  - component: {fileID: 3466921}
   m_Layer: 0
   m_Name: EventSystem (1)
   m_TagString: Untagged
@@ -178,6 +179,18 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 1744824083}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!114 &3466921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3466917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb3f5872dd819b409126d5dd415c551, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8289216
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,6 +810,7 @@ GameObject:
   - component: {fileID: 194155618}
   - component: {fileID: 194155617}
   - component: {fileID: 194155616}
+  - component: {fileID: 194155619}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -852,6 +866,18 @@ Transform:
   m_Father: {fileID: 1845985553}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &194155619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 194155615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb3f5872dd819b409126d5dd415c551, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &233491479
 GameObject:
   m_ObjectHideFlags: 0
@@ -1269,6 +1295,7 @@ GameObject:
   - component: {fileID: 467362814}
   - component: {fileID: 467362816}
   - component: {fileID: 467362815}
+  - component: {fileID: 467362817}
   m_Layer: 0
   m_Name: EventSystem (1)
   m_TagString: Untagged
@@ -1324,6 +1351,18 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 8289216}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!114 &467362817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467362813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb3f5872dd819b409126d5dd415c551, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &484872628
 GameObject:
   m_ObjectHideFlags: 0
@@ -1679,6 +1718,7 @@ GameObject:
   - component: {fileID: 618140202}
   - component: {fileID: 618140204}
   - component: {fileID: 618140203}
+  - component: {fileID: 618140205}
   m_Layer: 0
   m_Name: EventSystem (1)
   m_TagString: Untagged
@@ -1734,6 +1774,18 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 1810915453}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!114 &618140205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618140201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb3f5872dd819b409126d5dd415c551, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &658593964
 GameObject:
   m_ObjectHideFlags: 0
@@ -2920,7 +2972,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: f1ca8982eeb072542aeb41eb4b9c76bb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2965,7 +3017,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 881403399}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -5259,7 +5311,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 1}
+    m_NormalColor: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 1}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.3773585, g: 0.3773585, b: 0.3773585, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -5441,6 +5493,7 @@ GameObject:
   - component: {fileID: 1795449151}
   - component: {fileID: 1795449153}
   - component: {fileID: 1795449152}
+  - component: {fileID: 1795449154}
   m_Layer: 0
   m_Name: EventSystem (1)
   m_TagString: Untagged
@@ -5496,6 +5549,18 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 106962923}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!114 &1795449154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795449150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb3f5872dd819b409126d5dd415c551, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1806989185
 GameObject:
   m_ObjectHideFlags: 0

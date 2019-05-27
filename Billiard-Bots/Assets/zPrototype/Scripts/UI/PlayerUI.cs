@@ -17,6 +17,9 @@ public class PlayerUI : MonoBehaviour
     [Header("ItemUI")]
     [SerializeField] private PlayerItemBar[] playerBar = new PlayerItemBar[4];
 
+    [Header("Joystick")]
+    [SerializeField] private GameObject joystick;
+
 
     public void UpdatePlayerHealth(int playerNum, int newHealth, int maxHealth)
     {
@@ -32,5 +35,10 @@ public class PlayerUI : MonoBehaviour
     public void UIColor(int player, Color color)
     {
         playerBGColor[player].color = new Color(color.r, color.g, color.b, 0.5f);
+    }
+
+    public void JoystickAnim(bool value)
+    {
+        joystick.SetActive(value);
     }
 }

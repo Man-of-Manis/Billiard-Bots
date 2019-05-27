@@ -170,6 +170,6 @@ public class PlayerSpawn : MonoBehaviour
         //input.enabled = true;
         SetPlayers(FindObjectsOfType<PlayerIdentifier>().Length);
 
-        Destroy();
+        //Destroy();
     }
 }

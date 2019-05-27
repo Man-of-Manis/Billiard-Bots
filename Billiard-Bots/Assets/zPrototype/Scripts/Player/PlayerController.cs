@@ -27,6 +27,10 @@ public class PlayerController : MonoBehaviour
 
     public Rigidbody rb { get; private set; }
 
+    bool on = false;
+
+    bool off = true;
+
     //private Transform cam;
 
     private PlayerStats stats;
@@ -49,7 +53,12 @@ public class PlayerController : MonoBehaviour
     void LateUpdate()
     {
         TurnEnabledLateUpdate();
-        Turn();
+
+        if(turnEnabled && UsedTurn)
+        {
+            Turn();
+        }
+        
     }
 
     void TurnEnabledUpdate()
@@ -68,6 +77,10 @@ public class PlayerController : MonoBehaviour
             freecamActive = false;
 
             UsedTurn = false;
+
+            on = false;
+
+            off = true;
         }
 
         arrow.SetActive(arrowActive ? true : false);
@@ -120,21 +133,38 @@ public class PlayerController : MonoBehaviour
 
     private void Turn()
     {
-        if(turnEnabled && UsedTurn)
+        if(!on)
+        {
+            PlayerUI ui = FindObjectOfType<PlayerUI>();
+            ui.JoystickAnim(true);
+            off = false;
+            on = true;
+        }
+
+        Vector2 inputs = new Vector2(PlayerInput.Instance.players[(int)gameObject.GetComponent<PlayerIdentifier>().player + 1].leftStick.x,
+            PlayerInput.Instance.players[(int)gameObject.GetComponent<PlayerIdentifier>().player + 1].leftStick.y);
+
+        if(!inputs.Equals(Vector2.zero) && !off)
+        {
+            PlayerUI ui = FindObjectOfType<PlayerUI>();
+            ui.JoystickAnim(false);
+            off = true;
+        }
+
+
+        if (turnEnabled && UsedTurn)
         {
             rb.velocity = rb.velocity.magnitude * Vector3.Lerp(rb.velocity.normalized, Camera.main.transform.right *
                 ((PlayerInput.Instance.players[(int)gameObject.GetComponent<PlayerIdentifier>().player + 1].leftStick.x) > 0f ? 1f : -1f),
                 Mathf.Abs((PlayerInput.Instance.players[(int)gameObject.GetComponent<PlayerIdentifier>().player + 1].leftStick.x)) * 0.01f);
-        }   
-        /*
-        if(rb.velocity.magnitude < 0.01f)
-        {
-            rb.velocity *= 0.01f;
-        }*/
+        }
+
+
     }
 
     public void TimeUp()
     {
         UsedTurn = true;
+        PlayerPower.Instance.oscillatorActive = false;
     }
 }

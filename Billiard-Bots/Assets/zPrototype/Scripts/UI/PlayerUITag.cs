@@ -20,7 +20,7 @@ public class PlayerUITag : MonoBehaviour
     {
         playerTag = GetComponent<RectTransform>();
 
-        canvas = FindObjectOfType<Canvas>().GetComponent<RectTransform>();
+        canvas = GameObject.Find("Player_UI").GetComponent<RectTransform>();
 
         Hide();
     }
