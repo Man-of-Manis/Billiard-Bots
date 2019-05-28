@@ -6,8 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/zPrototype/Scenes/Main_Menu.unity
+    path: Assets/Scenes/Menu/Main_Menu.unity
     guid: 0c593babbcf480c46b612f6e8f7f6381
+  - enabled: 1
+    path: Assets/Scenes/Menu/LoadingScreen.unity
+    guid: 008252406d02c6f43b0187cd2e2cfbbb
   - enabled: 1
     path: Assets/Scenes/Levels/JunkyardCandyland/JunkyardCandyland.unity
     guid: 6580daa73e5f19344b1c0adbee97516a

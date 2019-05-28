@@ -161,6 +161,8 @@ public class ProtoCameraController : MonoBehaviour
             opponentTarget = currentPlayerTarget;
 
             opponentTargetNum = PlayerTurn.Instance.playerNumTurn;
+
+            currentX = currentPlayerTarget.eulerAngles.y;
         }
 
         //currentX = transform.eulerAngles.y;

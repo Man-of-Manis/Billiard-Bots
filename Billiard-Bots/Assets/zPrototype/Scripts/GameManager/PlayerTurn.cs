@@ -155,6 +155,8 @@ public class PlayerTurn : MonoBehaviour
     private void NextTurn()
     {
         totalTurns++;
+        PlayerUI ui = FindObjectOfType<PlayerUI>();
+        ui.JoystickAnim(false);
         //Enable next player
         playerObjTurn.GetComponent<PlayerController>().turnEnabled = true;
         PlayerTurnTimer.Instance.UpdateText();

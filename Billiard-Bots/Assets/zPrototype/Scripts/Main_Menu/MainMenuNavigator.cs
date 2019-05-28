@@ -229,7 +229,7 @@ public class MainMenuNavigator : MonoBehaviour
 
         else
         {
-            SceneManager.LoadScene("Prototype_Scene");
+            SceneManager.LoadScene("LoadingScreen");
         }
     }
 

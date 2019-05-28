@@ -133,7 +133,7 @@ public class PlayerController : MonoBehaviour
 
     private void Turn()
     {
-        if(!on)
+        if(!on && launchReset)
         {
             PlayerUI ui = FindObjectOfType<PlayerUI>();
             ui.JoystickAnim(true);
@@ -165,6 +165,12 @@ public class PlayerController : MonoBehaviour
     public void TimeUp()
     {
         UsedTurn = true;
+        //turnEnabled = false;
+        arrowActive = false;
+
         PlayerPower.Instance.oscillatorActive = false;
+
+        PlayerUI ui = FindObjectOfType<PlayerUI>();
+        ui.JoystickAnim(false);
     }
 }

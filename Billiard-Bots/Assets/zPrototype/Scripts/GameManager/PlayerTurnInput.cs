@@ -50,13 +50,18 @@ public class PlayerTurnInput : MonoBehaviour
             currentController = currentPlayer.GetComponent<PlayerController>();
             playerNum = currentPlayer.GetComponent<PlayerIdentifier>();
             usedTurn = false;
-
+            /*
             if (!currentController.arrowActive && !usedTurn)
             {
                 currentController.arrowActive = false;
 
                 buttonUI.UIActivation(true, false, false, true, false, false, false, false);
             }
+            */
+
+            currentController.arrowActive = false;
+
+            buttonUI.UIActivation(true, false, false, true, false, false, false, false);
         }
     }
 
@@ -120,7 +125,7 @@ public class PlayerTurnInput : MonoBehaviour
         }
 
         //Start turn
-        else if (!currentController.arrowActive && currentController.turnEnabled)
+        else if (!currentController.arrowActive && !currentController.UsedTurn)
         {
             currentController.arrowActive = true;
             //launchReset = false;
