@@ -36,24 +36,21 @@ public class GBItemWheel : MonoBehaviour
         Position();
         Rotation();
         ItemSelection();
+        ItemSetting();
         ItemOpacity();
+        
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
-
         Position();
         Rotation();
         ItemSelection();
-
-        Vector3 worPos = itemBoxes[0].GetComponent<RectTransform>().position;
-        Vector3 locVec = wheel.parent.transform.InverseTransformPoint(worPos);
-        lowest = locVec.y;
-
-        item = itemBoxes[0].gameObject;
+        ItemSetting();
     }
+
+    
 
     // Update is called once per frame
     void Update()
@@ -167,5 +164,14 @@ public class GBItemWheel : MonoBehaviour
     private void Rotating()
     {
         wheelRot = Mathf.SmoothDamp(wheelRot, newRot, ref vel, 0.3f);
+    }
+
+    private void ItemSetting()
+    {
+        Vector3 worPos = itemBoxes[0].GetComponent<RectTransform>().position;
+        Vector3 locVec = wheel.parent.transform.InverseTransformPoint(worPos);
+        lowest = locVec.y;
+
+        item = itemBoxes[0].gameObject;
     }
 }
