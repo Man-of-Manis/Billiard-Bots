@@ -21,30 +21,38 @@ public class GBItemWheel : MonoBehaviour
 
     private RectTransform wheel;
 
-    private float dist = 0f;
-
     private float timer = 0f;
 
     private float vel = 0f;
 
     public GBItem.GBItemType currentItem;
 
+    float lowest = 0f;
+
+    GameObject item = null;
+
     private void OnValidate()
     {
         Position();
         Rotation();
         ItemSelection();
-        WorldDist();
         ItemOpacity();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        
+
         Position();
         Rotation();
         ItemSelection();
-        WorldDist();
+
+        Vector3 worPos = itemBoxes[0].GetComponent<RectTransform>().position;
+        Vector3 locVec = wheel.parent.transform.InverseTransformPoint(worPos);
+        lowest = locVec.y;
+
+        item = itemBoxes[0].gameObject;
     }
 
     // Update is called once per frame
@@ -107,7 +115,7 @@ public class GBItemWheel : MonoBehaviour
         }
 
         //wheel.localEulerAngles = new Vector3(0f, 0f, -parRot);
-        wheel.rotation = Quaternion.Euler(new Vector3(0f, 0f, -parRot));
+        wheel.localRotation = Quaternion.Euler(new Vector3(0f, 0f, -parRot));
     }
 
     IEnumerator DestroyItems(GameObject go)
@@ -127,32 +135,28 @@ public class GBItemWheel : MonoBehaviour
     }
 
     private void ItemOpacity()
-    {
-        float lowest = itemBoxes[0].GetComponent<RectTransform>().position.y;
-        GameObject item = itemBoxes[0].gameObject;
+    {      
 
         for (int i = 0; i < itemBoxes.Count; i++)
         {
-            float opac = (itemBoxes[i].GetComponent<RectTransform>().position.y - wheel.position.y) / (-dist);
+            Vector3 worPos = itemBoxes[i].GetComponent<RectTransform>().position;
+            Vector3 locVec = wheel.parent.transform.InverseTransformPoint(worPos);
+
+            //Debug.Log(wheel.position + " / " + wheel.parent.transform.InverseTransformPoint(worPos));
+
+            float opac = (locVec.y) / (-offset/2);
             Mathf.Clamp01(opac);
             float expo = opac * opac;
             itemBoxes[i].GetComponent<GBItem>().OpacityChange(expo);
 
-            if(itemBoxes[i].GetComponent<RectTransform>().position.y < lowest)
+            if(locVec.y < lowest)
             {
-                lowest = itemBoxes[i].GetComponent<RectTransform>().position.y;
+                lowest = itemBoxes[i].GetComponent<RectTransform>().localPosition.y;
                 item = itemBoxes[i].gameObject;
             }
         }
 
         currentItem = item.GetComponent<GBItem>().item;
-    }
-
-    private void WorldDist()
-    {
-        Vector3 world = itemBoxes[0].GetComponent<RectTransform>().position;
-
-        dist = Vector3.Distance(world, wheel.position);
     }
 
     public void RotateWheel()
