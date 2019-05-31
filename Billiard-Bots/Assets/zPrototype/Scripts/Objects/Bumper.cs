@@ -6,8 +6,6 @@ public class Bumper : MonoBehaviour
 {
     public float bumpForce;
 
-    private int rand;
-
     private Animator anim;
 
     void Start()
@@ -30,12 +28,7 @@ public class Bumper : MonoBehaviour
             {
                 anim.SetTrigger("bump");
             }
-
-            //Audio Call
-            rand = Random.Range(1, 5);
-
-            FindObjectOfType<AudioManager>().Play("BumperHit" + rand);
-
+            
             PlayerTurn.Instance.ObjectActivated(false);
         }
     }

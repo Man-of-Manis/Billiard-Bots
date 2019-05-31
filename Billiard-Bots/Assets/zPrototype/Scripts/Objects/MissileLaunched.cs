@@ -52,8 +52,6 @@ public class MissileLaunched : MonoBehaviour
 
     void LaunchRocket()
     {
-        FindObjectOfType<AudioManager>().Play("RocketLaunch");
-
         Vector3 direction = enemy.position - transform.position;
 
         direction.Normalize();
@@ -79,10 +77,6 @@ public class MissileLaunched : MonoBehaviour
     void Explode()
     {
         GetColliders();
-
-        //Audio Call 
-        FindObjectOfType<AudioManager>().Play("Explosion");
-
         Instantiate(explosion, transform.position, Quaternion.identity);
         smokeTrail.transform.SetParent(null);
         smokeTrail.GetComponent<ParticleSystem>().Stop();

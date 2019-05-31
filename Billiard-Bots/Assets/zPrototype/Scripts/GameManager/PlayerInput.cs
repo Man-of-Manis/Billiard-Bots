@@ -37,7 +37,7 @@ public class PlayerInput : MonoBehaviour
         for (int i = 1; i <= 4; i++)
         {
             players[i] = new InputManager();
-    }
+        }
     }
 
     void Update()
@@ -57,6 +57,7 @@ public class PlayerInput : MonoBehaviour
             players[i].aButton = Input.GetButtonDown("P" + i + "_A_Button");
             players[i].bButton = Input.GetButtonDown("P" + i + "_B_Button");
             players[i].xButton = Input.GetButtonDown("P" + i + "_X_Button");
+            players[i].yButton = Input.GetButtonDown("P" + i + "_Y_Button");
             players[i].lBumper = Input.GetButtonDown("P" + i + "_L_Bumper");
             players[i].rBumper = Input.GetButtonDown("P" + i + "_R_Bumper");
             players[i].backButton = Input.GetButtonDown("P" + i + "_Back_Button");
@@ -89,6 +90,8 @@ public class InputManager
     public bool bButton;
 
     public bool xButton;
+
+    public bool yButton;
 
     public bool lBumper;
 

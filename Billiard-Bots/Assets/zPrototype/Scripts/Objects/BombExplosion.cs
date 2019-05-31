@@ -27,9 +27,6 @@ public class BombExplosion : MonoBehaviour
         //GetComponent<Animator>().SetTrigger("Explode");
         yield return new WaitForSeconds(explosionDelay);
         GetColliders();
-
-        FindObjectOfType<AudioManager>().Play("Explosion");//Audio Call
-
         Instantiate(explosion, transform.position, Quaternion.identity);
         PlayerTurn.Instance.ObjectActivated(false);
         Destroy(gameObject);

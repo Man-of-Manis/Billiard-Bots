@@ -14,7 +14,7 @@ public class BilliardFlipper : MonoBehaviour
 
     private string playerNum;
 
-    [SerializeField]private float flipperRotation;
+    public float flipperRotation;
 
     private HingeJoint hinge;
 

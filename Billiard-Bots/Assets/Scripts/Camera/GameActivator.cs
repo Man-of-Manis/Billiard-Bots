@@ -29,5 +29,6 @@ public class GameActivator : MonoBehaviour
         camController.enabled = true;
         mapTitle.SetActive(false);
         UI.enabled = true;
+        this.enabled = false;
     }
 }

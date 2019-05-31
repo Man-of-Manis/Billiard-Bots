@@ -17,9 +17,7 @@ public class WarpTrigger : MonoBehaviour
     {
         if(other.CompareTag("Player") && !teleportingPlayers.Contains(other.gameObject))
         {
-            FindObjectOfType<AudioManager>().Play("Warp");
-
-            if (!randomWarp)
+            if(!randomWarp)
             {
                 Teleport(other, siblingWarpGate);
             }

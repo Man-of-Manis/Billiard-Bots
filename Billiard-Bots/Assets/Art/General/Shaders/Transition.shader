@@ -4,7 +4,7 @@
     {
         _MainTex ("Main Texture", 2D) = "white" {}
 		_TransitionTex ("Transition Texture", 2D) = "white" {}
-		_ColorOffset ("Screen Color", Color) = (0,0,0,1)
+		_Color ("Screen Color", Color) = (0,0,0,1)
 		_Cutoff ("Cutoff", Range(0, 1)) = 0
 		_Fade ("Fade", Range(0, 1)) = 0
 		[MaterialToggle] _Distort("Distort", Float) = 0
@@ -92,6 +92,7 @@
 			fixed4 simpletexture (v2f i) : SV_Target
             {             
 				fixed4 transit = tex2D(_TransitionTex, i.uv);
+				//fixed4 transit = tex2D(_MainTex, i.uv);
 
 				if(transit.b < _Cutoff)
 				{
@@ -104,6 +105,7 @@
 			fixed4 frag (v2f i) : SV_Target
             {
 				fixed4 transit = tex2D(_TransitionTex, i.uv1);
+				//fixed4 transit = tex2D(_MainTex, i.uv1);
 
 				fixed2 direction = float2(0,0);
 

@@ -12,9 +12,13 @@ public class ItemSelector : MonoBehaviour
 
     public GameObject pickupSphere;
 
-    public float respawnTimer = 120f;
+    //public float respawnTimer = 120f;
 
-    private float pickupTime;
+    //private float pickupTime;
+
+    public int respawnTurns = 3;
+
+    private int turnTaken = 0;
 
     private bool itemTaken = false;
 
@@ -40,13 +44,14 @@ public class ItemSelector : MonoBehaviour
     public void Taken() //I have a particular set of skills
     {
         pickupSphere.SetActive(false);
-        pickupTime = Time.realtimeSinceStartup;
+        //pickupTime = Time.realtimeSinceStartup;
+        turnTaken = PlayerTurn.Instance.totalTurns;
         itemTaken = true;
     }
 
     private void Timer()
     {
-        if (itemTaken && Time.realtimeSinceStartup - pickupTime >= respawnTimer)
+        if (itemTaken && PlayerTurn.Instance.totalTurns >= turnTaken + respawnTurns)
         {
             SetRandomItem();
             SetMesh();
@@ -71,7 +76,6 @@ public class ItemSelector : MonoBehaviour
         {
             prevRandom = true;
         }
-
     }
 
     void SetRandomItem()
