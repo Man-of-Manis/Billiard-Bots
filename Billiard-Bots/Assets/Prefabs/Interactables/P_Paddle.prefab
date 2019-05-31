@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1629821238879651537}
   - component: {fileID: 1629821238879651536}
+  - component: {fileID: 6388230728347897627}
   m_Layer: 0
   m_Name: P_Paddle
   m_TagString: Untagged
@@ -50,6 +51,22 @@ MonoBehaviour:
   flipperRotation: 0
   hitStrength: 100000
   flipperDamper: 25
+--- !u!114 &6388230728347897627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629821238879651538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4371b5fc502faa4a9d87d9e0f687538, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipAmb: {fileID: 0}
+  clipFlipper1: {fileID: 8300000, guid: 50e25259754119042ba05a9ba51ef9f4, type: 3}
+  clipFlipper2: {fileID: 8300000, guid: 7993593b8d5d2064da6924d449b4fec4, type: 3}
+  clipFlipper3: {fileID: 8300000, guid: 20cb5866e436c7b44b1c90a51d2589b0, type: 3}
 --- !u!54 &1629821239422394418
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -66,6 +83,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!64 &1629821239422394417
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9136556760853024019}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300000, guid: 80e90e2f61b8d0c4f8171446a58207af, type: 3}
 --- !u!59 &1629821239422394419
 HingeJoint:
   m_ObjectHideFlags: 0
@@ -101,20 +132,22 @@ HingeJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!64 &1629821239422394417
-MeshCollider:
+--- !u!114 &1802298464327760444
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9136556760853024019}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 1
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 4300000, guid: 80e90e2f61b8d0c4f8171446a58207af, type: 3}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4371b5fc502faa4a9d87d9e0f687538, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipAmb: {fileID: 0}
+  clipFlipper1: {fileID: 8300000, guid: 50e25259754119042ba05a9ba51ef9f4, type: 3}
+  clipFlipper2: {fileID: 8300000, guid: 7993593b8d5d2064da6924d449b4fec4, type: 3}
+  clipFlipper3: {fileID: 8300000, guid: 20cb5866e436c7b44b1c90a51d2589b0, type: 3}
 --- !u!1001 &1629821238786761241
 PrefabInstance:
   m_ObjectHideFlags: 0

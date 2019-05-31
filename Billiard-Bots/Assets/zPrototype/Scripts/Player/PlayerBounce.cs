@@ -34,7 +34,10 @@ public class PlayerBounce : MonoBehaviour
         {
             if (other.collider.CompareTag("GBMachine"))
             {
+
+                FindObjectOfType<AudioManager>().Play("ItemGet");
                 gBItem = true;
+
             }
 
             if (other.collider.CompareTag("Player") && gBItem)
@@ -48,10 +51,24 @@ public class PlayerBounce : MonoBehaviour
             if (other.collider.CompareTag("Wall") && gBItem)
             {
                 //bounces++;
+                FindObjectOfType<AudioManager>().Play("WallHit"); //Audio Call
+
                 PlayerWallHit.Instance.Hit();
                 Debug.Log(other.gameObject.name);
                 wheel.RotateWheel();
             }
+
+            if (other.collider.CompareTag("Wall") && !gBItem)
+            {
+                //bounces++;
+                FindObjectOfType<AudioManager>().Play("WallHit"); //Audio Call
+
+                //PlayerWallHit.Instance.Hit();
+                Debug.Log(other.gameObject.name);
+                //wheel.RotateWheel();
+            }
+
+
         }        
     }
 }

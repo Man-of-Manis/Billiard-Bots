@@ -26,6 +26,8 @@ public class PlayerCollisionDamage : MonoBehaviour
 
             Vector3 point = other.GetContact(0).normal; //point at which the other player was hit
 
+            FindObjectOfType<AudioManager>().Play("MetalHit1"); //Audio Call
+
             other.gameObject.GetComponent<Rigidbody>().AddForce(-point * magnitude * playerPushMultiplier * 10f, ForceMode.Impulse);
 
             rb.velocity *= 0.0001f; //Sets velocity to almost zero so that character doesn't change
