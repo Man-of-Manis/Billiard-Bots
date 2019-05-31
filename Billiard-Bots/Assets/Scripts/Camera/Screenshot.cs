@@ -60,7 +60,7 @@ public class Screenshot : MonoBehaviour
             if (dire.Name.Equals(folderName))
             {
                 //Debug.Log("Directory contains a folder for screenshots.");
-                folderDirect = d.FullName + "\\" + folderName;
+                folderDirect = d.FullName + "\\";
                 return;
             }
         }

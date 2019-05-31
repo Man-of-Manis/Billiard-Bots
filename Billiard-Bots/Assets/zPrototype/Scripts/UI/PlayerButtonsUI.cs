@@ -67,18 +67,30 @@ public class PlayerButtonsUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        turn = GetComponent<PlayerTurn>();
-        pInput = GetComponent<PlayerInput>();
-        cam = FindObjectOfType<Camera>();
+        if (PlayerTurn.Instance != null)
+        {
+            if (PlayerTurn.Instance.playerObjTurn != null)
+            {
+                turn = GetComponent<PlayerTurn>();
+                pInput = GetComponent<PlayerInput>();
+                cam = FindObjectOfType<Camera>();
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        Input();
-        Player();
-        PowerMeterHeight();
-        PowerMeter();
+        if (PlayerTurn.Instance != null)
+        {
+            if (PlayerTurn.Instance.playerObjTurn != null)
+            {
+                Input();
+                Player();
+                PowerMeterHeight();
+                PowerMeter();
+            }
+        }
     }
 
     void Input()
@@ -98,12 +110,7 @@ public class PlayerButtonsUI : MonoBehaviour
     {
         previousPlayer = currentPlayer;
         currentPlayer = turn.playerObjTurn;
-        //arrowActive = currentPlayer.GetComponent<PlayerController>().arrowActive;
         oscillatorActive = PlayerPower.Instance.oscillatorActive;
-        //prevOscillatorActive = PlayerPower.Instance.prevOscillatorActive;
-        //freecamActive = currentPlayer.GetComponent<PlayerController>().freecamActive;
-        //launchReset = currentPlayer.GetComponent<PlayerController>().launchReset;
-        //UsedTurn = currentPlayer.GetComponent<PlayerController>().UsedTurn;
         power = PlayerPower.Instance.power;
         minPower = PlayerPower.Instance.minPower;
         maxPower = PlayerPower.Instance.maxPower;

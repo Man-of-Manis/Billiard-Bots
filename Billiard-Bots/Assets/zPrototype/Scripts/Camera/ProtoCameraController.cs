@@ -53,23 +53,40 @@ public class ProtoCameraController : MonoBehaviour
 
     void Start()
     {
-        currentPlayerTarget = PlayerTurn.Instance.playerObjTurn.transform;
+        if(PlayerTurn.Instance != null)
+        {
+            if(PlayerTurn.Instance.playerObjTurn != null)
+            {
+                currentPlayerTarget = PlayerTurn.Instance.playerObjTurn.transform;
 
-        playerNumber = PlayerTurn.Instance.playerObjTurn.name[PlayerTurn.Instance.playerObjTurn.name.Length - 1].ToString();
+                playerNumber = PlayerTurn.Instance.playerObjTurn.name[PlayerTurn.Instance.playerObjTurn.name.Length - 1].ToString();
 
-        currentY = 20f;
+                currentY = 20f;
 
-        currentController = currentPlayerTarget.GetComponent<PlayerController>();
+                currentController = currentPlayerTarget.GetComponent<PlayerController>();
 
-        currentX = currentPlayerTarget.transform.eulerAngles.y;
+                currentX = currentPlayerTarget.transform.eulerAngles.y;
+            }            
+        }        
     }
         
     void Update()
     {
-        CameraSettings();
+        if (currentController != null)
+        {
+            CameraSettings();
+        }
     }    
 
     void LateUpdate()
+    {
+        if(currentController != null)
+        {
+            CameraType();
+        }
+    }
+
+    private void CameraType()
     {
         if (currentController.launchReset)
         {
@@ -89,7 +106,6 @@ public class ProtoCameraController : MonoBehaviour
             //Debug.Log("ForwardCam");
         }
     }
-
 
     private void CameraSettings()
     {

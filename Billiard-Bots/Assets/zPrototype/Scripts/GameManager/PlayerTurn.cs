@@ -128,6 +128,7 @@ public class PlayerTurn : MonoBehaviour
             //Debug.Log("Game Over!");
             gameOverText.text = "Game Over\n\n" + players[0].GetComponent<PlayerIdentifier>().player.ToString() + " Wins!";
             gameOver.SetActive(true);
+            GameObject.Find("Player_UI").GetComponent<Canvas>().enabled = false;
             playerObjTurn.GetComponent<PlayerController>().turnEnabled = false;
             return;
         }

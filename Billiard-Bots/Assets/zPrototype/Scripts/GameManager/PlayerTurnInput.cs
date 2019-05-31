@@ -35,9 +35,15 @@ public class PlayerTurnInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CurrentPlayer();
-        CurrentPlayerInput();
-        PlayerActions();
+        if (PlayerTurn.Instance != null)
+        {
+            if (PlayerTurn.Instance.playerObjTurn != null)
+            {
+                 CurrentPlayer();
+                CurrentPlayerInput();
+                PlayerActions();
+            }
+        }
     }
 
     void CurrentPlayer()
