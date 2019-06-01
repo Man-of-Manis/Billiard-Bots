@@ -108,7 +108,7 @@ MonoBehaviour:
   - {fileID: 4089483881160983963}
   - {fileID: 4693163080681917635}
   pickupSphere: {fileID: 6228543820329848651}
-  respawnTimer: 120
+  respawnTurns: 3
 --- !u!1001 &320518786774232133
 PrefabInstance:
   m_ObjectHideFlags: 0
