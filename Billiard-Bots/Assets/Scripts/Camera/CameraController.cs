@@ -76,7 +76,7 @@ public class CameraController : MonoBehaviour {
     private void Awake () {
 
         //Inverted Controls
-        invertMod = (invertControls) ? -1 : 1;
+        invertMod = (invertControls) ? 1 : -1;
 
         //Finding all static cameras
         locations = GameObject.FindGameObjectsWithTag("Static Camera");
