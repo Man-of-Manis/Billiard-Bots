@@ -7,10 +7,13 @@ public class SpireMagnetism : MonoBehaviour
     public bool spireMagnetism;
     public float magnetismForce;
     public float rad;
+    private AudioSource src;
 
     // Start is called before the first frame update
     void Start()
     {
+        src = GetComponent<AudioSource>();
+
         rad = GetComponent<SphereCollider>().radius;
 
         spireMagnetism = Random.value > 0.5f;
@@ -44,6 +47,14 @@ public class SpireMagnetism : MonoBehaviour
         }
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            src.Stop();
+        }
+    }
+
     private void Magnetism(Collider other, float polarity)
     {
         Vector3 toCenter = new Vector3(other.gameObject.transform.position.x - transform.position.x, 0, other.gameObject.transform.position.z - transform.position.z);
@@ -55,5 +66,12 @@ public class SpireMagnetism : MonoBehaviour
         Rigidbody rb = other.GetComponent<Rigidbody>();
 
         rb.velocity = new Vector3(rb.velocity.x + toCenter.x, rb.velocity.y, rb.velocity.z + toCenter.z).normalized * rb.velocity.magnitude;
+
+        src.volume = rb.velocity.magnitude / 7.5f;  
+
+        if(!src.isPlaying)
+        {
+            src.Play();
+        }        
     }
 }

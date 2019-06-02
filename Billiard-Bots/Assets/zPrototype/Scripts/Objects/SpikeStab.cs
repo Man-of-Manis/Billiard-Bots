@@ -20,7 +20,7 @@ public class SpikeStab : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             other.GetComponent<PlayerHealth>().SubHealth(spikeDamage);
-            AudioManager.instance.Play("Hit1"); //Replace with spike sound
+            AudioManager.instance.Play("SpikesHit");
             Stats ps = other.GetComponent<PlayerStats>().playerStatistics;
             ps.timesSpiked++;
             ps.damageTaken += spikeDamage;

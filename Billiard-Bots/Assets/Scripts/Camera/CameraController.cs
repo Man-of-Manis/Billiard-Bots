@@ -99,6 +99,9 @@ public class CameraController : MonoBehaviour {
         verticalOffset = target.transform.position.y;
 
         setupCam();
+
+        pitch = 20f;
+        yaw = -135f;
     }
 
     // -------------------------------------------------- // Frame by Frame // -------------------------------------------------- //

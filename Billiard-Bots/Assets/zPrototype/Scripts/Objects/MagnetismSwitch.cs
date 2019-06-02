@@ -28,6 +28,7 @@ public class MagnetismSwitch : MonoBehaviour
         Debug.Log(player.gameObject.name);
         player.gameObject.GetComponent<PlayerMagnetism>().ChangeMagnetism();
         player.gameObject.GetComponent<Rigidbody>().AddForce((player.transform.position - spirePos) * (1 / (dist * dist)) * magnetismForce, ForceMode.Impulse);
+        AudioManager.instance.Play("MagnetPoleThrow");
         yield return null;
     }
 }

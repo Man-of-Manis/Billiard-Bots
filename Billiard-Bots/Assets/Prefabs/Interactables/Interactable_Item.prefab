@@ -55,6 +55,7 @@ MonoBehaviour:
   bobPeriod: 1.5
   wobbleAmplitude: 5
   wobblePeriod: 1.5
+  worldSpace: 1
 --- !u!1 &5333726669328536812
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ public class PlayerMissileTrigger : MonoBehaviour
         {
             if(other.GetComponent<PlayerIdentifier>().player != GetComponentInParent<PlayerIdentifier>().player)
             {
-                Debug.Log(other.gameObject.name);
+                //Debug.Log(other.gameObject.name);
                 missile.GetComponent<MissileLaunched>().Launching(other.transform);
                 AudioManager.instance.Play("RocketLaunch");
                 player.GetComponent<PlayerStats>().UsedItem();

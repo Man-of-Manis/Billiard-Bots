@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.Playables;
 
 public class PlayerTurn : MonoBehaviour
 {
@@ -44,6 +45,12 @@ public class PlayerTurn : MonoBehaviour
 
     public TMP_Text gameOverText;
 
+    private EndGameStats endStats;
+
+    private PlayableDirector playable;
+
+    private CameraController camCtrl;
+
     public int totalTurns = 0;
 
     void Awake()
@@ -81,8 +88,6 @@ public class PlayerTurn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
-
         playerAmount = players.Count;
 
         for (int i = 0; i < playerAmount; i++)
@@ -93,6 +98,12 @@ public class PlayerTurn : MonoBehaviour
         playerObjTurn = players[playerNumTurn];
 
         playerObjTurn.GetComponent<PlayerController>().turnEnabled = true;
+
+        endStats = FindObjectOfType<EndGameStats>();
+
+        playable = GameObject.Find("Timeline (End)").GetComponent<PlayableDirector>();
+
+        camCtrl = FindObjectOfType<CameraController>();
     }
 
     // Update is called once per frame
@@ -122,19 +133,27 @@ public class PlayerTurn : MonoBehaviour
     {
         if(playerAmount == 0)
         {
-            gameOverText.text = "Game Over\n\n" + "All players have been destroyed!";
-            gameOver.SetActive(true);
+            //gameOverText.text = "Game Over\n\n" + "All players have been destroyed!";
+            //gameOver.SetActive(true);
+            endStats.winnerName.text = "All players have been destroyed.\n\n" + "Game Over!";
             playerObjTurn.GetComponent<PlayerController>().turnEnabled = false;
+            camCtrl.enabled = false;
+            playable.enabled = true;
             return;
         }
 
         else if(playerAmount == 1)
         {
             //Debug.Log("Game Over!");
-            gameOverText.text = "Game Over\n\n" + players[0].GetComponent<PlayerIdentifier>().player.ToString() + " Wins!";
-            gameOver.SetActive(true);
+            //gameOverText.text = "Game Over\n\n" + players[0].GetComponent<PlayerIdentifier>().player.ToString() + " Wins!";
+            //gameOver.SetActive(true);
+            endStats.winner = players[0];
+            endStats.winnerName.text = players[0].GetComponent<PlayerIdentifier>().player.ToString() + " Wins!";
+            endStats.EndGame();
             GameObject.Find("Player_UI").GetComponent<Canvas>().enabled = false;
             playerObjTurn.GetComponent<PlayerController>().turnEnabled = false;
+            camCtrl.enabled = false;
+            playable.enabled = true;
             return;
         }
 

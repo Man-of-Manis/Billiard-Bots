@@ -13,18 +13,45 @@ public class Rotator : MonoBehaviour {
 
 	private float initialYPos;
 
+    public bool worldSpace = true;
+
 	void Start() {
-		initialYPos = transform.position.y;
+		initialYPos = worldSpace ? transform.position.y : transform.localPosition.y;
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		float xEulerAngle = wobbleAmplitude * Mathf.Sin (Time.time * wobblePeriod);
-		float zEulerAngle = wobbleAmplitude * Mathf.Cos (Time.time * wobblePeriod);
+	void Update ()
+    {
+        if(worldSpace)
+        {
+            WorldSpace();
+        }
 
-		transform.rotation = Quaternion.Euler (xEulerAngle, transform.eulerAngles.y + rotationSpeed * Time.deltaTime, zEulerAngle);
+        else
+        {
+            LocalSpace();
+        }
+    }
 
-		float yOffset = bobAmplitude * Mathf.Sin (Time.time * bobPeriod);
-		transform.position = new Vector3 (transform.position.x, initialYPos + yOffset, transform.position.z);
-	}
+    private void WorldSpace()
+    {
+        float xEulerAngle = wobbleAmplitude * Mathf.Sin(Time.time * wobblePeriod);
+        float zEulerAngle = wobbleAmplitude * Mathf.Cos(Time.time * wobblePeriod);
+
+        transform.rotation = Quaternion.Euler(xEulerAngle, transform.eulerAngles.y + rotationSpeed * Time.deltaTime, zEulerAngle);
+
+        float yOffset = bobAmplitude * Mathf.Sin(Time.time * bobPeriod);
+        transform.position = new Vector3(transform.position.x, initialYPos + yOffset, transform.position.z);
+    }
+
+    private void LocalSpace()
+    {
+        float xEulerAngle = wobbleAmplitude * Mathf.Sin(Time.time * wobblePeriod);
+        float zEulerAngle = wobbleAmplitude * Mathf.Cos(Time.time * wobblePeriod);
+
+        transform.localRotation = Quaternion.Euler(xEulerAngle, transform.localEulerAngles.y + rotationSpeed * Time.deltaTime, zEulerAngle);
+
+        float yOffset = bobAmplitude * Mathf.Sin(Time.time * bobPeriod);
+        transform.localPosition = new Vector3(transform.localPosition.x, initialYPos + yOffset, transform.localPosition.z);
+    }
 }
