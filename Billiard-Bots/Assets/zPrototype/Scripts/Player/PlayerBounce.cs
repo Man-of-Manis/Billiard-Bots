@@ -4,26 +4,18 @@ using UnityEngine;
 
 public class PlayerBounce : MonoBehaviour
 {
-    public int bounces = 0;
-
-    public int turns = 0;
-
     public bool gBItem = false;
 
     public GameObject[] itemPickup = new GameObject[3];
 
     private GBItemWheel wheel;
 
-    // Start is called before the first frame update
+    private Stats ps;
+
     void Start()
     {
         wheel = FindObjectOfType<GBItemWheel>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        ps = GetComponent<PlayerStats>().playerStatistics;
     }
 
     private void OnCollisionEnter(Collision other)
@@ -35,6 +27,7 @@ public class PlayerBounce : MonoBehaviour
             if (other.collider.CompareTag("GBMachine"))
             {
                 gBItem = true;
+                ps.wallBounces++;
             }
 
             if (other.collider.CompareTag("Player") && gBItem)
@@ -47,10 +40,15 @@ public class PlayerBounce : MonoBehaviour
 
             if (other.collider.CompareTag("Wall") && gBItem)
             {
-                //bounces++;
                 PlayerWallHit.Instance.Hit();
-                Debug.Log(other.gameObject.name);
                 wheel.RotateWheel();
+                AudioManager.instance.Play("WallHit");
+            }
+
+            if (other.collider.CompareTag("Wall"))
+            {
+                AudioManager.instance.Play("WallHit");
+                ps.wallBounces++;
             }
         }        
     }

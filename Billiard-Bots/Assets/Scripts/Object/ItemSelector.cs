@@ -39,6 +39,11 @@ public class ItemSelector : MonoBehaviour
     void Update()
     {
         Timer();
+
+        if (PlayerTurn.Instance != null)
+        {
+            respawnTurns = PlayerTurn.Instance.playerAmount % 2 > 0 ? 2 : 3;
+        }
     }
 
     public void Taken() //I have a particular set of skills

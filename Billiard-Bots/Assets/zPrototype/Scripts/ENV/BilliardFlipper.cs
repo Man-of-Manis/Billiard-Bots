@@ -51,6 +51,8 @@ public class BilliardFlipper : MonoBehaviour
                 break;
         }
 
+        GetComponentInChildren<FlipperHit>().playerNum = (int)num;
+
         FlipperColor();
     }
 

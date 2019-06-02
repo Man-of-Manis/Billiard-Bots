@@ -56,6 +56,8 @@ public class WarpTrigger : MonoBehaviour
         Rigidbody rb = other.GetComponent<Rigidbody>();
         //Debug.Log(rb.velocity.magnitude);
         Vector3 randomX = exit.right * Random.Range(-0.25f, 0.25f);
+        AudioManager.instance.Play("Warp");
+        other.GetComponent<PlayerStats>().playerStatistics.timesWarped++;
 
         if (rb.velocity.magnitude > 5f)
         {

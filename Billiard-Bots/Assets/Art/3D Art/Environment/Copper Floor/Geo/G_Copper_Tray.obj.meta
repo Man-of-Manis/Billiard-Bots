@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: 26b708f2327717f4583608632c37390a
+guid: 4326c7a72dfcf194aae09e3a726e4a0d
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
-    100002: pPlane1
+    100002: G_Copper_Tray:pPlane1
     400000: //RootNode
-    400002: pPlane1
-    2100000: pPlane1Mat
-    2300000: pPlane1
-    3300000: pPlane1
-    4300000: pPlane1
+    400002: G_Copper_Tray:pPlane1
+    2100000: G_Copper_Tray_pPlane1Mat
+    2300000: G_Copper_Tray:pPlane1
+    3300000: G_Copper_Tray:pPlane1
+    4300000: G_Copper_Tray:pPlane1
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -45,6 +45,7 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -69,6 +70,9 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
@@ -83,7 +87,6 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1

@@ -27,27 +27,39 @@ public class PlayerController : MonoBehaviour
 
     public Rigidbody rb { get; private set; }
 
+    private AudioSource audioSrc;
+
+    bool rolling = false;
+
     bool on = false;
 
     bool off = true;
 
-    //private Transform cam;
-
     private PlayerStats stats;
+
+    private Vector3 prevPos;
 
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        //cam = FindObjectOfType<Camera>().transform;
+        audioSrc = GetComponent<AudioSource>();
         stats = GetComponent<PlayerStats>();
 
         torqueSpeed = 100f;
+        prevPos = transform.position;
     }
 
     void Update()
     {
         TurnEnabledUpdate();
+        
+    }
+
+    private void FixedUpdate()
+    {
+        Rolling();
+        Distance();
     }
 
     void LateUpdate()
@@ -58,7 +70,6 @@ public class PlayerController : MonoBehaviour
         {
             Turn();
         }
-        
     }
 
     void TurnEnabledUpdate()
@@ -101,11 +112,6 @@ public class PlayerController : MonoBehaviour
             {
                 transform.rotation = Quaternion.Euler(new Vector3(0f, Camera.main.transform.eulerAngles.y, 0f));
             }
-
-            else
-            {
-                //currentX = cam.transform.eulerAngles.y;
-            }
         }
     }
    
@@ -119,8 +125,6 @@ public class PlayerController : MonoBehaviour
         freecamActive = true;
 
         UsedTurn = true;
-
-        //turnEnabled = false;
 
         PlayerTurnTimer.Instance.StopTimer();
 
@@ -172,5 +176,39 @@ public class PlayerController : MonoBehaviour
 
         PlayerUI ui = FindObjectOfType<PlayerUI>();
         ui.JoystickAnim(false);
+    }
+
+    void Rolling()
+    {
+        float vel = rb.velocity.magnitude;
+        
+        if(stats.playerStatistics.topSpeed < vel)
+        {
+            stats.playerStatistics.topSpeed = vel;
+        }
+
+        audioSrc.volume = vel / 7.5f;
+
+        if (vel > 0.1f && !rolling)
+        {
+            audioSrc.Play();
+            rolling = true;
+        }
+
+        else if(vel < 0.1f && rolling)
+        {
+            audioSrc.Stop();
+            rolling = false;
+        }
+    }
+
+    void Distance()
+    {
+        if (prevPos != transform.position)
+        {
+            float distTrav = Vector3.Distance(prevPos, transform.position);
+            stats.playerStatistics.distanceTraveled += distTrav;
+            prevPos = transform.position;
+        }
     }
 }

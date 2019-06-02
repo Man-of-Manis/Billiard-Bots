@@ -71,6 +71,7 @@ public class MissilePickup : MonoBehaviour
         other.GetComponent<PlayerStats>().PickupItem(PlayerCollectedItem.CollecedItem.HomingBomb);
         PlayerPickupUI.Instance.PickedUp(4);
 
+        AudioManager.instance.Play("RocketPickup");
 
         if (GetComponentInParent<ItemSelector>() != null)
         {

@@ -30,6 +30,8 @@ public class PlayerStats : MonoBehaviour
     private PlayerItemBar itemBar;
     private Rigidbody rb;
 
+    public Stats playerStatistics = new Stats();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +41,7 @@ public class PlayerStats : MonoBehaviour
         itemBar = FindObjectOfType<PlayerUI>().PlayerBar((int)GetComponent<PlayerIdentifier>().player);
 
         rb = GetComponent<Rigidbody>();
+        playerStatistics = new Stats();
     }
 
     // Update is called once per frame
@@ -57,10 +60,13 @@ public class PlayerStats : MonoBehaviour
     public void UsedItem()
     {
         itemBar.RemoveItem(PlayerCollectedItem.CollecedItem.HomingBomb);
+        playerStatistics.rocketsUsed++;
     }
 
     public void PickupItem(PlayerCollectedItem.CollecedItem item)
     {
+        playerStatistics.itemsPickedup++;
+
         if (item.Equals(PlayerCollectedItem.CollecedItem.HomingBomb))
         {
             itemBar.AddItem(item);
@@ -69,7 +75,9 @@ public class PlayerStats : MonoBehaviour
 
     public void PickupItem(PlayerCollectedItem.CollecedItem item, int turns, float amount)
     {
-        if(item.Equals(PlayerCollectedItem.CollecedItem.SpeedBoost))
+        playerStatistics.itemsPickedup++;
+
+        if (item.Equals(PlayerCollectedItem.CollecedItem.SpeedBoost))
         {
             if(speedBoostTurns < 1)
             {
@@ -101,6 +109,8 @@ public class PlayerStats : MonoBehaviour
 
     public void PickupItem(PlayerCollectedItem.CollecedItem item, float duration)
     {
+        playerStatistics.itemsPickedup++;
+
         if (item.Equals(PlayerCollectedItem.CollecedItem.ReparKit))
         {
             itemBar.AddItem(item);
@@ -156,7 +166,9 @@ public class PlayerStats : MonoBehaviour
     {
         if(prevCompletedTurns != completedTurns)
         {
-            if(speedBoostTurns > 0)
+            playerStatistics.turnsTaken++;
+
+            if (speedBoostTurns > 0)
             {
                 speedBoostTurns--;
 

@@ -28,6 +28,7 @@ public class BombExplosion : MonoBehaviour
         yield return new WaitForSeconds(explosionDelay);
         GetColliders();
         Instantiate(explosion, transform.position, Quaternion.identity);
+        AudioManager.instance.Play("Explosion");
         PlayerTurn.Instance.ObjectActivated(false);
         Destroy(gameObject);
     }
@@ -39,9 +40,13 @@ public class BombExplosion : MonoBehaviour
         foreach (Collider player in players)
         {
             float dist = Vector3.Distance(player.transform.position, transform.position);
-            player.GetComponent<PlayerHealth>().SubHealth((int)(explosionRadius - dist));
+            int damage = (int)(explosionRadius - dist);
+            player.GetComponent<PlayerHealth>().SubHealth(damage);
             player.GetComponent<Rigidbody>().velocity *= 0.00001f;
             player.GetComponent<Rigidbody>().AddForce((player.transform.position - transform.position) * (1 / (dist * dist)) * explosionForce, ForceMode.Impulse);
+            Stats ps = player.GetComponent<PlayerStats>().playerStatistics;
+            ps.timesBlownUp++;
+            ps.damageTaken += damage;
 
         }
     }

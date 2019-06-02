@@ -113,12 +113,16 @@ public class CameraController : MonoBehaviour {
 
                 if (!target.GetComponent<PlayerController>().UsedTurn) {
                     // PLAYER INPUT //
+                    target = PlayerTurn.Instance.playerObjTurn;
 
-                    
 
                     //dampening controller sensitivity
-                    float hAxis = Input.GetAxis(p1InputHori) * Mathf.Abs(Input.GetAxis(p1InputHori));
-                    float vAxis = Input.GetAxis(p1InputVert) * Mathf.Abs(Input.GetAxis(p1InputVert)) * invertMod;
+
+                    //float hAxis = Input.GetAxis(p1InputHori) * Mathf.Abs(Input.GetAxis(p1InputHori));
+                    //float vAxis = Input.GetAxis(p1InputVert) * Mathf.Abs(Input.GetAxis(p1InputVert)) * invertMod;
+                    
+                    float hAxis = PlayerInput.Instance.CurrentPlayer.rightStick.x * Mathf.Abs(PlayerInput.Instance.CurrentPlayer.rightStick.x);
+                    float vAxis = PlayerInput.Instance.CurrentPlayer.rightStick.y * Mathf.Abs(PlayerInput.Instance.CurrentPlayer.rightStick.y) * invertMod;
 
 
                     // Deadzone Check
@@ -218,8 +222,11 @@ public class CameraController : MonoBehaviour {
             case CameraMode.Overhead: // Aiming Phase (& Player Swap?)
                 
                 // PLAYER INPUT //
-                float xAxis = Input.GetAxis(p1InputHori) * Mathf.Abs(Input.GetAxis(p1InputHori));
-                float yAxis = Input.GetAxis(p1InputVert) * Mathf.Abs(Input.GetAxis(p1InputVert));
+                //float xAxis = Input.GetAxis(p1InputHori) * Mathf.Abs(Input.GetAxis(p1InputHori));
+                //float yAxis = Input.GetAxis(p1InputVert) * Mathf.Abs(Input.GetAxis(p1InputVert));
+
+                float xAxis = PlayerInput.Instance.CurrentPlayer.rightStick.x * Mathf.Abs(PlayerInput.Instance.CurrentPlayer.rightStick.x);
+                float yAxis = PlayerInput.Instance.CurrentPlayer.rightStick.y * Mathf.Abs(PlayerInput.Instance.CurrentPlayer.rightStick.y);
 
                 pitch = Mathf.Clamp( pitch + xAxis * pitchSpeed, pitchMin, pitchMax);
                 yaw = Mathf.Clamp(yaw + yAxis * pitchSpeed, yawMin, yawMax);

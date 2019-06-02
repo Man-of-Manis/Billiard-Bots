@@ -18,6 +18,8 @@ public class PlayerTurn : MonoBehaviour
 
     public List<GameObject> players;
 
+    public List<GameObject> PlayerIdentity;
+
     public List<bool> playerMovement;
 
     public Dictionary<GameObject, int> turns = new Dictionary<GameObject, int>();
@@ -55,6 +57,21 @@ public class PlayerTurn : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+        PlayerIdentifier[] p = FindObjectsOfType<PlayerIdentifier>();
+
+        for (int i = 0; i < p.Length; i++)
+        {
+            for (int j = 0; j < p.Length; j++)
+            {
+                if ((int)(p[j].player) == i)
+                {
+                    players.Insert(i, p[j].gameObject);
+                    PlayerIdentity.Insert(i, p[j].gameObject);
+                    turns.Add(p[i].gameObject, 0);
+                }
+            }
+        }
+
         //DontDestroyOnLoad(this);
 
         //Cursor.lockState = CursorLockMode.Locked;
@@ -64,19 +81,7 @@ public class PlayerTurn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerIdentifier[] p = FindObjectsOfType<PlayerIdentifier>();
-
-        for (int i = 0; i < p.Length; i++)
-        {    
-            for(int j = 0; j < p.Length; j++)
-            {
-                if((int)(p[j].player) == i)
-                {
-                    players.Insert(i, p[j].gameObject);
-                    turns.Add(p[i].gameObject, 0);
-                }
-            }
-        }
+        
 
         playerAmount = players.Count;
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class PlayerTurnTimer : MonoBehaviour
@@ -16,6 +17,8 @@ public class PlayerTurnTimer : MonoBehaviour
     public bool startNext;
 
     public TMP_Text timerText;
+
+    [SerializeField] private Image timerImg;
 
     public static PlayerTurnTimer Instance
     {
@@ -45,6 +48,7 @@ public class PlayerTurnTimer : MonoBehaviour
     {
         timer = turnDuration;
         timerText.text = Mathf.CeilToInt(timer).ToString();
+
     }
 
     // Update is called once per frame
@@ -96,6 +100,7 @@ public class PlayerTurnTimer : MonoBehaviour
     public void UpdateText()
     {
         timerText.text = Mathf.CeilToInt(timer).ToString();
+        timerImg.fillAmount = timer / turnDuration;
     }
 
     public void RestartTimer()

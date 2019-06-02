@@ -169,7 +169,7 @@ MonoBehaviour:
   explosionRadius: 5
   explosionForce: 400
   explosionDelay: 1
-  explosion: {fileID: 1000011797152326, guid: acf39d9f4addf294d93fa56fa373961b, type: 3}
+  explosion: {fileID: 1000011797152326, guid: f77aef6a68b1e5445b2967ee790536ac, type: 3}
 --- !u!114 &3107308480074001156
 MonoBehaviour:
   m_ObjectHideFlags: 0

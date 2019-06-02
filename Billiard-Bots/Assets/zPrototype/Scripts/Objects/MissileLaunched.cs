@@ -78,6 +78,7 @@ public class MissileLaunched : MonoBehaviour
     {
         GetColliders();
         Instantiate(explosion, transform.position, Quaternion.identity);
+        AudioManager.instance.Play("Explosion");
         smokeTrail.transform.SetParent(null);
         smokeTrail.GetComponent<ParticleSystem>().Stop();
         Destroy(gameObject);
@@ -95,7 +96,9 @@ public class MissileLaunched : MonoBehaviour
             player.GetComponent<PlayerHealth>().SubHealth(damage);
             player.GetComponent<Rigidbody>().velocity *= 0.00001f;
             player.GetComponent<Rigidbody>().AddForce((player.transform.position - transform.position) * (1 / (dist * dist)) * explosionForce, ForceMode.Impulse);
-            
+            Stats ps = player.GetComponent<PlayerStats>().playerStatistics;
+            ps.timesBlownUp++;
+            ps.damageTaken += damage;
         }
     }
 }

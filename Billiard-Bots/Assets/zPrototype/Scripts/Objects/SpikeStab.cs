@@ -8,6 +8,8 @@ public class SpikeStab : MonoBehaviour
 
     private Transform spikeGroup;
 
+    Coroutine co;
+
     private void Start()
     {
         spikeGroup = transform.Find("SpikeConeGroup");
@@ -18,7 +20,15 @@ public class SpikeStab : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             other.GetComponent<PlayerHealth>().SubHealth(spikeDamage);
-            StartCoroutine(Stab());
+            AudioManager.instance.Play("Hit1"); //Replace with spike sound
+            Stats ps = other.GetComponent<PlayerStats>().playerStatistics;
+            ps.timesSpiked++;
+            ps.damageTaken += spikeDamage;
+            if(co != null)
+            {
+                StopCoroutine(co);
+            }
+            co = StartCoroutine(Stab());
             Debug.Log(other.name + " hit spikes receiving " + spikeDamage + " damage");
         }
     }

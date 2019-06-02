@@ -36,6 +36,8 @@ public class SpeedPickup : MonoBehaviour
         increase.maxPowerIncrease = maxPower;
         */
 
+        AudioManager.instance.Play("Speed");
+
         other.GetComponent<PlayerStats>().PickupItem(PlayerCollectedItem.CollecedItem.SpeedBoost, turns, maxPower);
         PlayerPickupUI.Instance.PickedUp(1);
 

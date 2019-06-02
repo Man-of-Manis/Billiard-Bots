@@ -16,6 +16,7 @@ public class PlayerMissileTrigger : MonoBehaviour
             {
                 Debug.Log(other.gameObject.name);
                 missile.GetComponent<MissileLaunched>().Launching(other.transform);
+                AudioManager.instance.Play("RocketLaunch");
                 player.GetComponent<PlayerStats>().UsedItem();
                 Destroy(gameObject);
             }            

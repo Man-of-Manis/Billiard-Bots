@@ -34,6 +34,8 @@ public class HealthPickup : MonoBehaviour
         other.GetComponent<PlayerStats>().PickupItem(PlayerCollectedItem.CollecedItem.ReparKit, 5f);
         PlayerPickupUI.Instance.PickedUp(0);
 
+        AudioManager.instance.Play("ItemGet");
+
         if (GetComponentInParent<ItemSelector>() != null)
         {
             gameObject.SetActive(false);

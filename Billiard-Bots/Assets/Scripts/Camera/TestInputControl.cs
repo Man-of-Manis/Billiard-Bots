@@ -6,7 +6,7 @@ public class TestInputControl : MonoBehaviour {
     
     void Update() {
         //press y to change camera mode
-        if (Input.GetKeyDown("joystick button 3")) {
+        if (PlayerInput.Instance.CurrentPlayer.yButton) {
             GetComponent<CameraController>().switchMode();
         }
         //press right bumper to cycle through static cams

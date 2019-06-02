@@ -26,9 +26,15 @@ public class PlayerHealth : MonoBehaviour
 
     public void AddHealth(int amount)
     {
-        CurrentHealth = CurrentHealth + amount <= MaxHealth ? CurrentHealth + amount : MaxHealth;
+        //CurrentHealth = CurrentHealth + amount <= MaxHealth ? CurrentHealth + amount : MaxHealth;
 
-        GetComponentInChildren<HealthChangeIndicator>().healthChange(amount);
+        int healAmount = CurrentHealth + amount <= MaxHealth ? amount : CurrentHealth + amount - MaxHealth;
+
+        CurrentHealth += healAmount;
+
+        GetComponent<PlayerStats>().playerStatistics.damageHealed += healAmount;
+
+        GetComponentInChildren<HealthChangeIndicator>().healthChange(healAmount);
 
         UpdateHealth();
     }
@@ -81,6 +87,7 @@ public class PlayerHealth : MonoBehaviour
         }
         //gameObject.GetComponent<MeshRenderer>().enabled = false;
 
-        Instantiate(deathExplosion);
+        AudioManager.instance.Play("PlayerDeath");
+        Instantiate(deathExplosion, transform.position, Quaternion.identity);
     }
 }
