@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu/LoadingScreen.unity
     guid: 008252406d02c6f43b0187cd2e2cfbbb
   - enabled: 1
-    path: Assets/Scenes/Levels/JunkyardCandyland/JunkyardCandyland.unity
+    path: Assets/Scenes/Levels/JunkyardCandyland/1.0_JunkyardCandyland.unity
     guid: 6580daa73e5f19344b1c0adbee97516a
   m_configObjects: {}
