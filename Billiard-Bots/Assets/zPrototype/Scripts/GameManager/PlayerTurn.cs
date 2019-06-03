@@ -51,6 +51,8 @@ public class PlayerTurn : MonoBehaviour
 
     private CameraController camCtrl;
 
+    private PlayerUI ui;
+
     public int totalTurns = 0;
 
     void Awake()
@@ -99,11 +101,17 @@ public class PlayerTurn : MonoBehaviour
 
         playerObjTurn.GetComponent<PlayerController>().turnEnabled = true;
 
+        
+
         endStats = FindObjectOfType<EndGameStats>();
 
         playable = GameObject.Find("Timeline (End)").GetComponent<PlayableDirector>();
 
         camCtrl = FindObjectOfType<CameraController>();
+
+        ui = GetComponent<PlayerUI>();
+
+        ui.PlayerTurn((int)playerObjTurn.GetComponent<PlayerIdentifier>().player);
     }
 
     // Update is called once per frame
@@ -180,8 +188,9 @@ public class PlayerTurn : MonoBehaviour
     private void NextTurn()
     {
         totalTurns++;
-        PlayerUI ui = FindObjectOfType<PlayerUI>();
+        
         ui.JoystickAnim(false);
+        ui.PlayerTurn((int)playerObjTurn.GetComponent<PlayerIdentifier>().player);
         //Enable next player
         playerObjTurn.GetComponent<PlayerController>().turnEnabled = true;
         PlayerTurnTimer.Instance.UpdateText();
