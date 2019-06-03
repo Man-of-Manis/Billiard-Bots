@@ -39,12 +39,17 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 prevPos;
 
+    private Transform cam;
+
+    private Vector3 zero;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         audioSrc = GetComponent<AudioSource>();
         stats = GetComponent<PlayerStats>();
+        cam = FindObjectOfType<CameraController>().transform;
 
         torqueSpeed = 100f;
         prevPos = transform.position;
@@ -110,7 +115,7 @@ public class PlayerController : MonoBehaviour
 
             if (arrowActive)
             {
-                transform.rotation = Quaternion.Euler(new Vector3(0f, Camera.main.transform.eulerAngles.y, 0f));
+                transform.rotation = Quaternion.Euler(new Vector3(0f, cam.eulerAngles.y, 0f));
             }
         }
     }
@@ -158,9 +163,30 @@ public class PlayerController : MonoBehaviour
 
         if (turnEnabled && UsedTurn)
         {
-            rb.velocity = rb.velocity.magnitude * Vector3.Lerp(rb.velocity.normalized, Camera.main.transform.right *
-                ((PlayerInput.Instance.players[(int)gameObject.GetComponent<PlayerIdentifier>().player + 1].leftStick.x) > 0f ? 1f : -1f),
-                Mathf.Abs((PlayerInput.Instance.players[(int)gameObject.GetComponent<PlayerIdentifier>().player + 1].leftStick.x)) * 0.01f);
+            //rb.velocity = rb.velocity.magnitude * Vector3.Lerp(rb.velocity.normalized, Camera.main.transform.right * ((inputs.x) > 0f ? 1f : -1f), Mathf.Abs((inputs.x)) * 0.02f);
+            //Vector3 newVelocity = cam.right * ((inputs.x) > 0f ? 1f : -1f);
+
+            //Vector3 newVelocity =
+            /*
+            if (!inputs.Equals(Vector2.zero))
+            {
+                rb.AddForce(newVelocity - rb.velocity, ForceMode.VelocityChange);
+            }
+            */
+
+
+            float ang = Mathf.Atan2(inputs.y, inputs.x) * Mathf.Rad2Deg;
+
+            Vector3 flatCam = Quaternion.AngleAxis(cam.eulerAngles.y, Vector3.up) * Vector3.forward;
+
+            Vector3 dir = Quaternion.AngleAxis(-ang + 90f, Vector3.up) * flatCam;
+
+            Vector3 SetDir = inputs.Equals(Vector2.zero) ? flatCam : dir;
+            
+            if (!inputs.Equals(Vector2.zero))
+            {
+                rb.velocity = rb.velocity.magnitude * (Vector3.SmoothDamp(rb.velocity.normalized, SetDir, ref zero, 0.75f)).normalized;
+            }
         }
 
 

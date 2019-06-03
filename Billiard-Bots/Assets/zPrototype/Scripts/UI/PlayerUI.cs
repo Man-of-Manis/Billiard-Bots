@@ -17,6 +17,8 @@ public class PlayerUI : MonoBehaviour
 
     [SerializeField] private Image[] playerHpBar = new Image[4];
 
+    [SerializeField] private Image[] playerDamaged = new Image[4];
+
     [Header("ItemUI")]
     [SerializeField] private PlayerItemBar[] playerBar = new PlayerItemBar[4];
 
@@ -39,7 +41,27 @@ public class PlayerUI : MonoBehaviour
     {
         playerHp[playerNum].text = newHealth.ToString() + " / " + maxHealth.ToString();
         playerHpBar[playerNum].fillAmount = (float)newHealth / maxHealth;
-        StartCoroutine(UIShaker(playerNum));
+    }
+
+    public void UpdatePlayerHealth(int playerNum, int newHealth, int maxHealth, bool damaged)
+    {
+        playerHp[playerNum].text = newHealth.ToString() + " / " + maxHealth.ToString();
+        playerHpBar[playerNum].fillAmount = (float)newHealth / maxHealth;
+
+        if(damaged)
+        {
+            if (newHealth == 0)
+            {
+                StartCoroutine(DamageFlash(playerNum));
+                StartCoroutine(UIDestroyer(playerNum));
+            }
+
+            else
+            {
+                StartCoroutine(DamageFlash(playerNum));
+                StartCoroutine(UIShaker(playerNum));
+            }            
+        }                
     }
 
     public PlayerItemBar PlayerBar(int playerNum)
@@ -55,6 +77,13 @@ public class PlayerUI : MonoBehaviour
     public void JoystickAnim(bool value)
     {
         joystick.SetActive(value);
+    }
+
+    IEnumerator DamageFlash(int playerNum)
+    {
+        playerDamaged[playerNum].enabled = true;
+        yield return new WaitForSeconds(0.05f);
+        playerDamaged[playerNum].enabled = false;
     }
 
 
@@ -74,5 +103,18 @@ public class PlayerUI : MonoBehaviour
             shakeAmount -= shakeAmount * timer;
             yield return null;
         }
+    }
+
+    IEnumerator UIDestroyer(int playerNum)
+    {
+        Rigidbody2D rb = playerUIBar[playerNum].GetComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.AddForce(new Vector2(Random.Range(-5f, 5f), 5f), ForceMode2D.Impulse);
+        //rb.AddTorque(Random.Range(-10f, 10f), ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(3f);
+
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        playerUIBar[playerNum].gameObject.SetActive(false);
     }
 }

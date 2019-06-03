@@ -47,12 +47,10 @@ public class PlayerHealth : MonoBehaviour
 
         if (CurrentHealth == 0)
         {
-            
-
             Death();            
         }
 
-        UpdateHealth();
+        UpdateHealthDamaged();
     }
 
     public void SetHealth()
@@ -65,12 +63,15 @@ public class PlayerHealth : MonoBehaviour
         UI.UpdatePlayerHealth((int)gameObject.GetComponent<PlayerIdentifier>().player, CurrentHealth, MaxHealth);
     }
 
+    void UpdateHealthDamaged()
+    {
+        UI.UpdatePlayerHealth((int)gameObject.GetComponent<PlayerIdentifier>().player, CurrentHealth, MaxHealth, true);
+    }
+
     void Death()
     {
         Debug.Log(gameObject.name + "'s health has been reduced to 0!");
 
-        
-        //gameObject.GetComponent<SphereCollider>().isTrigger = true;
         PlayerTurn.Instance.PlayerDestroyed(gameObject);
 
         Rigidbody rb = gameObject.GetComponent<Rigidbody>();
@@ -87,6 +88,7 @@ public class PlayerHealth : MonoBehaviour
         }
         //gameObject.GetComponent<MeshRenderer>().enabled = false;
 
+        GetComponent<AudioSource>().Stop();
         AudioManager.instance.Play("PlayerDeath");
         Instantiate(deathExplosion, transform.position, Quaternion.identity);
     }

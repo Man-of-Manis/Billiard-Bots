@@ -24,7 +24,7 @@ public class GameActivator : MonoBehaviour
     void Start()
     {
         turn.enabled = true;
-        input.enabled = true;
+        //input.enabled = true;
         turnInput.enabled = true;
         turnTimer.enabled = true;
         power.enabled = true;

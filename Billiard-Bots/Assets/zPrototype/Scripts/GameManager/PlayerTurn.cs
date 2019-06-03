@@ -160,6 +160,7 @@ public class PlayerTurn : MonoBehaviour
             endStats.EndGame();
             GameObject.Find("Player_UI").GetComponent<Canvas>().enabled = false;
             playerObjTurn.GetComponent<PlayerController>().turnEnabled = false;
+            playerObjTurn.GetComponent<AudioSource>().enabled = false;
             camCtrl.enabled = false;
             playable.enabled = true;
             return;

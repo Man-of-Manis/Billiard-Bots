@@ -9,6 +9,10 @@ public class Screenshot : MonoBehaviour
 
     private string folderDirect;
 
+    private Canvas playerUI;
+
+    private Canvas gameUI;
+
     private void Start()
     {
         string direct = Directory.GetCurrentDirectory();
@@ -16,6 +20,10 @@ public class Screenshot : MonoBehaviour
         DirectoryInfo di = new DirectoryInfo(direct);
 
         DirCount(di);
+
+        playerUI = GameObject.Find("Player_UI").GetComponent<Canvas>();
+
+        gameUI = GameObject.Find("Game_UI").GetComponent<Canvas>();
     }
 
     // Update is called once per frame
@@ -24,8 +32,17 @@ public class Screenshot : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton8))
         {
             DirectoryInfo fd = new DirectoryInfo(folderDirect + folderName);
+            /*
+            bool p = playerUI.enabled;
+            bool g = playerUI.enabled;
 
+            playerUI.enabled = false;
+            gameUI.enabled = false;
+            */
             ScreenCapture.CaptureScreenshot(folderDirect + "Screenshots/BB_Screenshot" + FileCount(fd) + ".png", 1);
+
+            //playerUI.enabled = p;
+            //SgameUI.enabled = g;
         }
     }
 
@@ -59,7 +76,6 @@ public class Screenshot : MonoBehaviour
             
             if (dire.Name.Equals(folderName))
             {
-                //Debug.Log("Directory contains a folder for screenshots.");
                 folderDirect = d.FullName + "\\";
                 return;
             }
