@@ -35,6 +35,8 @@ public class PlayerTurn : MonoBehaviour
 
     public float inactivityTimer = 0;
 
+    private float inactivityTimerGoal = 1f;
+
     public bool startTimer;
 
     public bool SceneInactive = true;
@@ -228,7 +230,7 @@ public class PlayerTurn : MonoBehaviour
             PlayerTurnTimer.Instance.startNext = false;
         }
 
-        if(SceneInactive && playerObjTurn.GetComponent<PlayerController>().UsedTurn && inactivityTimer >= 1f)
+        if(SceneInactive && playerObjTurn.GetComponent<PlayerController>().UsedTurn && inactivityTimer >= inactivityTimerGoal)
         {
             Debug.Log("Next player's turn");
             startTimer = false;

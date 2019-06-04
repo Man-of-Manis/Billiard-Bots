@@ -34,23 +34,25 @@ public class PlayerHealth : MonoBehaviour
 
         GetComponent<PlayerStats>().playerStatistics.damageHealed += healAmount;
 
-        GetComponentInChildren<HealthChangeIndicator>().healthChange(healAmount);
+        //GetComponentInChildren<HealthChangeIndicator>().healthChange(healAmount);
 
         UpdateHealth();
     }
 
     public void SubHealth(int amount)
     {
-        CurrentHealth = CurrentHealth - amount >= 0 ? CurrentHealth - amount : 0;
+        int difference = CurrentHealth - amount >= 0 ? amount : CurrentHealth;
 
-        GetComponentInChildren<HealthChangeIndicator>().healthChange(-amount);
+        CurrentHealth -= difference;
+
+        //GetComponentInChildren<HealthChangeIndicator>().healthChange(-amount);
 
         if (CurrentHealth == 0)
         {
             Death();            
         }
 
-        UpdateHealthDamaged();
+        UpdateHealthDamaged(amount);
     }
 
     public void SetHealth()
@@ -63,9 +65,9 @@ public class PlayerHealth : MonoBehaviour
         UI.UpdatePlayerHealth((int)gameObject.GetComponent<PlayerIdentifier>().player, CurrentHealth, MaxHealth);
     }
 
-    void UpdateHealthDamaged()
+    void UpdateHealthDamaged(int amount)
     {
-        UI.UpdatePlayerHealth((int)gameObject.GetComponent<PlayerIdentifier>().player, CurrentHealth, MaxHealth, true);
+        UI.UpdatePlayerHealth((int)gameObject.GetComponent<PlayerIdentifier>().player, CurrentHealth, MaxHealth, amount);
     }
 
     void Death()

@@ -5625,6 +5625,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealthChangeCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 7274469192068272029, guid: e6203b680ba1a7c40bd46db672953424,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3672177404645806506, guid: e6203b680ba1a7c40bd46db672953424,
         type: 3}
       propertyPath: m_LocalPosition.x

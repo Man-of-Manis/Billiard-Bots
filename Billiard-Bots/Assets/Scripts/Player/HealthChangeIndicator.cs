@@ -10,21 +10,28 @@ public class HealthChangeIndicator : MonoBehaviour {
     public float displacement = 5f;
     public float time = 0.5f;
 
-    void Start () {
+    void Start ()
+    {
         baseTextOffset = new Vector2(text.rectTransform.localPosition.x, text.rectTransform.localPosition.y);
     }
 
-    void Update() {
+    void Update()
+    {
         
         transform.LookAt(Camera.main.transform);
         transform.Rotate(Vector3.up, 180);
 
     }
 
-    public void healthChange(float difference) {
-        if (text.IsActive()) {
+    public void healthChange(float difference)
+    {
+        if (text.IsActive())
+        {
             textPopup(difference).Reset();
-        } else {
+        }
+
+        else
+        {
             StartCoroutine(textPopup(difference));
         }
         
@@ -41,10 +48,14 @@ public class HealthChangeIndicator : MonoBehaviour {
 
         string mod;
 
-        if (difference > 0) {
+        if (difference > 0)
+        {
             text.color = Color.green;
             mod = "+";
-        } else {
+        }
+
+        else
+        {
             text.color = Color.red;
             mod = "-";
         }
@@ -59,7 +70,8 @@ public class HealthChangeIndicator : MonoBehaviour {
 
     }
 
-    private void raiseText() {
+    private void raiseText()
+    {
         text.rectTransform.localPosition = new Vector3(text.rectTransform.localPosition.x, text.rectTransform.localPosition.y + 2, text.rectTransform.localPosition.z);
     }
 

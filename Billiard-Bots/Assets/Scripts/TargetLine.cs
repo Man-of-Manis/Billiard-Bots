@@ -30,8 +30,8 @@ public class TargetLine : MonoBehaviour {
         if (Physics.Raycast(transform.parent.position, transform.parent.forward, out hitPoint, 10)) {
             if (hitPoint.distance < 10) {
                 dotsToHide = numC - (int)((hitPoint.distance / 0.5f) % numC);
-                Debug.Log(hitPoint.distance);
-                Debug.Log(dotsToHide);
+                //Debug.Log(hitPoint.distance);
+                //Debug.Log(dotsToHide);
             } else {
                 dotsToHide = 0;
             }

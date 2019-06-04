@@ -19,6 +19,8 @@ public class PlayerUI : MonoBehaviour
 
     [SerializeField] private Image[] playerDamaged = new Image[4];
 
+    [SerializeField] private GameObject DamagedText;
+
     [Header("ItemUI")]
     [SerializeField] private PlayerItemBar[] playerBar = new PlayerItemBar[4];
 
@@ -43,25 +45,27 @@ public class PlayerUI : MonoBehaviour
         playerHpBar[playerNum].fillAmount = (float)newHealth / maxHealth;
     }
 
-    public void UpdatePlayerHealth(int playerNum, int newHealth, int maxHealth, bool damaged)
+    public void UpdatePlayerHealth(int playerNum, int newHealth, int maxHealth, int difference)
     {
         playerHp[playerNum].text = newHealth.ToString() + " / " + maxHealth.ToString();
         playerHpBar[playerNum].fillAmount = (float)newHealth / maxHealth;
 
-        if(damaged)
-        {
-            if (newHealth == 0)
-            {
-                StartCoroutine(DamageFlash(playerNum));
-                StartCoroutine(UIDestroyer(playerNum));
-            }
 
-            else
-            {
-                StartCoroutine(DamageFlash(playerNum));
-                StartCoroutine(UIShaker(playerNum));
-            }            
-        }                
+        GameObject dt = Instantiate(DamagedText, playerUIBar[playerNum].transform.position, playerUIBar[playerNum].transform.rotation, playerUIBar[playerNum].transform.parent);
+        dt.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-2f, 2f), 5f), ForceMode2D.Impulse);
+        dt.GetComponent<TextMeshProUGUI>().text = (-difference).ToString();
+
+        if (newHealth == 0)
+        {
+            StartCoroutine(DamageFlash(playerNum));
+            StartCoroutine(UIDestroyer(playerNum));
+        }
+
+        else
+        {
+            StartCoroutine(DamageFlash(playerNum));
+            StartCoroutine(UIShaker(playerNum));
+        }               
     }
 
     public PlayerItemBar PlayerBar(int playerNum)

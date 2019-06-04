@@ -17,6 +17,14 @@ public class CharacterSelection : MonoBehaviour
 
     public RectTransform botRenderer;
 
+    public Color botColor;
+
+    public Image botColorImg;
+
+    public TextMeshProUGUI botNum;
+
+    public int currentBotNum;
+
     public TMP_Text botName;
 
     public Image readyIMG;
@@ -28,6 +36,10 @@ public class CharacterSelection : MonoBehaviour
     public bool moveLeft;
 
     public bool moveRight;
+
+    public bool lBumper;
+
+    public bool rBumper;
 
     public bool accept;
 
@@ -52,9 +64,11 @@ public class CharacterSelection : MonoBehaviour
 
         for(int i = 0; i < list.Length; i++)
         {
-            GameObject character = Instantiate(list[i], botRenderer.TransformPoint(botRenderer.anchoredPosition3D), Quaternion.identity);
+            //GameObject character = Instantiate(list[i], botRenderer.TransformPoint(botRenderer.anchoredPosition3D), Quaternion.identity);
 
-            character.transform.SetParent(botRenderer.transform);
+            //character.transform.SetParent(botRenderer.transform);
+
+            GameObject character = Instantiate(list[i], botRenderer.position, Quaternion.identity, botRenderer);
 
             characterList.Add(character);
 
@@ -134,6 +148,8 @@ public class CharacterSelection : MonoBehaviour
             currentSelection = nextCharacter;
             characterList[currentSelection].SetActive(true);
             botName.text = FixedName(characterList[currentSelection].name);
+            botColor = characterList[currentSelection].GetComponent<MeshRenderer>().material.color;
+            botColorImg.color = botColor;
 
             ActionMade();
         }
@@ -145,6 +161,8 @@ public class CharacterSelection : MonoBehaviour
             currentSelection = nextCharacter;
             characterList[currentSelection].SetActive(true);
             botName.text = FixedName(characterList[currentSelection].name);
+            botColor = characterList[currentSelection].GetComponent<MeshRenderer>().material.color;
+            botColorImg.color = botColor;
 
             ActionMade();
         }
@@ -160,12 +178,26 @@ public class CharacterSelection : MonoBehaviour
             CharacterLockIn.Instance.PlayerCancel(playerNum);
             ready = false;
         }
+
+        if(lBumper)
+        {
+            currentBotNum = currentBotNum > 1 ? currentBotNum-1 : 15;
+            botNum.text = currentBotNum.ToString();
+        }
+
+        else if(rBumper)
+        {
+            currentBotNum = currentBotNum < 15 ? currentBotNum+1 : 1;
+            botNum.text = currentBotNum.ToString();
+        }
     }
 
     void PlayerInput()
     {
         moveLeft = Input.GetAxisRaw(playerString + "_L_Horizontal") < -deadzone;
         moveRight = Input.GetAxisRaw(playerString + "_L_Horizontal") > deadzone;
+        lBumper = Input.GetButtonDown(playerString + "_L_Bumper");
+        rBumper = Input.GetButtonDown(playerString + "_R_Bumper");
         accept = Input.GetButtonDown(playerString + "_A_Button");
         cancel = Input.GetButtonDown(playerString + "_B_Button");
     }

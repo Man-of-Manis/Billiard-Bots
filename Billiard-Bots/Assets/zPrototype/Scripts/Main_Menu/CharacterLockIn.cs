@@ -10,6 +10,10 @@ public class CharacterLockIn : MonoBehaviour
     //The characters locked in by players in order of the player number. Eg. Player 1 is 0
     public List<GameObject> PlayerCharacters;
 
+    public int[] playerBotNum = new int[4];
+
+    public Color[] playerBotColor = new Color[4];
+
     public static CharacterLockIn Instance
     {
         get { return s_Instance; }
