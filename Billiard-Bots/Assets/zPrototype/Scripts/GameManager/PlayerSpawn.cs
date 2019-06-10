@@ -49,13 +49,26 @@ public class PlayerSpawn : MonoBehaviour
 
     void RandomCharacters()
     {
+
         string[] names = Input.GetJoystickNames();
 
-        if(names.Length != 0)
+        int players = 0;
+
+        for(int i = 0; i < names.Length; i++)
+        {
+            if(names[i].Length > 0)
+            {
+                players++;
+            }
+        }
+
+        //if(names.Length != 0)
+        if(players != 0)
         {
             if (randomSpawns)
             {
-                for (int i = 0; i < names.Length; i++)
+                //for (int i = 0; i < names.Length; i++)
+                for (int i = 0; i < players; i++)
                 {
                     int randomSpawn = Random.Range(0, spawnPoints.Count);
                     GameObject player = Instantiate(CharacterLockIn.Instance.playerOptions[Random.Range(0, CharacterLockIn.Instance.playerOptions.Length)], spawnPoints[randomSpawn].position, spawnPoints[randomSpawn].rotation);
@@ -70,7 +83,8 @@ public class PlayerSpawn : MonoBehaviour
             {
                 List<int> bots = new List<int>();
 
-                for (int i = 0; i < names.Length; i++)
+                //for (int i = 0; i < names.Length; i++)
+                for (int i = 0; i < players; i++)
                 {
                     bool needBot = true;
 

@@ -55,7 +55,7 @@ public class EndGameStats : MonoBehaviour
                 PlayerStatsParent[i].transform.localPosition =
                 new Vector3(200f * (numPlayers % 2 > 0 ? (i - numPlayers / 2) : (i * 2 - (numPlayers - 1)) * (numPlayers > 2 ? 1 : 1.5f)), 380f, 0f);
 
-                Color col = PlayerTurn.Instance.PlayerIdentity[i].GetComponent<MeshRenderer>().material.color;
+                Color col = PlayerTurn.Instance.PlayerIdentity[i].transform.Find("P_BilliardBot").Find("BilliardBot_Mesh").GetComponent<SkinnedMeshRenderer>().materials[2].color; ;
 
                 PlayerStatsParent[i].GetComponent<TextMeshProUGUI>().faceColor = col; //Change Player name text color to player color
 
@@ -206,7 +206,7 @@ public class EndGameStats : MonoBehaviour
 
             bestText[0].stats[i].text = GetBestFields(bestStatsPlayer[i], i);
             bestText[1].stats[i].text = "Player " + (bestStatsPlayer[i] + 1);
-            bestText[1].stats[i].faceColor = PlayerTurn.Instance.PlayerIdentity[bestStatsPlayer[i]].GetComponent<MeshRenderer>().material.color;
+            bestText[1].stats[i].faceColor = PlayerTurn.Instance.PlayerIdentity[bestStatsPlayer[i]].transform.Find("P_BilliardBot").Find("BilliardBot_Mesh").GetComponent<SkinnedMeshRenderer>().materials[0].color;
         }
     }
 }

@@ -66,7 +66,7 @@ public class PlayerTurnInput : MonoBehaviour
             */
 
             currentController.arrowActive = false;
-
+            ProtoCameraController.Instance.freecamActive = false;
             buttonUI.UIActivation(true, false, false, true, false, false, false, false);
         }
     }
@@ -118,6 +118,8 @@ public class PlayerTurnInput : MonoBehaviour
         //Start oscillator power
         else if (currentController.arrowActive && !ProtoCameraController.Instance.freecamActive)
         {
+            currentController.CharAnimations("BallUp");
+
             PlayerPower.Instance.oscillatorActive = true;
 
             buttonUI.UIActivation(false, false, true, false, true, false, false, true);
@@ -125,6 +127,8 @@ public class PlayerTurnInput : MonoBehaviour
 
         else if (currentController.arrowActive && ProtoCameraController.Instance.freecamActive)
         {
+            currentController.CharAnimations("BallUp");
+
             PlayerPower.Instance.oscillatorActive = true;
 
             buttonUI.UIActivation(false, false, true, false, true, false, false, true);
@@ -148,6 +152,7 @@ public class PlayerTurnInput : MonoBehaviour
         //Cancel power meter
         if (PlayerPower.Instance.oscillatorActive) //B Buttons
         {
+            currentController.CharAnimations("Expand");
             PlayerPower.Instance.oscillatorActive = false;
             buttonUI.UIActivation(false, true, false, true, true, false, false, false);
         }
@@ -168,7 +173,7 @@ public class PlayerTurnInput : MonoBehaviour
         }
     }
 
-    void XButtonActions()
+    void XButtonActions() //X buttons
     {
         //Activate freecam mode during turn
         if (currentController.arrowActive && !PlayerPower.Instance.oscillatorActive && !ProtoCameraController.Instance.freecamActive)

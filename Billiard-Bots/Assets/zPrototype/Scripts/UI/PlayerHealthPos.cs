@@ -24,6 +24,7 @@ public class PlayerHealthPos : MonoBehaviour
         Changing();
     }
 
+
     private void Changing()
     {
         for (int i = 0; i < healthbars.Length; i++)
@@ -33,7 +34,8 @@ public class PlayerHealthPos : MonoBehaviour
 
         for(int i = 0; i < playerItemBar.Length; i++)
         {
-            playerItemBar[i].localPosition = new Vector3(0f, playerItemBar[i].parent.localPosition.y < 0f ? 100f : -100f, 0f);
+            float y = playerItemBar[i].parent.parent.localPosition.y;
+            playerItemBar[i].localPosition = new Vector3(0f, y < 0f ? 100f : -100f, 0f);
         }
     }
 }

@@ -25,9 +25,9 @@ public class MagnetismSwitch : MonoBehaviour
         Vector3 spirePos = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
         float dist = Vector3.Distance(player.transform.position, spirePos);
         yield return new WaitForSeconds(1f);
-        Debug.Log(player.gameObject.name);
+        Debug.Log(player.gameObject.name + " has switched magnetism!");
         player.gameObject.GetComponent<PlayerMagnetism>().ChangeMagnetism();
-        player.gameObject.GetComponent<Rigidbody>().AddForce((player.transform.position - spirePos) * (1 / (dist * dist)) * magnetismForce, ForceMode.Impulse);
+        //player.gameObject.GetComponent<Rigidbody>().AddForce((player.transform.position - spirePos) * (dist < 2f ? (1 / (dist * dist)) : 0f) * magnetismForce, ForceMode.Impulse);
         AudioManager.instance.Play("MagnetPoleThrow");
         yield return null;
     }

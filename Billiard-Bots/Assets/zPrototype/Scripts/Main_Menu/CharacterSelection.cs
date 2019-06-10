@@ -68,7 +68,8 @@ public class CharacterSelection : MonoBehaviour
 
             //character.transform.SetParent(botRenderer.transform);
 
-            GameObject character = Instantiate(list[i], botRenderer.position, Quaternion.identity, botRenderer);
+            //GameObject character = Instantiate(list[i], botRenderer.position, Quaternion.identity, botRenderer);
+            GameObject character = Instantiate(list[i], botRenderer.position, botRenderer.rotation, botRenderer);
 
             characterList.Add(character);
 
@@ -78,7 +79,9 @@ public class CharacterSelection : MonoBehaviour
             }
         }
         currentSelection = 0;
-        botName.text = FixedName(characterList[currentSelection].name);
+
+        //botName.text = FixedName(characterList[currentSelection].name);
+
         ready = false;
     }
 
@@ -148,7 +151,7 @@ public class CharacterSelection : MonoBehaviour
             currentSelection = nextCharacter;
             characterList[currentSelection].SetActive(true);
             botName.text = FixedName(characterList[currentSelection].name);
-            botColor = characterList[currentSelection].GetComponent<MeshRenderer>().material.color;
+            //botColor = characterList[currentSelection].GetComponent<MeshRenderer>().material.color;
             botColorImg.color = botColor;
 
             ActionMade();
@@ -161,7 +164,7 @@ public class CharacterSelection : MonoBehaviour
             currentSelection = nextCharacter;
             characterList[currentSelection].SetActive(true);
             botName.text = FixedName(characterList[currentSelection].name);
-            botColor = characterList[currentSelection].GetComponent<MeshRenderer>().material.color;
+            //botColor = characterList[currentSelection].transform.Find("BilliardBot_Mesh").GetComponent<SkinnedMeshRenderer>().materials[0].color;
             botColorImg.color = botColor;
 
             ActionMade();

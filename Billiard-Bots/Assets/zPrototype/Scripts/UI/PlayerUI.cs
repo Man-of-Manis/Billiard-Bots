@@ -45,15 +45,12 @@ public class PlayerUI : MonoBehaviour
         playerHpBar[playerNum].fillAmount = (float)newHealth / maxHealth;
     }
 
-    public void UpdatePlayerHealth(int playerNum, int newHealth, int maxHealth, int difference)
+    public void UpdatePlayerHealth(int playerNum, int newHealth, int maxHealth, int amount)
     {
         playerHp[playerNum].text = newHealth.ToString() + " / " + maxHealth.ToString();
         playerHpBar[playerNum].fillAmount = (float)newHealth / maxHealth;
 
-
-        GameObject dt = Instantiate(DamagedText, playerUIBar[playerNum].transform.position, playerUIBar[playerNum].transform.rotation, playerUIBar[playerNum].transform.parent);
-        dt.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-2f, 2f), 5f), ForceMode2D.Impulse);
-        dt.GetComponent<TextMeshProUGUI>().text = (-difference).ToString();
+        SpawnHealthText(playerNum, amount, amount < 0 ? Color.red : Color.green);
 
         if (newHealth == 0)
         {
@@ -65,7 +62,17 @@ public class PlayerUI : MonoBehaviour
         {
             StartCoroutine(DamageFlash(playerNum));
             StartCoroutine(UIShaker(playerNum));
-        }               
+        }
+    }
+
+    private void SpawnHealthText(int playerNum, int amount, Color col)
+    {
+        GameObject dt = Instantiate(DamagedText, playerUIBar[playerNum].transform.position, playerUIBar[playerNum].transform.rotation, playerUIBar[playerNum].transform.parent);
+        dt.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-2f, 2f), 5f), ForceMode2D.Impulse);
+
+        TextMeshProUGUI spawn = dt.GetComponent<TextMeshProUGUI>();
+        spawn.text = (amount).ToString();
+        spawn.faceColor = col;
     }
 
     public PlayerItemBar PlayerBar(int playerNum)
@@ -80,7 +87,7 @@ public class PlayerUI : MonoBehaviour
 
     public void JoystickAnim(bool value)
     {
-        joystick.SetActive(value);
+        //joystick.SetActive(value);
     }
 
     IEnumerator DamageFlash(int playerNum)

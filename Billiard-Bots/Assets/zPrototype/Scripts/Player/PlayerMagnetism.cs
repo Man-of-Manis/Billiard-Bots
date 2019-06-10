@@ -6,6 +6,9 @@ public class PlayerMagnetism : MonoBehaviour
 {
     public bool positiveMagnetism;
 
+    [Tooltip("Negative, Positive")]
+    public Material[] polarityCol = new Material[2];
+
     public Gradient posPolarity = new Gradient()
     {
         colorKeys = new GradientColorKey[2] 
@@ -49,12 +52,27 @@ public class PlayerMagnetism : MonoBehaviour
 
     private void ChangeColor()
     {
+        /*
         MeshRenderer[] rods = transform.GetChild(0).transform.Find("Cylinders").transform.GetComponentsInChildren<MeshRenderer>();
 
         foreach(MeshRenderer r in rods)
         {
             r.material.color = positiveMagnetism ? new Color(1f, 0.1f, 0.1f) : new Color(0.1f, 0.3f, 9f);
         }
+        */
+
+        //transform.Find("P_BilliardBot").Find("BilliardBot_Mesh").GetComponent<SkinnedMeshRenderer>().materials[1] = positiveMagnetism ? polarityCol[0] : polarityCol[1];
+        SkinnedMeshRenderer rend = transform.Find("P_BilliardBot").Find("BilliardBot_Mesh").GetComponent<SkinnedMeshRenderer>();
+
+        Material pcol = rend.materials[0];
+        Material vis = rend.materials[2];
+
+        Material[] mats = new Material[3];
+        mats[0] = pcol;
+        mats[1] = positiveMagnetism ? polarityCol[0] : polarityCol[1];
+        mats[2] = vis;
+
+        rend.materials = mats;
 
         ParticleSystem ps = GetComponentInChildren<ParticleSystem>();
 

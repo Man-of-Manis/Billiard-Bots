@@ -21,7 +21,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void SetUIColor()
     {
-        UI.UIColor((int)gameObject.GetComponent<PlayerIdentifier>().player, GetComponent<MeshRenderer>().material.color);
+        UI.UIColor((int)gameObject.GetComponent<PlayerIdentifier>().player, transform.Find("P_BilliardBot").Find("BilliardBot_Mesh").GetComponent<SkinnedMeshRenderer>().materials[0].color);
     }
 
     public void AddHealth(int amount)
@@ -36,7 +36,7 @@ public class PlayerHealth : MonoBehaviour
 
         //GetComponentInChildren<HealthChangeIndicator>().healthChange(healAmount);
 
-        UpdateHealth();
+        UpdateHealthHealed(healAmount);
     }
 
     public void SubHealth(int amount)
@@ -65,9 +65,14 @@ public class PlayerHealth : MonoBehaviour
         UI.UpdatePlayerHealth((int)gameObject.GetComponent<PlayerIdentifier>().player, CurrentHealth, MaxHealth);
     }
 
-    void UpdateHealthDamaged(int amount)
+    void UpdateHealthHealed(int amount)
     {
         UI.UpdatePlayerHealth((int)gameObject.GetComponent<PlayerIdentifier>().player, CurrentHealth, MaxHealth, amount);
+    }
+
+    void UpdateHealthDamaged(int amount)
+    {
+        UI.UpdatePlayerHealth((int)gameObject.GetComponent<PlayerIdentifier>().player, CurrentHealth, MaxHealth, -amount);
     }
 
     void Death()
@@ -82,6 +87,7 @@ public class PlayerHealth : MonoBehaviour
 
         gameObject.GetComponent<SphereCollider>().enabled = false;
 
+        /*
         Component[] meshes = gameObject.GetComponentsInChildren<MeshRenderer>();
 
         foreach(MeshRenderer mesh in meshes)
@@ -89,6 +95,8 @@ public class PlayerHealth : MonoBehaviour
             mesh.enabled = false;
         }
         //gameObject.GetComponent<MeshRenderer>().enabled = false;
+        */
+        transform.Find("P_BilliardBot").gameObject.SetActive(false);
 
         GetComponent<AudioSource>().Stop();
         AudioManager.instance.Play("PlayerDeath");

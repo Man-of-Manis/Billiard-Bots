@@ -43,11 +43,20 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 zero;
 
+    private Animator anim;
+
+    private bool enableAnim = false;
+
+    Coroutine co;
+
+    bool runningCo = false;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         audioSrc = GetComponent<AudioSource>();
+        anim = transform.Find("P_BilliardBot").GetComponent<Animator>();
         stats = GetComponent<PlayerStats>();
         cam = FindObjectOfType<CameraController>().transform;
 
@@ -65,6 +74,7 @@ public class PlayerController : MonoBehaviour
     {
         Rolling();
         Distance();
+        Velocity();
     }
 
     void LateUpdate()
@@ -123,6 +133,8 @@ public class PlayerController : MonoBehaviour
 
     public void Launch(float power, float powerMultiplier)
     {
+        enableAnim = false;
+
         ResetCam = true;
 
         launchReset = true;
@@ -139,6 +151,8 @@ public class PlayerController : MonoBehaviour
 
         rb.AddTorque(transform.right * power * powerMultiplier, ForceMode.VelocityChange);
     }
+
+
 
     private void Turn()
     {
@@ -236,5 +250,54 @@ public class PlayerController : MonoBehaviour
             stats.playerStatistics.distanceTraveled += distTrav;
             prevPos = transform.position;
         }
+    }
+
+    IEnumerator AnimWait()
+    {
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log(gameObject.name + " - Enabled Anim");
+        enableAnim = true;
+    }
+
+    void Velocity()
+    {
+        //rb.velocity = Mathf.Clamp(rb.velocity.magnitude, 0.0f, 60f) * rb.velocity.normalized; 
+
+        if (!turnEnabled || (turnEnabled && UsedTurn))
+        {
+            if (rb.velocity.magnitude < 0.001f && !runningCo)
+            {
+                co = StartCoroutine(AnimWait());
+                runningCo = true;
+            }
+
+            else if (rb.velocity.magnitude > 0.01f && runningCo)
+            {
+                StopCoroutine(co);
+                //enableAnim = false;
+                runningCo = false;
+            }
+
+            if (enableAnim)
+            {
+                if ((anim.GetCurrentAnimatorStateInfo(0).IsName("Expand") || anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) && rb.velocity.magnitude > 0.01f)
+                {
+                    Debug.Log(gameObject.name + " - Ball Up");
+                    anim.SetTrigger("BallUp");
+                }
+
+                if (anim.GetCurrentAnimatorStateInfo(0).IsName("BallUp") && rb.velocity.magnitude < 0.001f)
+                {
+                    Debug.Log(gameObject.name + " - Expand");
+                    transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
+                    anim.SetTrigger("Expand");
+                }
+            }
+        } 
+    }
+
+    public void CharAnimations(string animation)
+    {
+        anim.SetTrigger(animation);
     }
 }

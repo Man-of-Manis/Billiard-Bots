@@ -14,13 +14,15 @@ public class PlayerCollisionDamage : MonoBehaviour
         {
             Rigidbody rb = gameObject.GetComponent<Rigidbody>();
 
-            gameObject.GetComponent<Animator>().SetTrigger("spike");
+            //gameObject.GetComponent<Animator>().SetTrigger("spike");
 
             float magnitude = rb.velocity.magnitude;
 
-            int damage = Mathf.Clamp((int)((magnitude * playerDamageMultiplier) / 100f * 10f), magnitude > 8f ? 1 : 0, 3);
+            int damage = (int)((magnitude * playerDamageMultiplier) / 90f * 10f);
 
-            //Debug.Log(gameObject.name + " has hit " + other.gameObject.name + " with a magnitude of " + magnitude + " dealing " + damage + " points of damage.");            
+            damage = Mathf.Clamp(damage, 0, 3);
+
+            Debug.Log(gameObject.name + " has hit " + other.gameObject.name + " with a magnitude of " + magnitude + " dealing " + damage + " points of damage.");            
 
             other.gameObject.GetComponent<PlayerHealth>().SubHealth(damage);
 

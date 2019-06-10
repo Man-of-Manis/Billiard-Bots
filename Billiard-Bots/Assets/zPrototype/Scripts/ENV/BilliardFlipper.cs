@@ -94,7 +94,7 @@ public class BilliardFlipper : MonoBehaviour
         {
             if(((int)num).Equals((int)d.player))
             {
-                Color col = d.GetComponent<MeshRenderer>().material.color;
+                Color col = d.transform.Find("P_BilliardBot").Find("BilliardBot_Mesh").GetComponent<SkinnedMeshRenderer>().materials[0].color;
                 transform.GetChild(0).GetComponent<MeshRenderer>().material.color = col;
                 transform.GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", col * 0.25f);
             }

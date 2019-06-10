@@ -16,8 +16,12 @@ public class PlayerUITag : MonoBehaviour
 
     private RectTransform canvas;
 
+    private Camera cam;
+
     private void Start()
     {
+        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+
         playerTag = GetComponent<RectTransform>();
 
         canvas = GameObject.Find("Player_UI").GetComponent<RectTransform>();
@@ -33,7 +37,7 @@ public class PlayerUITag : MonoBehaviour
 
     void Position()
     {
-        Vector3 ViewportPosition = ProtoCameraController.Instance.GetComponent<Camera>().WorldToViewportPoint(player.transform.position);
+        Vector3 ViewportPosition = cam.WorldToViewportPoint(player.transform.position);
 
         if (ViewportPosition.z < 0)
         {

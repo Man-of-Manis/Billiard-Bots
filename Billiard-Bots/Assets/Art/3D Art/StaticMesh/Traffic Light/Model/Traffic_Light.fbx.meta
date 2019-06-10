@@ -1,0 +1,212 @@
+fileFormatVersion: 2
+guid: e5e0781c6ca63dd47b4a4c2b4f011ed1
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Green_Cover4
+    100002: Green_Cover5
+    100004: Green_Cover6
+    100006: Green_Cover7
+    100008: Greenlight_Front
+    100010: Greenlight_Left
+    100012: Greenlight_Rear
+    100014: Greenlight_Right
+    100016: Red_Cover4
+    100018: Red_Cover5
+    100020: Red_Cover6
+    100022: Red_Cover7
+    100024: Redlight_Front
+    100026: Redlight_Left
+    100028: Redlight_Rear
+    100030: Redlight_Right
+    100032: //RootNode
+    100034: Traffic_Light
+    100036: Traffic_Light1
+    100038: Traffic_Light_LOD_0
+    100040: Traffic_Light_LOD_1
+    100042: Traffic_Light_LOD_2
+    100044: transform1
+    100046: transform10
+    100048: transform11
+    100050: transform12
+    100052: transform13
+    100054: transform14
+    100056: transform15
+    100058: transform16
+    100060: transform17
+    100062: transform18
+    100064: transform19
+    100066: transform2
+    100068: transform20
+    100070: transform21
+    100072: transform22
+    100074: transform23
+    100076: transform24
+    100078: transform25
+    100080: transform3
+    100082: transform4
+    100084: transform5
+    100086: transform6
+    100088: transform7
+    100090: transform8
+    100092: transform9
+    100094: Yellow_Cover4
+    100096: Yellow_Cover5
+    100098: Yellow_Cover6
+    100100: Yellow_Cover7
+    100102: Yellowlight_Front
+    100104: Yellowlight_Left
+    100106: Yellowlight_Rear
+    100108: Yellowlight_Right
+    400000: Green_Cover4
+    400002: Green_Cover5
+    400004: Green_Cover6
+    400006: Green_Cover7
+    400008: Greenlight_Front
+    400010: Greenlight_Left
+    400012: Greenlight_Rear
+    400014: Greenlight_Right
+    400016: Red_Cover4
+    400018: Red_Cover5
+    400020: Red_Cover6
+    400022: Red_Cover7
+    400024: Redlight_Front
+    400026: Redlight_Left
+    400028: Redlight_Rear
+    400030: Redlight_Right
+    400032: Traffic_Light
+    400034: //RootNode
+    400036: Traffic_Light1
+    400038: Traffic_Light_LOD_0
+    400040: Traffic_Light_LOD_1
+    400042: Traffic_Light_LOD_2
+    400044: transform1
+    400046: transform10
+    400048: transform11
+    400050: transform12
+    400052: transform13
+    400054: transform14
+    400056: transform15
+    400058: transform16
+    400060: transform17
+    400062: transform18
+    400064: transform19
+    400066: transform2
+    400068: transform20
+    400070: transform21
+    400072: transform22
+    400074: transform23
+    400076: transform24
+    400078: transform25
+    400080: transform3
+    400082: transform4
+    400084: transform5
+    400086: transform6
+    400088: transform7
+    400090: transform8
+    400092: transform9
+    400094: Yellow_Cover4
+    400096: Yellow_Cover5
+    400098: Yellow_Cover6
+    400100: Yellow_Cover7
+    400102: Yellowlight_Front
+    400104: Yellowlight_Left
+    400106: Yellowlight_Rear
+    400108: Yellowlight_Right
+    2100000: lambert1
+    2100002: defaultPolygonShader
+    2300000: Traffic_Light_LOD_0
+    2300002: Traffic_Light_LOD_1
+    2300004: Traffic_Light_LOD_2
+    3300000: Traffic_Light_LOD_0
+    3300002: Traffic_Light_LOD_1
+    3300004: Traffic_Light_LOD_2
+    4300000: Traffic_Light_LOD_0
+    4300002: Traffic_Light_LOD_1
+    4300004: Traffic_Light_LOD_2
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 100
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
