@@ -32,10 +32,14 @@ public class PlayerUI : MonoBehaviour
     {
         for (int i = 0; i < playerUIBar.Length; i++)
         {
-            if (playerUIBar[i].activeSelf)
+            if (playerUIBar[i] != null)
             {
-                playerUIBar[i].GetComponent<StatsWave>().enabled = (i == playerNum);
+                if (playerUIBar[i].activeSelf)
+                {
+                    playerUIBar[i].GetComponent<StatsWave>().enabled = (i == playerNum);
+                }
             }
+            
         }
     }
 
@@ -82,7 +86,10 @@ public class PlayerUI : MonoBehaviour
 
     public void UIColor(int player, Color color)
     {
-        playerBGColor[player].color = new Color(color.r, color.g, color.b, 0.5f);
+        if(playerBGColor[player] != null)
+        {
+            playerBGColor[player].color = new Color(color.r, color.g, color.b, 0.5f);
+        }        
     }
 
     public void JoystickAnim(bool value)

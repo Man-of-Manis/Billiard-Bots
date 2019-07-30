@@ -109,7 +109,13 @@ public class PlayerTurn : MonoBehaviour
 
         endStats = FindObjectOfType<EndGameStats>();
 
-        playable = GameObject.Find("Timeline (End)").GetComponent<PlayableDirector>();
+        if(GameObject.Find("Timeline (End)") != null)
+        {
+            if(GameObject.Find("Timeline (End)").GetComponent<PlayableDirector>() != null)
+            {
+                playable = GameObject.Find("Timeline (End)").GetComponent<PlayableDirector>();
+            }            
+        }        
 
         camCtrl = FindObjectOfType<CameraController>();
 
@@ -147,13 +153,29 @@ public class PlayerTurn : MonoBehaviour
         {
             //gameOverText.text = "Game Over\n\n" + "All players have been destroyed!";
             //gameOver.SetActive(true);
-            endStats.winnerName.text = "All players have been destroyed.\n\n" + "Game Over!";
+
+            if(endStats != null)
+            {
+                endStats.winnerName.text = "All players have been destroyed.\n\n" + "Game Over!";
+            }
+            
             playerObjTurn.GetComponent<PlayerController>().turnEnabled = false;
-            camCtrl.GetComponent<AudioSource>().clip = endSongs[0];
+
+            if(endSongs[0] != null)
+            {
+                camCtrl.GetComponent<AudioSource>().clip = endSongs[0];
+            }
+
+            
             camCtrl.GetComponent<AudioSource>().loop = false;
             camCtrl.GetComponent<AudioSource>().Play();
             camCtrl.enabled = false;
-            playable.enabled = true;
+
+            if(playable != null )
+            {
+                playable.enabled = true;
+            }
+            
             return;
         }
 
@@ -162,19 +184,34 @@ public class PlayerTurn : MonoBehaviour
             //Debug.Log("Game Over!");
             //gameOverText.text = "Game Over\n\n" + players[0].GetComponent<PlayerIdentifier>().player.ToString() + " Wins!";
             //gameOver.SetActive(true);
-            endStats.winner = players[0];
-            endStats.winnerName.text = "Player " + ((int)players[0].GetComponent<PlayerIdentifier>().player + 1) + " Wins!";
-            endStats.EndGame();
+
+            if(endStats != null)
+            {
+                endStats.winner = players[0];
+                endStats.winnerName.text = "Player " + ((int)players[0].GetComponent<PlayerIdentifier>().player + 1) + " Wins!";
+                endStats.EndGame();
+            }
+            
             GameObject.Find("Player_UI").GetComponent<Canvas>().enabled = false;
             playerObjTurn.GetComponent<PlayerController>().turnEnabled = false;
             players[0].GetComponent<PlayerController>().enabled = false;
             players[0].transform.Find("PickupHolder").gameObject.SetActive(false);
             playerObjTurn.GetComponent<AudioSource>().enabled = false;
-            camCtrl.GetComponent<AudioSource>().clip = endSongs[1];
+
+            if (endSongs[1] != null)
+            {
+                camCtrl.GetComponent<AudioSource>().clip = endSongs[1];
+            }
+
             camCtrl.GetComponent<AudioSource>().volume = 1.0f;
             camCtrl.GetComponent<AudioSource>().Play();
             camCtrl.enabled = false;
-            playable.enabled = true;
+
+            if (playable != null)
+            {
+                playable.enabled = true;
+            }
+            
             return;
         }
 
@@ -191,8 +228,17 @@ public class PlayerTurn : MonoBehaviour
 
             else
             {
-                playerObjTurn = players[playerNumTurn];
-                NextTurn();
+                if(playerNumTurn == players.Count)
+                {
+                    playerObjTurn = players[0];
+                    NextTurn();
+                }
+
+                else
+                {
+                    playerObjTurn = players[playerNumTurn];
+                    NextTurn();
+                }
             }
         }
         

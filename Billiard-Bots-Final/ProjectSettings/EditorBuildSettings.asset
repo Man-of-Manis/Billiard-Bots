@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Menu/Main_Menu.unity
+    guid: 0c593babbcf480c46b612f6e8f7f6381
+  - enabled: 1
+    path: Assets/Scenes/Menu/LoadingScreen.unity
+    guid: 008252406d02c6f43b0187cd2e2cfbbb
+  - enabled: 1
+    path: Assets/Scenes/Levels/JunkyardCandyland/1.0_JunkyardCandyland.unity
+    guid: 6580daa73e5f19344b1c0adbee97516a
+  m_configObjects: {}

@@ -100,7 +100,10 @@ public class PlayerTurnTimer : MonoBehaviour
     public void UpdateText()
     {
         timerText.text = Mathf.CeilToInt(timer).ToString();
-        timerImg.fillAmount = timer / turnDuration;
+        if(timerImg != null)
+        {
+            timerImg.fillAmount = timer / turnDuration;
+        }        
     }
 
     public void RestartTimer()
